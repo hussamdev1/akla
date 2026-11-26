@@ -1,0 +1,10 @@
+/** TheMealDB image helper. Sizes: small (~250px), medium (~500px), full. */
+export const mdb = (id: string) => `https://www.themealdb.com/images/media/meals/${id}.jpg`;
+
+export function sized(url: string | undefined, size: "small" | "medium" | "full" = "medium") {
+  if (!url) return undefined;
+  if (size === "full" || !url.includes("themealdb.com")) return url;
+  return `${url}/${size}`;
+}
+
+export const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";

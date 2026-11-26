@@ -1,26 +1,183 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant rtl (&:where([dir="rtl"], [dir="rtl"] *));
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@theme {
+  --color-brand: #E63462;
+  --color-brand-dark: #c21e4c;
+  --color-chili: #F2542D;
+  --color-sun: #FFD23F;
+  --color-lagoon: #0E8C99;
+  --color-lime: #9BE15D;
+  --color-rice: #FFF8EE;
+  --color-rice-deep: #ffebd6;
+  --color-ink: #2B1B3D;
+  --color-ink-soft: #6b5b7b;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --font-display: var(--font-baloo), "Baloo Bhaijaan 2", system-ui, sans-serif;
+  --font-sans: var(--font-rubik), "Rubik", system-ui, sans-serif;
+
+  --radius-blob: 2rem;
+  --shadow-sticker: 4px 4px 0 0 #2B1B3D;
+  --shadow-sticker-sm: 2px 2px 0 0 #2B1B3D;
+  --shadow-sticker-lg: 6px 6px 0 0 #2B1B3D;
+  --shadow-soft: 0 10px 30px -12px rgb(43 27 61 / 0.25);
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-wiggle: wiggle 1.2s ease-in-out infinite;
+  --animate-blob: blob 18s ease-in-out infinite;
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-shine: shine 2.6s ease-in-out infinite;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
+    50% { transform: translateY(-14px) rotate(calc(var(--r, 0deg) + 6deg)); }
+  }
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(-4deg); }
+    50% { transform: rotate(4deg); }
+  }
+  @keyframes blob {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(40px, -30px) scale(1.1); }
+    66% { transform: translate(-30px, 25px) scale(0.92); }
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes shine {
+    0% { transform: translateX(-120%) skewX(-20deg); }
+    60%, 100% { transform: translateX(220%) skewX(-20deg); }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+  }
+  body {
+    background: var(--color-rice);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "tnum" 0;
+  }
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+  [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4 {
+    letter-spacing: 0;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-lagoon);
+    outline-offset: 2px;
+    border-radius: 12px;
+  }
+  ::selection {
+    background: var(--color-sun);
+    color: var(--color-ink);
+  }
 }
+
+@layer components {
+  .sticker {
+    background: white;
+    border: 2px solid var(--color-ink);
+    border-radius: 1.5rem;
+    box-shadow: var(--shadow-sticker);
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 2px solid var(--color-ink);
+    border-radius: 999px;
+    padding: 0.7rem 1.3rem;
+    font-weight: 700;
+    box-shadow: var(--shadow-sticker);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s;
+    white-space: nowrap;
+  }
+  .btn:hover { transform: translate(-1px, -1px); box-shadow: var(--shadow-sticker-lg); }
+  .btn:active { transform: translate(3px, 3px); box-shadow: 0 0 0 0 var(--color-ink); }
+  .btn:disabled { opacity: 0.5; pointer-events: none; }
+  .btn-primary { background: var(--color-brand); color: white; }
+  .btn-lagoon { background: var(--color-lagoon); color: white; }
+  .btn-chili { background: var(--color-chili); color: white; }
+  .btn-lime { background: var(--color-lime); color: var(--color-ink); }
+  .btn-light { background: white; color: var(--color-ink); }
+  .btn-sun { background: var(--color-sun); color: var(--color-ink); }
+  .btn-sm { padding: 0.4rem 0.9rem; font-size: 0.875rem; box-shadow: var(--shadow-sticker-sm); }
+  .btn-sm:hover { box-shadow: var(--shadow-sticker); }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border: 2px solid var(--color-ink);
+    border-radius: 999px;
+    padding: 0.35rem 0.85rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    background: white;
+    transition: background 0.15s, transform 0.15s;
+    white-space: nowrap;
+  }
+  .chip:hover { transform: translateY(-1px); }
+  .chip[aria-pressed="true"], .chip[data-active="true"] {
+    background: var(--color-ink);
+    color: white;
+  }
+  .input {
+    width: 100%;
+    border: 2px solid var(--color-ink);
+    border-radius: 1rem;
+    padding: 0.65rem 1rem;
+    background: white;
+    font-weight: 500;
+  }
+  .input:focus { outline: none; box-shadow: var(--shadow-sticker-sm); }
+  .scroll-row {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 0.25rem 0.25rem 1rem;
+    scrollbar-width: none;
+  }
+  .scroll-row::-webkit-scrollbar { display: none; }
+  .scroll-row > * { scroll-snap-align: start; flex-shrink: 0; }
+  .dots-bg {
+    background-image: radial-gradient(rgb(43 27 61 / 0.12) 1.5px, transparent 1.5px);
+    background-size: 22px 22px;
+  }
+  .text-outline {
+    -webkit-text-stroke: 2px var(--color-ink);
+    paint-order: stroke fill;
+  }
+}
+
+/* Leaflet tweaks */
+.leaflet-container { font-family: var(--font-sans); border-radius: 1.25rem; }
+.leaflet-popup-content-wrapper { border: 2px solid #2B1B3D; border-radius: 1rem; box-shadow: 3px 3px 0 #2B1B3D; }
+.akla-pin { background: none; border: none; }
+
+/* Reduced motion: honour both the OS setting and the in-app toggle */
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-motion="full"]) *, html:not([data-motion="full"]) *::before, html:not([data-motion="full"]) *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-motion="reduced"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  scroll-behavior: auto !important;
+}
+
+/* Safety net: never allow sideways page scroll on phones */
+html, body { overflow-x: clip; }
