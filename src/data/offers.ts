@@ -1,5 +1,6 @@
 import type { Offer, OfferTag, OfferType, L } from "@/lib/types";
 import { kuwaitDayStart } from "@/lib/time";
+import { GENERATED_AT, SHEET, SHOW_DEMO } from "./source";
 
 /**
  * DEMO DATA — sample promotions for the fictional demo restaurants.
@@ -48,7 +49,14 @@ const atOffset = (dayStart: number, [d, hm]: [number, string]) => {
 };
 
 /** Build concrete offers anchored to the given moment's Kuwait day. */
+/** Real offers from the Google Sheet have fixed dates (Kuwait time) and are filtered by the clock like everything else. */
+const SHEET_OFFERS = SHEET.offers as unknown as Offer[];
+
 export function buildOffers(now: Date): Offer[] {
+  return [...SHEET_OFFERS, ...(SHOW_DEMO ? buildDemoOffers(now) : [])];
+}
+
+function buildDemoOffers(now: Date): Offer[] {
   const day = kuwaitDayStart(now);
   return SPECS.map((s) => ({
     id: s.id, restaurantId: s.r, mealId: s.meal, title: s.title, description: s.desc, type: s.type,
@@ -61,3 +69,19 @@ export function buildOffers(now: Date): Offer[] {
 /** Deterministic pre-mount rule: an offer is "clearly expired" if it ended before today. */
 export const OFFER_SPEC_ENDS_BEFORE_TODAY = new Set(SPECS.filter((s) => s.ends[0] < 0).map((s) => s.id));
 export const OFFER_SPEC_STARTS_AFTER_TODAY = new Set(SPECS.filter((s) => s.starts[0] > 0).map((s) => s.id));
+
+/**
+ * Status used before the browser clock is known (static HTML + first render must match).
+ * Demo offers use their relative day rule; real offers are judged at build time.
+ */
+export function preMountStatus(o: Offer): "active" | "upcoming" | "expired" {
+  if (o.source !== "partner" && SPECS.some((s) => s.id === o.id)) {
+    if (OFFER_SPEC_ENDS_BEFORE_TODAY.has(o.id)) return "expired";
+    if (OFFER_SPEC_STARTS_AFTER_TODAY.has(o.id)) return "upcoming";
+    return "active";
+  }
+  const t = GENERATED_AT.getTime();
+  if (+new Date(o.expiresAt) <= t) return "expired";
+  if (+new Date(o.startsAt) > t) return "upcoming";
+  return "active";
+}

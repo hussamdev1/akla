@@ -3,6 +3,9 @@ name: Deploy Akla to GitHub Pages
 on:
   push:
     branches: [main]
+  # Refresh real data (OpenStreetMap + your Google Sheet) every 6 hours, even without code changes.
+  schedule:
+    - cron: "17 */6 * * *"
   workflow_dispatch:
 
 permissions:
@@ -24,8 +27,15 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Build data (OpenStreetMap + Google Sheet)
+        run: node scripts/build-data.mjs
+        env:
+          # Settings → Secrets and variables → Actions → Variables → AKLA_SHEET_ID (see docs/DATA.md)
+          AKLA_SHEET_ID: ${{ vars.AKLA_SHEET_ID }}
+          # auto (default) = show demo data only until the sheet has published restaurants · always · never
+          AKLA_SHOW_DEMO: ${{ vars.AKLA_SHOW_DEMO }}
       - name: Build static site
-        run: npm run build
+        run: npx next build
         env:
           # Served from https://<user>.github.io/<repo>/ — remove if you use a custom domain or a <user>.github.io repo
           NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}

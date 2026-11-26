@@ -1,0 +1,17 @@
+{
+ "generatedAt": "2026-11-26T10:49:36.350Z",
+ "showDemo": "auto",
+ "osm": {
+  "count": 1628,
+  "fetchedAt": "2026-11-26T10:39:24.158Z",
+  "osmBase": "2026-11-26T10:37:56Z"
+ },
+ "sheet": {
+  "source": "local-csv",
+  "fetchedAt": "2026-11-26T10:49:36.348Z",
+  "restaurants": 0,
+  "meals": 0,
+  "offers": 0,
+  "problems": 0
+ }
+}

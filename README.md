@@ -9,6 +9,7 @@ exported as a static site so it runs free on **GitHub Pages**.
 - 🎨 Brand & identity → [docs/BRAND.md](docs/BRAND.md)
 - 🗺️ Phased roadmap → [docs/ROADMAP.md](docs/ROADMAP.md)
 - 🔌 Free data sources research → [docs/APIS.md](docs/APIS.md)
+- 📊 Real data setup (OpenStreetMap + Google Sheet) → [docs/DATA.md](docs/DATA.md)
 
 ## What's inside
 
@@ -26,10 +27,10 @@ exported as a static site so it runs free on **GitHub Pages**.
 | Compare | `/compare` | Up to 3 meals side by side, best-value badge, "not equivalent" warning |
 | Profile | `/profile` | 9 achievements, daily streak, stats, language / motion / sound settings |
 
-## Data honesty
-There is no free public API for Kuwait restaurant deals, so restaurants, menus, prices, ratings and offers are
-**fictional demo data, labelled 🧪 Demo everywhere**. The Nearby page can load **real** places from OpenStreetMap
-(no ratings invented). Food photos come from TheMealDB. See [docs/APIS.md](docs/APIS.md).
+## Real data
+- **~1,600 real Kuwait food places from OpenStreetMap**, refreshed automatically on every build (every 6 hours).
+- **Your own listings, menus and offers from a Google Sheet** you edit. Setup guide: [docs/DATA.md](docs/DATA.md).
+- Fictional **demo** content (🧪 badge) shows only until the sheet has published restaurants.
 
 ## Run locally
 

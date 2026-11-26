@@ -34,6 +34,7 @@ export type OpenState =
 
 export function openState(hours: WeeklyHours | undefined, now: Date): OpenState {
   if (!hours) return { status: "unknown" };
+  if (hours.allDay) return { status: "open", closesAt: "24/7", closingSoon: false };
   const { day, minutes } = kuwaitParts(now);
   const today = hoursFor(hours, day);
   const yesterday = hoursFor(hours, (day + 6) % 7);

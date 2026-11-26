@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
-import { buildOffers, OFFER_SPEC_ENDS_BEFORE_TODAY, OFFER_SPEC_STARTS_AFTER_TODAY } from "@/data/offers";
+import { buildOffers, preMountStatus } from "@/data/offers";
 import { RESTAURANTS } from "@/data/restaurants";
 import { haversineKm, locationPoint } from "./geo";
 import { useStore } from "./store";
@@ -36,9 +36,9 @@ export function useOffers(intervalMs = 30_000): OfferBuckets {
     if (!now) {
       return {
         all,
-        active: all.filter((o) => !OFFER_SPEC_ENDS_BEFORE_TODAY.has(o.id) && !OFFER_SPEC_STARTS_AFTER_TODAY.has(o.id)),
-        upcoming: all.filter((o) => OFFER_SPEC_STARTS_AFTER_TODAY.has(o.id)),
-        expired: all.filter((o) => OFFER_SPEC_ENDS_BEFORE_TODAY.has(o.id)),
+        active: all.filter((o) => preMountStatus(o) === "active"),
+        upcoming: all.filter((o) => preMountStatus(o) === "upcoming"),
+        expired: all.filter((o) => preMountStatus(o) === "expired"),
         now,
       };
     }

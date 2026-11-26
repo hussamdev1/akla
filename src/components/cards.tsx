@@ -33,7 +33,7 @@ export function RestaurantCard({ r, km, offers = 0, featuredMeal, className }: {
           <span className="absolute -bottom-0.5 start-3 grid size-12 translate-y-1/2 place-items-center rounded-2xl border-2 border-ink text-2xl shadow-[2px_2px_0_#2B1B3D]" style={{ background: r.brand }}>
             {r.emoji}
           </span>
-          <DemoBadge className="absolute bottom-2 end-2" />
+          <DemoBadge className="absolute bottom-2 end-2" source={r.source} />
         </div>
         <div className="flex flex-1 flex-col gap-2 p-4 pt-7">
           <div className="flex items-start justify-between gap-2">
@@ -158,7 +158,7 @@ export function OfferCard({ o, km, className, wide }: { o: Offer; km?: number; c
             <span className="grid size-9 place-items-center rounded-xl border-2 border-ink text-lg" style={{ background: r.brand }}>
               {r.emoji}
             </span>
-            <DemoBadge />
+            <DemoBadge source={r.source} />
           </div>
         </div>
         <div className="flex flex-1 flex-col gap-2 p-4">
@@ -253,5 +253,30 @@ export function MiniMealRow({ m, right }: { m: Meal; right?: React.ReactNode }) 
       </div>
       {right ?? <Utensils className="size-4 text-ink-soft" />}
     </div>
+  );
+}
+
+/** Card for a real OpenStreetMap place (no prices / ratings / offers — and we say so). */
+export function PlaceCard({ p, km, className }: { p: import("@/lib/places").Place; km?: number; className?: string }) {
+  const { l, t } = useI18n();
+  const cat = p.categories[0] ? categoryById(p.categories[0]) : undefined;
+  return (
+    <Link href={`/place/?id=${p.id}`} className={cx("sticker group flex h-full items-start gap-3 p-3 transition-shadow hover:shadow-[6px_6px_0_#2B1B3D]", className)}>
+      <span className="grid size-14 shrink-0 place-items-center rounded-2xl border-2 border-ink text-3xl transition-transform group-hover:rotate-6" style={{ background: cat?.color ?? "#FFEBD6" }}>
+        {p.emoji}
+      </span>
+      <div className="min-w-0 flex-1 space-y-1">
+        <h3 className="line-clamp-1 font-display text-lg font-bold leading-tight">{l(p.name)}</h3>
+        <p className="line-clamp-1 text-sm text-ink-soft">
+          {t.places.kinds[p.kind]}
+          {p.cuisineText ? ` · ${p.cuisineText}` : ""}
+        </p>
+        <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+          <DistanceTag km={km} />
+          <DemoBadge source="osm" />
+        </div>
+        <OpenBadge hours={p.hours} />
+      </div>
+    </Link>
   );
 }

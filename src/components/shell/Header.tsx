@@ -6,6 +6,7 @@ import { motion } from "motion/react";
 import { ChevronDown, FlaskConical, Heart, Search, User } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { useStore } from "@/lib/store";
+import { SHOW_DEMO } from "@/data/source";
 import { Logo } from "../Logo";
 import { cx } from "../ui";
 import { LocationPill } from "./LocationPicker";
@@ -51,10 +52,12 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b-2 border-ink bg-rice/90 backdrop-blur-md">
-      <div className="flex items-center justify-center gap-2 bg-ink px-3 py-1 text-center text-[11px] font-semibold text-white/90 sm:text-xs">
-        <FlaskConical className="size-3.5 shrink-0 text-sun" />
-        <span className="line-clamp-1">{t.demoBanner}</span>
-      </div>
+      {SHOW_DEMO && (
+        <div className="flex items-center justify-center gap-2 bg-ink px-3 py-1 text-center text-[11px] font-semibold text-white/90 sm:text-xs">
+          <FlaskConical className="size-3.5 shrink-0 text-sun" />
+          <span className="line-clamp-1">{t.demoBanner}</span>
+        </div>
+      )}
       <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-2.5 sm:px-6">
         <Link href="/" className="shrink-0" aria-label="Akla home">
           <Logo size={38} />

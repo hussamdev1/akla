@@ -71,7 +71,7 @@ export function RestaurantView({ id }: { id: string }) {
               </motion.div>
               <div className="text-white">
                 <div className="mb-1 flex flex-wrap gap-1.5">
-                  <DemoBadge />
+                  <DemoBadge source={r.source} />
                   {r.isNew && <span className="rounded-full border-2 border-ink bg-lime px-2 py-0.5 text-xs font-extrabold text-ink">{t.common.newPlace}</span>}
                 </div>
                 <h1 className="font-display text-4xl font-extrabold leading-tight sm:text-5xl">{l(r.name)}</h1>

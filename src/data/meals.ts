@@ -1,5 +1,6 @@
 import type { CategoryId, Meal, MealSize, MealTime, Mood } from "@/lib/types";
 import { mdb } from "@/lib/img";
+import { SHEET, SHOW_DEMO } from "./source";
 
 /** DEMO DATA — sample menu items for the fictional demo restaurants. Prices are illustrative (KWD). */
 type Row = [
@@ -103,11 +104,13 @@ const rows: Row[] = [
   ["sst-turkey", "sandwich-studio", "Turkey Banh Mi", "بان مي ديك رومي", "Roast turkey, pickles, herbs, sriracha mayo.", "ديك رومي مشوي، مخللات، أعشاب ومايونيز سريراتشا.", "sandwiches", 1.75, "1wj8w31763781990", "🥪", 1, false, "regular", ["delicious"], ["breakfast", "lunch"]],
 ];
 
-export const MEALS: Meal[] = rows.map((r) => ({
+const DEMO_MEALS: Meal[] = rows.map((r) => ({
   id: r[0], restaurantId: r[1], name: { en: r[2], ar: r[3] }, description: { en: r[4], ar: r[5] },
   category: r[6], price: r[7], image: r[8] ? mdb(r[8]) : undefined, emoji: r[9], spicy: r[10],
   vegetarian: r[11], size: r[12], moods: r[13], times: r[14], editorsPick: r[15],
 }));
+
+export const MEALS: Meal[] = [...(SHEET.meals as unknown as Meal[]), ...(SHOW_DEMO ? DEMO_MEALS : [])];
 
 export const mealById = (id: string) => MEALS.find((m) => m.id === id);
 export const mealsByRestaurant = (rid: string) => MEALS.filter((m) => m.restaurantId === rid);

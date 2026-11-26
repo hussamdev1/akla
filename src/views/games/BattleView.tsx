@@ -17,7 +17,11 @@ function drawEight(): Meal[] {
     if (!byCat.has(m.category)) byCat.set(m.category, []);
     byCat.get(m.category)!.push(m);
   }
-  return [...byCat.values()].sort(() => Math.random() - 0.5).slice(0, 8).map((list) => list[0]);
+  let picks = [...byCat.values()].sort(() => Math.random() - 0.5).slice(0, 8).map((list) => list[0]);
+  // brackets need 8, 4 or 2 dishes — top up from other meals, then trim to a power of two
+  if (picks.length < 8) picks = [...picks, ...MEALS.filter((m) => !picks.includes(m)).sort(() => Math.random() - 0.5)].slice(0, 8);
+  const size = picks.length >= 8 ? 8 : picks.length >= 4 ? 4 : picks.length >= 2 ? 2 : 0;
+  return picks.slice(0, size);
 }
 
 export function BattleView() {
@@ -76,6 +80,8 @@ export function BattleView() {
   };
 
   const totalMatches = round.length / 2;
+  // a 4-dish bracket starts at the semi-final, a 2-dish one at the final
+  const offset = 3 - Math.log2(history[0]?.length || 8);
 
   const side = (m: Meal, dir: number) => {
     const r = restaurantById(m.restaurantId)!;
@@ -115,7 +121,7 @@ export function BattleView() {
         {/* Bracket progress */}
         <div className="mb-6 flex flex-wrap items-center justify-center gap-2">
           {t.games.battle.rounds.map((r, i) => (
-            <span key={r} className={`rounded-full border-2 border-ink px-3 py-1 text-sm font-bold ${i === stage && !champion ? "bg-ink text-white" : i < stage || champion ? "bg-lime" : "bg-white"}`}>
+            <span key={r} className={`rounded-full border-2 border-ink px-3 py-1 text-sm font-bold ${i === stage + offset && !champion ? "bg-ink text-white" : i < stage + offset || champion ? "bg-lime" : "bg-white"}`}>
               {r}
             </span>
           ))}
@@ -147,7 +153,7 @@ export function BattleView() {
           ) : a && b ? (
             <motion.div key={`${stage}-${match}`} className="mx-auto max-w-4xl">
               <p className="mb-4 text-center font-bold text-ink-soft">
-                {t.games.battle.rounds[stage]} · {match + 1}/{totalMatches} — {t.games.battle.tap}
+                {t.games.battle.rounds[stage + offset]} · {match + 1}/{totalMatches} — {t.games.battle.tap}
               </p>
               <div className="relative grid grid-cols-2 items-center gap-3 sm:gap-8">
                 {side(a, -1)}

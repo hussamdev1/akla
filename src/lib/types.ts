@@ -36,11 +36,14 @@ export type Category = {
 export type DayHours = { open: string; close: string } | "closed";
 export type WeeklyHours = {
   default: DayHours;
+  /** open around the clock (OSM "24/7") */
+  allDay?: boolean;
   /** 0 = Sunday … 6 = Saturday */
   overrides?: Partial<Record<0 | 1 | 2 | 3 | 4 | 5 | 6, DayHours>>;
 };
 
-export type DataSource = "demo" | "osm";
+/** demo = fictional sample · partner = from the Akla Google Sheet · osm = OpenStreetMap */
+export type DataSource = "demo" | "osm" | "partner";
 
 export type Restaurant = {
   id: string;
@@ -54,6 +57,11 @@ export type Restaurant = {
   priceLevel: 1 | 2 | 3 | 4;
   rating?: number; // undefined = unknown
   ratingCount?: number;
+  /** where a real rating came from, e.g. "Google Maps · Nov 2026" — required to show a partner rating */
+  ratingSource?: string;
+  website?: string;
+  instagram?: string;
+  osmId?: string;
   phone?: string;
   hours?: WeeklyHours; // undefined = unknown
   delivery: boolean;
@@ -103,7 +111,8 @@ export type Offer = {
   expiresAt: string;
   addedAt: string;
   verified: boolean;
-  source: "demo" | "community";
+  source: "demo" | "community" | "partner";
+  sourceUrl?: string;
   terms: L;
   tags: OfferTag[];
   editorsPick?: boolean;

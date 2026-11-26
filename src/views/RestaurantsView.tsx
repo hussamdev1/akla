@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Search, SlidersHorizontal } from "lucide-react";
 import { CATEGORIES } from "@/data/categories";
@@ -12,7 +12,10 @@ import { norm } from "@/lib/search";
 import { openState } from "@/lib/time";
 import type { CategoryId } from "@/lib/types";
 import { RestaurantCard } from "@/components/cards";
-import { Container, EmptyState, PageHero, Sheet, Toggle } from "@/components/ui";
+import { Container, cx, EmptyState, PageHero, Sheet, Toggle } from "@/components/ui";
+import { QueryParam } from "@/components/QueryParam";
+import { RealPlacesDirectory } from "@/components/RealPlacesDirectory";
+import { SHOW_DEMO, DATA_META } from "@/data/source";
 
 type Sort = "recommended" | "rating" | "distance" | "price";
 
@@ -32,6 +35,8 @@ export function RestaurantsView() {
   const [delivery, setDelivery] = useState(false);
   const [dineIn, setDineIn] = useState(false);
   const [sort, setSort] = useState<Sort>("recommended");
+  const [tab, setTab] = useState<"listings" | "all">(RESTAURANTS.length ? "listings" : "all");
+  const onTab = useCallback((v: string | null) => v === "all" && setTab("all"), []);
   const [sheet, setSheet] = useState(false);
 
   const offerCount = useMemo(() => {
@@ -126,12 +131,27 @@ export function RestaurantsView() {
 
   return (
     <>
+      <QueryParam name="tab" onValue={onTab} />
       <PageHero title={t.restaurantsPage.title} subtitle={t.restaurantsPage.subtitle} emoji="🍽️" color="#FFD23F">
-        <label className="sticker relative flex max-w-2xl items-center">
-          <Search className="absolute start-4 size-5 text-ink-soft" />
-          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t.restaurantsPage.searchPh} className="w-full rounded-[1.5rem] bg-transparent py-3.5 ps-12 pe-4 text-lg font-medium outline-none" />
-        </label>
+        <div className="mb-4 flex flex-wrap gap-2" role="tablist">
+          {(["listings", "all"] as const).map((k) => (
+            <button key={k} type="button" role="tab" aria-selected={tab === k} onClick={() => setTab(k)} className={cx("btn btn-sm", tab === k ? "btn-primary" : "btn-light")}>
+              {k === "listings" ? `🍽️ ${t.places.tabListings}${SHOW_DEMO ? ` (${t.common.demo})` : ""}` : `🗺️ ${t.places.tabAll(DATA_META.osm?.count ?? 0)}`}
+            </button>
+          ))}
+        </div>
+        {tab === "listings" && (
+          <label className="sticker relative flex max-w-2xl items-center">
+            <Search className="absolute start-4 size-5 text-ink-soft" />
+            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t.restaurantsPage.searchPh} className="w-full rounded-[1.5rem] bg-transparent py-3.5 ps-12 pe-4 text-lg font-medium outline-none" />
+          </label>
+        )}
       </PageHero>
+      {tab === "all" ? (
+        <Container className="py-8">
+          <RealPlacesDirectory />
+        </Container>
+      ) : (
       <Container className="py-8">
         <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
           <p className="font-bold">{t.common.results(list.length)}</p>
@@ -161,6 +181,7 @@ export function RestaurantsView() {
           )}
         </div>
       </Container>
+      )}
       <Sheet open={sheet} onClose={() => setSheet(false)} title={t.common.filters}>
         {filters}
         <button type="button" className="btn btn-primary mt-4 w-full" onClick={() => setSheet(false)}>

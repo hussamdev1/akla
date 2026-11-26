@@ -1,5 +1,9 @@
-import type { Restaurant, WeeklyHours } from "@/lib/types";
+import type { CategoryId, Restaurant, WeeklyHours } from "@/lib/types";
 import { mdb } from "@/lib/img";
+import { parseOpeningHours } from "@/lib/openingHours";
+import { SHEET, SHOW_DEMO } from "./source";
+import { AREAS } from "./geo";
+import { CATEGORIES } from "./categories";
 
 /**
  * DEMO DATA — every restaurant below is fictional and exists only to demonstrate the product.
@@ -13,7 +17,7 @@ const H = (open: string, close: string, fri?: [string, string] | "closed"): Week
   overrides: fri ? { 5: fri === "closed" ? "closed" : { open: fri[0], close: fri[1] } } : undefined,
 });
 
-export const RESTAURANTS: Restaurant[] = [
+const DEMO_RESTAURANTS: Restaurant[] = [
   {
     id: "bun-voyage", name: { ar: "بن فوياج", en: "Bun Voyage" },
     tagline: { ar: "برجر مشوي على الفحم برحلة نكهات", en: "Char-grilled burgers on a flavour trip" },
@@ -176,5 +180,25 @@ export const RESTAURANTS: Restaurant[] = [
     delivery: true, dineIn: true, cover: mdb("sonirb1763782831"), emoji: "🥪", brand: "#5FA324", isNew: true, source: "demo", updatedAt: UPDATED,
   },
 ];
+
+/** Real listings managed in the Akla Google Sheet (see docs/DATA.md). */
+type SheetRestaurant = Omit<Restaurant, "hours" | "areaId" | "cover" | "source"> & { hoursText?: string; areaId?: string; cover?: string };
+
+const nearestArea = (lat: number, lng: number) =>
+  AREAS.reduce((best, a) => ((a.lat - lat) ** 2 + (a.lng - lng) ** 2 < (best.lat - lat) ** 2 + (best.lng - lng) ** 2 ? a : best)).id;
+
+const PARTNER_RESTAURANTS: Restaurant[] = (SHEET.restaurants as unknown as SheetRestaurant[]).map(({ hoursText, ...r }) => ({
+  ...r,
+  categories: r.categories as CategoryId[],
+  areaId: r.areaId && AREAS.some((a) => a.id === r.areaId) ? r.areaId : nearestArea(r.lat, r.lng),
+  hours: parseOpeningHours(hoursText),
+  cover: r.cover || CATEGORIES.find((c) => c.id === r.categories[0])?.image || "",
+  // a rating is only shown when the sheet says where it comes from
+  rating: r.ratingSource ? r.rating : undefined,
+  ratingCount: r.ratingSource ? r.ratingCount : undefined,
+  source: "partner",
+}));
+
+export const RESTAURANTS: Restaurant[] = [...PARTNER_RESTAURANTS, ...(SHOW_DEMO ? DEMO_RESTAURANTS : [])];
 
 export const restaurantById = (id: string) => RESTAURANTS.find((r) => r.id === id);

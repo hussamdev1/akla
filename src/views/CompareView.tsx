@@ -18,7 +18,10 @@ export function CompareView() {
   const dist = useDistances();
   const { active } = useOffers();
   const [cat, setCat] = useState<CategoryId>("burgers");
-  const [ids, setIds] = useState<string[]>(["bv-smash", "bv-kofta", "ss-beef"]);
+  const [ids, setIds] = useState<string[]>(() => {
+    const demo = ["bv-smash", "bv-kofta", "ss-beef"].filter((id) => MEALS.some((m) => m.id === id));
+    return demo.length ? demo : MEALS.filter((m) => m.category === "burgers").slice(0, 3).map((m) => m.id);
+  });
 
   const pool = MEALS.filter((m) => m.category === cat);
   const chosen = ids.map((id) => MEALS.find((m) => m.id === id)!).filter(Boolean);

@@ -7,13 +7,16 @@ import { CATEGORIES } from "@/data/categories";
 import { MEALS, mealById } from "@/data/meals";
 import { RESTAURANTS, restaurantById } from "@/data/restaurants";
 import { useI18n } from "@/lib/i18n";
+import { SHOW_DEMO } from "@/data/source";
 import { useDistances, useNow, useOffers } from "@/lib/hooks";
 import { useStore } from "@/lib/store";
 import { mealTimeAt } from "@/lib/time";
 import { recommend } from "@/lib/recommend";
 import type { Meal, Mood } from "@/lib/types";
-import { CategoryCard, MealCard, OfferCard, RestaurantCard } from "@/components/cards";
-import { Container, Countdown, DemoBadge, FoodImage, Reveal, SectionHeader, Tilt } from "@/components/ui";
+import { CategoryCard, MealCard, OfferCard, PlaceCard, RestaurantCard } from "@/components/cards";
+import { usePlaces } from "@/lib/places";
+import { haversineKm, locationPoint } from "@/lib/geo";
+import { Container, Countdown, DemoBadge, FoodImage, Loader, Reveal, SectionHeader, Tilt } from "@/components/ui";
 import { Lugma } from "@/components/Logo";
 import { LocationPill, useLocationLabel } from "@/components/shell/LocationPicker";
 import { MiniWheel } from "@/components/Wheel";
@@ -137,15 +140,15 @@ export function HomeView() {
                   <span className="font-display text-base">{n as number}</span> {label as string}
                 </span>
               ))}
-              <DemoBadge className="self-center" />
+              {SHOW_DEMO && <DemoBadge className="self-center" />}
             </div>
           </div>
 
           {/* Collage */}
           <div className="relative mx-auto h-[22rem] w-full max-w-md sm:h-[26rem]">
-            <HeroPhoto m={mealById("bv-smash")!} className="start-0 top-2 w-[58%] -rotate-6" delay={0.2} />
-            <HeroPhoto m={mealById("sr-platter")!} className="end-0 top-10 w-[52%] rotate-6" delay={0.35} />
-            <HeroPhoto m={mealById("sd-kunafa")!} className="bottom-0 start-[18%] w-[54%] rotate-3" delay={0.5} />
+            {HERO_MEALS.map((m, i) => (
+              <HeroPhoto key={m.id} m={m} className={["start-0 top-2 w-[58%] -rotate-6", "end-0 top-10 w-[52%] rotate-6", "bottom-0 start-[18%] w-[54%] rotate-3"][i]} delay={0.2 + i * 0.15} />
+            ))}
             <motion.div initial={{ scale: 0, rotate: -90 }} animate={{ scale: 1, rotate: 0 }} transition={{ delay: 0.7, type: "spring" }} className="absolute bottom-6 end-0 z-20">
               <Link href="/picker/" aria-label={t.hero.spin} className="block">
                 <MiniWheel size={124} />
@@ -199,6 +202,7 @@ export function HomeView() {
       <MoodSection />
 
       {/* ================= NEAR YOU ================= */}
+      {nearest.length > 0 && (
       <Container className="py-12">
         <Reveal>
           <SectionHeader title={t.home.near} subtitle={t.home.nearSub(locLabel)} href="/nearby/" emoji="📍" />
@@ -211,6 +215,10 @@ export function HomeView() {
           ))}
         </div>
       </Container>
+      )}
+
+      {/* ================= REAL PLACES NEAR YOU (OpenStreetMap) ================= */}
+      <RealNearRow />
 
       {/* ================= OFFERS ================= */}
       <section className="relative overflow-hidden border-y-2 border-ink bg-chili py-12">
@@ -269,16 +277,54 @@ function HeroPhoto({ m, className, delay }: { m: Meal; className: string; delay:
   );
 }
 
+/** Up to three photogenic meals for the hero collage (prefers the curated trio, falls back to any meal with a photo). */
+const HERO_MEALS = (() => {
+  const preferred = ["bv-smash", "sr-platter", "sd-kunafa"].map((id) => mealById(id)).filter(Boolean) as Meal[];
+  const rest = MEALS.filter((m) => m.image && !preferred.includes(m)).sort((a, b) => Number(!!b.editorsPick) - Number(!!a.editorsPick));
+  return [...preferred, ...rest].slice(0, 3);
+})();
+
+function RealNearRow() {
+  const { t } = useI18n();
+  const { status, places } = usePlaces();
+  const loc = useStore((s) => s.location);
+  const near = useMemo(() => {
+    const me = locationPoint(loc);
+    return places.map((p) => ({ p, d: haversineKm(me, p) })).sort((a, b) => a.d - b.d).slice(0, 10);
+  }, [places, loc]);
+  if (status === "error" || (status === "ready" && !near.length)) return null;
+  return (
+    <section className="border-y-2 border-ink bg-lagoon/10 py-12">
+      <Container>
+        <Reveal>
+          <SectionHeader title={t.places.nearReal} subtitle={t.places.nearRealSub} href="/restaurants/?tab=all" emoji="🗺️" />
+        </Reveal>
+        {status === "loading" ? (
+          <Loader label={t.places.loading} />
+        ) : (
+          <div className="scroll-row">
+            {near.map(({ p, d }) => (
+              <div key={p.id} className="w-80">
+                <PlaceCard p={p} km={d} />
+              </div>
+            ))}
+          </div>
+        )}
+      </Container>
+    </section>
+  );
+}
+
 function Highlights({ time }: { time?: ReturnType<typeof mealTimeAt> }) {
   const { t, l, price } = useI18n();
   const { active } = useOffers();
   const items = useMemo(() => {
     const deal = [...active].sort((a, b) => (b.percent ?? 0) - (a.percent ?? 0))[0];
     const ending = [...active].sort((a, b) => +new Date(a.expiresAt) - +new Date(b.expiresAt))[0];
-    const pick = MEALS.find((m) => m.id === "dk-kabsa")!;
+    const pick = MEALS.find((m) => m.id === "dk-kabsa") ?? MEALS.find((m) => m.editorsPick) ?? MEALS[0];
     const top = [...RESTAURANTS].filter((r) => r.rating).sort((a, b) => b.rating! - a.rating!)[0];
-    const fresh = RESTAURANTS.find((r) => r.isNew)!;
-    const reco = recommend({ time, random: () => 0.5 }, 4).find((m) => m.id !== pick.id && m.id !== deal?.mealId);
+    const fresh = RESTAURANTS.find((r) => r.isNew);
+    const reco = recommend({ time, random: () => 0.5 }, 4).find((m) => m.id !== pick?.id && m.id !== deal?.mealId);
     const promo = active.find((o) => o.tags.includes("exclusive"));
     type H = { key: string; label: string; color: string; title: string; sub: string; img?: string; emoji: string; href: string; countdown?: string };
     const list: H[] = [];
@@ -287,15 +333,15 @@ function Highlights({ time }: { time?: ReturnType<typeof mealTimeAt> }) {
       const r = restaurantById(deal.restaurantId)!;
       list.push({ key: "deal", label: t.home.hl.deal, color: "#F2542D", title: l(deal.title), sub: `${l(r.name)} · ${deal.finalPrice !== undefined ? price(deal.finalPrice) : ""}`, img: m?.image ?? r.cover, emoji: r.emoji, href: `/restaurants/${r.id}/#offers`, countdown: deal.expiresAt });
     }
-    list.push({ key: "pick", label: t.home.hl.popular, color: "#FFD23F", title: l(pick.name), sub: `${l(restaurantById(pick.restaurantId)!.name)} · ${price(pick.price)}`, img: pick.image, emoji: pick.emoji, href: `/restaurants/${pick.restaurantId}/` });
+    if (pick) list.push({ key: "pick", label: t.home.hl.popular, color: "#FFD23F", title: l(pick.name), sub: `${l(restaurantById(pick.restaurantId)!.name)} · ${price(pick.price)}`, img: pick.image, emoji: pick.emoji, href: `/restaurants/${pick.restaurantId}/` });
     if (reco) list.push({ key: "reco", label: t.home.hl.reco, color: "#0E8C99", title: l(reco.name), sub: `${l(restaurantById(reco.restaurantId)!.name)} · ${price(reco.price)}`, img: reco.image, emoji: reco.emoji, href: `/restaurants/${reco.restaurantId}/` });
     if (ending && ending.id !== deal?.id) {
       const r = restaurantById(ending.restaurantId)!;
       const m = ending.mealId ? mealById(ending.mealId) : undefined;
       list.push({ key: "ending", label: t.home.hl.promo, color: "#E63462", title: l(ending.title), sub: l(r.name), img: m?.image ?? r.cover, emoji: r.emoji, href: `/restaurants/${r.id}/#offers`, countdown: ending.expiresAt });
     }
-    list.push({ key: "top", label: t.home.hl.top, color: "#9BE15D", title: l(top.name), sub: `★ ${top.rating!.toFixed(1)} · ${l(top.tagline)}`, img: top.cover, emoji: top.emoji, href: `/restaurants/${top.id}/` });
-    list.push({ key: "new", label: t.home.hl.new, color: "#7DD3FC", title: l(fresh.name), sub: l(fresh.tagline), img: fresh.cover, emoji: fresh.emoji, href: `/restaurants/${fresh.id}/` });
+    if (top) list.push({ key: "top", label: t.home.hl.top, color: "#9BE15D", title: l(top.name), sub: `★ ${top.rating!.toFixed(1)} · ${l(top.tagline)}`, img: top.cover, emoji: top.emoji, href: `/restaurants/${top.id}/` });
+    if (fresh) list.push({ key: "new", label: t.home.hl.new, color: "#7DD3FC", title: l(fresh.name), sub: l(fresh.tagline), img: fresh.cover, emoji: fresh.emoji, href: `/restaurants/${fresh.id}/` });
     if (promo && promo.id !== deal?.id) {
       const r = restaurantById(promo.restaurantId)!;
       list.push({ key: "promo", label: t.offerTags.exclusive, color: "#E9B5FF", title: l(promo.title), sub: l(r.name), img: r.cover, emoji: r.emoji, href: `/restaurants/${r.id}/#offers`, countdown: promo.expiresAt });

@@ -33,6 +33,11 @@ Legend: ✅ done in this build · 🟡 partial · ⬜ planned
 - ✅ Food comparison with value scoring and "not directly equivalent" warnings
 - 🟡 Trending: editorial picks + *your* activity (real community trends need the backend in Phase 4)
 
+## Phase 2.5 — Real data ✅
+- ✅ Build-time OpenStreetMap snapshot of all Kuwait food places (directory tab, place pages, nearby, picker, search)
+- ✅ Google Sheet CMS for listings, menus and offers (published/draft rows, auto-expiry, verified vs community)
+- ✅ Scheduled rebuild every 6 hours; demo data auto-hides once real listings exist
+
 ## Phase 3 — Games & gamification ✅/🟡
 - ✅ Food Battle (8‑meal bracket), Mystery Meal (gift reveal), Daily Challenges, Random Challenge generator
 - ✅ Achievements (9 badges), daily streak, celebratory animations, profile page

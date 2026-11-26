@@ -1,7 +1,7 @@
 "use client";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Crosshair, ExternalLink, Globe, List, Map as MapIcon, Navigation, Phone, X } from "lucide-react";
 import { CATEGORIES } from "@/data/categories";
@@ -12,7 +12,7 @@ import { useDistances, useNow, useOffers } from "@/lib/hooks";
 import { useStore } from "@/lib/store";
 import { directionsUrl, haversineKm, locationPoint } from "@/lib/geo";
 import { openState } from "@/lib/time";
-import { fetchOsmPlaces, osmEmoji, type OsmPlace } from "@/lib/osm";
+import { osmUrl, usePlaces } from "@/lib/places";
 import type { CategoryId } from "@/lib/types";
 import { OfferCard, RestaurantCard } from "@/components/cards";
 import { Container, cx, DemoBadge, DistanceTag, EmptyState, FavButton, FoodImage, Loader, OpenBadge, RatingBadge, SectionHeader, Toggle } from "@/components/ui";
@@ -38,9 +38,7 @@ export function NearbyView() {
   const [openNow, setOpenNow] = useState(false);
   const [dealsOnly, setDealsOnly] = useState(false);
   const [showDemo, setShowDemo] = useState(true);
-  const [showOsm, setShowOsm] = useState(false);
-  const [osm, setOsm] = useState<OsmPlace[]>([]);
-  const [osmState, setOsmState] = useState<"idle" | "loading" | "error" | "done">("idle");
+  const [showOsm, setShowOsm] = useState(true);
   const [selected, setSelected] = useState<string | null>(null);
   const [gpsErr, setGpsErr] = useState("");
 
@@ -63,25 +61,24 @@ export function NearbyView() {
     [radius, cuisine, price, openNow, dealsOnly, dist, now, offerCount],
   );
 
-  useEffect(() => {
-    if (!showOsm) return;
-    const ctrl = new AbortController();
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- browser-only value read after hydration (static export)
-    setOsmState("loading");
-    fetchOsmPlaces(point.lat, point.lng, Math.min(radius, 5), ctrl.signal)
-      .then((p) => {
-        setOsm(p);
-        setOsmState("done");
-      })
-      .catch((e) => {
-        if ((e as Error).name !== "AbortError") setOsmState("error");
-      });
-    return () => ctrl.abort();
-  }, [showOsm, point.lat, point.lng, radius]);
+  // Real places come from the OpenStreetMap snapshot built with the site (instant, no slow live query).
+  const placesState = usePlaces(showOsm);
+  const osmState = !showOsm ? "idle" : placesState.status === "ready" ? "done" : placesState.status;
+  const osmAll = useMemo(
+    () =>
+      placesState.places
+        .filter((p) => !cuisine || p.categories.includes(cuisine))
+        .filter((p) => !openNow || (now && openState(p.hours, now).status === "open"))
+        .map((p) => ({ p, d: haversineKm(point, p) }))
+        .filter(({ d }) => radius >= 60 || d <= radius)
+        .sort((a, b) => a.d - b.d),
+    [placesState.places, cuisine, openNow, now, point, radius],
+  );
+  const osm = useMemo(() => osmAll.slice(0, 400).map(({ p }) => p), [osmAll]);
 
   const markers: MapMarker[] = [
     ...(showDemo ? demo.map((r) => ({ id: r.id, lat: r.lat, lng: r.lng, emoji: r.emoji, color: r.brand, label: l(r.name), kind: "demo" as const })) : []),
-    ...(showOsm ? osm.map((p) => ({ id: p.id, lat: p.lat, lng: p.lng, emoji: osmEmoji(p), color: "#fff", label: p.name, kind: "osm" as const })) : []),
+    ...(showOsm ? osm.map((p) => ({ id: p.id, lat: p.lat, lng: p.lng, emoji: p.emoji, color: "#fff", label: l(p.name), kind: "osm" as const })) : []),
   ];
 
   const zoom = radius <= 1.5 ? 15 : radius <= 3 ? 14 : radius <= 5 ? 13 : radius <= 10 ? 12 : radius <= 20 ? 11 : 10;
@@ -119,11 +116,11 @@ export function NearbyView() {
       ))}
       {showOsm && osm.slice(0, 60).map((p) => (
         <button key={p.id} type="button" onClick={() => setSelected(p.id)} className={cx("flex w-full items-center gap-3 rounded-2xl border-2 border-dashed border-ink/50 bg-white p-2 text-start", selected === p.id && "ring-2 ring-lagoon")}>
-          <span className="grid size-12 shrink-0 place-items-center rounded-xl bg-rice text-2xl">{osmEmoji(p)}</span>
+          <span className="grid size-12 shrink-0 place-items-center rounded-xl bg-rice text-2xl">{p.emoji}</span>
           <div className="min-w-0 flex-1">
-            <div className="truncate font-bold">{(l({ ar: p.nameAr ?? p.name, en: p.nameEn ?? p.name }))}</div>
-            <div className="truncate text-xs text-ink-soft">{p.cuisine ?? p.amenity.replace("_", " ")} · {fkm(haversineKm(point, p))}</div>
-            <span className="text-[10px] font-bold text-lagoon">🗺️ {t.common.osm}</span>
+            <div className="truncate font-bold">{l(p.name)}</div>
+            <div className="truncate text-xs text-ink-soft">{p.cuisineText ?? t.places.kinds[p.kind]} · {fkm(haversineKm(point, p))}</div>
+            <OpenBadge hours={p.hours} />
           </div>
         </button>
       ))}
@@ -192,7 +189,7 @@ export function NearbyView() {
             {osmState === "error" && <span className="text-red-700">{t.nearby.osmError}</span>}
             {osmState === "done" && (
               <span>
-                ✅ {t.nearby.osmCount(osm.length)} · {t.nearby.osmNote} {radius > 5 && `(≤ ${fkm(5)})`}
+                ✅ {t.nearby.osmCount(osmAll.length)} · {t.nearby.osmNote}
               </span>
             )}
           </div>
@@ -211,7 +208,7 @@ export function NearbyView() {
                     <div className="flex gap-3">
                       <FoodImage src={selDemo.cover} emoji={selDemo.emoji} alt="" size="small" className="size-20 shrink-0 rounded-xl border-2 border-ink" />
                       <div className="min-w-0 flex-1 space-y-1 pe-6">
-                        <div className="flex items-center gap-1.5"><b className="truncate">{l(selDemo.name)}</b><DemoBadge /></div>
+                        <div className="flex items-center gap-1.5"><b className="truncate">{l(selDemo.name)}</b><DemoBadge source={selDemo.source} /></div>
                         <div className="flex flex-wrap gap-2 text-xs"><RatingBadge rating={selDemo.rating} compact /><DistanceTag km={dist[selDemo.id]} /></div>
                         <OpenBadge hours={selDemo.hours} />
                         <div className="flex gap-2 pt-1">
@@ -224,15 +221,16 @@ export function NearbyView() {
                   )}
                   {selOsm && (
                     <div className="space-y-1 pe-6">
-                      <div className="flex items-center gap-2"><span className="text-2xl">{osmEmoji(selOsm)}</span><b>{l({ ar: selOsm.nameAr ?? selOsm.name, en: selOsm.nameEn ?? selOsm.name })}</b></div>
-                      <p className="text-xs text-ink-soft">{selOsm.cuisine ?? selOsm.amenity.replace("_", " ")} · {fkm(haversineKm(point, selOsm))} · <span className="font-bold text-lagoon">{t.common.osm}</span></p>
-                      <p className="text-xs">🕒 {selOsm.hours ? <span dir="ltr">{selOsm.hours}</span> : t.common.hoursUnknown}</p>
+                      <div className="flex items-center gap-2"><span className="text-2xl">{selOsm.emoji}</span><b>{l(selOsm.name)}</b></div>
+                      <p className="text-xs text-ink-soft">{selOsm.cuisineText ?? t.places.kinds[selOsm.kind]} · {fkm(haversineKm(point, selOsm))} · <span className="font-bold text-lagoon">{t.common.osm}</span></p>
+                      <OpenBadge hours={selOsm.hours} />
                       <p className="text-xs text-ink-soft">{t.common.ratingUnknown}</p>
                       <div className="flex flex-wrap gap-2 pt-1">
-                        <a href={directionsUrl(selOsm.lat, selOsm.lng)} target="_blank" rel="noreferrer" className="btn btn-primary btn-sm"><Navigation className="size-4" /> {t.common.directions}</a>
+                        <Link href={`/place/?id=${selOsm.id}`} className="btn btn-primary btn-sm">{t.common.viewRestaurant}</Link>
+                        <a href={directionsUrl(selOsm.lat, selOsm.lng)} target="_blank" rel="noreferrer" className="btn btn-light btn-sm" aria-label={t.common.directions}><Navigation className="size-4" /></a>
                         {selOsm.phone && <a href={`tel:${selOsm.phone}`} className="btn btn-light btn-sm"><Phone className="size-4" /></a>}
                         {selOsm.website && <a href={selOsm.website} target="_blank" rel="noreferrer" className="btn btn-light btn-sm"><Globe className="size-4" /></a>}
-                        <a href={`https://www.openstreetmap.org/${selOsm.id.replace("osm-", "").replace("-", "/")}`} target="_blank" rel="noreferrer" className="btn btn-light btn-sm"><ExternalLink className="size-4" /> OSM</a>
+                        <a href={osmUrl(selOsm.id)} target="_blank" rel="noreferrer" className="btn btn-light btn-sm"><ExternalLink className="size-4" /> OSM</a>
                       </div>
                     </div>
                   )}

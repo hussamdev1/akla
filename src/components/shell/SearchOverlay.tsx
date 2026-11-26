@@ -4,7 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Search } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
-import { searchAll } from "@/lib/search";
+import { norm, searchAll } from "@/lib/search";
+import { usePlaces } from "@/lib/places";
 import { CATEGORIES } from "@/data/categories";
 import { MiniMealRow } from "../cards";
 import { FoodImage, Sheet } from "../ui";
@@ -43,8 +44,14 @@ export function SearchOverlay() {
   }, [open]);
 
   const res = useMemo(() => searchAll(q), [q]);
+  const { places } = usePlaces(open);
+  const placeHits = useMemo(() => {
+    const nq = norm(q);
+    if (nq.length < 2) return [];
+    return places.filter((p) => norm(`${p.name.ar} ${p.name.en} ${p.cuisineText ?? ""}`).includes(nq)).slice(0, 8);
+  }, [q, places]);
   const close = () => setOpen(false);
-  const empty = q && !res.categories.length && !res.restaurants.length && !res.meals.length;
+  const empty = q && !res.categories.length && !res.restaurants.length && !res.meals.length && !placeHits.length;
 
   return (
     <Sheet open={open} onClose={close} title={t.search.title} wide>
@@ -90,6 +97,22 @@ export function SearchOverlay() {
                 <div className="min-w-0">
                   <div className="truncate font-bold">{l(r.name)}</div>
                   <div className="truncate text-sm text-ink-soft">{l(r.tagline)}</div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+      {placeHits.length > 0 && (
+        <section className="mt-5">
+          <h3 className="mb-2 text-sm font-bold text-ink-soft">🗺️ {t.search.places}</h3>
+          <div className="grid gap-2 sm:grid-cols-2">
+            {placeHits.map((p) => (
+              <Link key={p.id} href={`/place/?id=${p.id}`} onClick={close} className="flex items-center gap-3 rounded-2xl border-2 border-ink bg-white p-2 hover:bg-rice-deep">
+                <span className="grid size-12 shrink-0 place-items-center rounded-xl bg-rice text-2xl">{p.emoji}</span>
+                <div className="min-w-0">
+                  <div className="truncate font-bold">{l(p.name)}</div>
+                  <div className="truncate text-sm text-ink-soft">{p.cuisineText ?? t.places.kinds[p.kind]}</div>
                 </div>
               </Link>
             ))}

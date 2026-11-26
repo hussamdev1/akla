@@ -4,6 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "data": "node scripts/build-data.mjs",
+    "data:refresh": "node scripts/build-data.mjs --force-osm",
+    "prebuild": "node scripts/build-data.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"

@@ -15,7 +15,9 @@ export function formatKm(km: number, locale: "ar" | "en") {
 }
 
 export function formatClock(hm: string, locale: "ar" | "en") {
-  const [h, m] = hm.split(":").map(Number);
+  if (hm === "24/7") return locale === "ar" ? "٢٤ ساعة" : "24 hours";
+  const [h0, m] = hm.split(":").map(Number);
+  const h = h0 % 24;
   const pm = h >= 12;
   const h12 = h % 12 === 0 ? 12 : h % 12;
   const suffix = locale === "ar" ? (pm ? "م" : "ص") : pm ? "PM" : "AM";

@@ -8,13 +8,15 @@ import { MEALS, mealsByRestaurant } from "@/data/meals";
 import { RESTAURANTS, restaurantById } from "@/data/restaurants";
 import { areaById } from "@/data/geo";
 import { useI18n } from "@/lib/i18n";
+import { usePlaces, type Place } from "@/lib/places";
+import { haversineKm, locationPoint } from "@/lib/geo";
 import { useDistances, useOffers } from "@/lib/hooks";
 import { useStore } from "@/lib/store";
 import { celebrate } from "@/lib/fx";
 import { directionsUrl } from "@/lib/geo";
 import type { Category, CategoryId, Meal, MealSize, Offer, Restaurant } from "@/lib/types";
 import { Wheel, type WheelHandle, type WheelItem } from "@/components/Wheel";
-import { Container, cx, DemoBadge, DistanceTag, EmptyState, FavButton, FoodImage, OpenBadge, RatingBadge, Sheet, Toggle, TrustBadge } from "@/components/ui";
+import { Container, cx, DemoBadge, Loader, DistanceTag, EmptyState, FavButton, FoodImage, OpenBadge, RatingBadge, Sheet, Toggle, TrustBadge } from "@/components/ui";
 import { MealCard } from "@/components/cards";
 
 type Mode = "category" | "restaurant" | "meal" | "offer" | "cheapest" | "rated" | "near" | "anything";
@@ -34,7 +36,8 @@ type Pick =
   | { kind: "meal"; meal: Meal; offer?: Offer }
   | { kind: "restaurant"; restaurant: Restaurant }
   | { kind: "category"; category: Category }
-  | { kind: "offer"; offer: Offer; meal?: Meal };
+  | { kind: "offer"; offer: Offer; meal?: Meal }
+  | { kind: "place"; place: Place; km: number };
 
 function shuffle<T>(arr: T[], seed: number) {
   const a = [...arr];
@@ -57,6 +60,9 @@ export function PickerView() {
   const [spinning, setSpinning] = useState(false);
   const wheel = useRef<WheelHandle>(null);
   const dist = useDistances();
+  const placesState = usePlaces(mode === "near");
+  const userLoc = useStore((s) => s.location);
+  const me = useMemo(() => locationPoint(userLoc), [userLoc]);
   const { active } = useOffers();
   const sound = useStore((s) => s.sound);
   const setSound = useStore((s) => s.setSound);
@@ -99,12 +105,21 @@ export function PickerView() {
         picks = CATEGORIES.filter((c) => cats.has(c.id)).map((c) => ({ kind: "category", category: c }));
         break;
       }
-      case "restaurant":
-      case "near": {
+      case "restaurant": {
         const rs = new Set(meals.map((m) => m.restaurantId));
-        let list = RESTAURANTS.filter((r) => rs.has(r.id));
-        if (mode === "near") list = list.sort((a, b) => dist[a.id] - dist[b.id]).slice(0, 8);
-        picks = list.map((r) => ({ kind: "restaurant", restaurant: r }));
+        picks = RESTAURANTS.filter((r) => rs.has(r.id)).map((r) => ({ kind: "restaurant", restaurant: r }));
+        break;
+      }
+      case "near": {
+        // Real places from OpenStreetMap: category include/exclude + distance apply; budget/menu filters can't (no prices in OSM).
+        const nearest = placesState.places
+          .filter((p) => !f.include.length || p.categories.some((c) => f.include.includes(c)))
+          .filter((p) => !p.categories.some((c) => f.exclude.includes(c)))
+          .map((p) => ({ p, km: haversineKm(me, p) }))
+          .filter(({ km }) => f.maxKm >= 60 || km <= f.maxKm)
+          .sort((a, b) => a.km - b.km)
+          .slice(0, 30);
+        picks = nearest.map(({ p, km }) => ({ kind: "place", place: p, km }));
         break;
       }
       case "offer": {
@@ -133,12 +148,13 @@ export function PickerView() {
     const items: WheelItem[] = onWheel.map((p) => {
       if (p.kind === "category") return { id: p.category.id, label: l(p.category.name), emoji: p.category.emoji };
       if (p.kind === "restaurant") return { id: p.restaurant.id, label: l(p.restaurant.name), emoji: p.restaurant.emoji };
+      if (p.kind === "place") return { id: p.place.id, label: l(p.place.name), emoji: p.place.emoji };
       if (p.kind === "offer") return { id: p.offer.id, label: p.offer.percent ? `-${p.offer.percent}% ${l(restaurantById(p.offer.restaurantId)!.name)}` : l(restaurantById(p.offer.restaurantId)!.name), emoji: p.meal?.emoji ?? "🏷️" };
       return { id: p.meal.id, label: l(p.meal.name), emoji: p.meal.emoji };
     });
     return { items, picks: onWheel, total: picks.length };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mode, f, seed, dist, active, offerByMeal, l]);
+  }, [mode, f, seed, dist, active, offerByMeal, l, placesState.places, me]);
 
   const onResult = (i: number) => {
     const p = picks[i];
@@ -147,7 +163,7 @@ export function PickerView() {
     celebrate("big");
     const e = items[i];
     const href =
-      p.kind === "category" ? `/discover/?c=${p.category.id}` : p.kind === "restaurant" ? `/restaurants/${p.restaurant.id}/` : p.kind === "offer" ? `/restaurants/${p.offer.restaurantId}/#offers` : `/restaurants/${p.meal.restaurantId}/`;
+      p.kind === "place" ? `/place/?id=${p.place.id}` : p.kind === "category" ? `/discover/?c=${p.category.id}` : p.kind === "restaurant" ? `/restaurants/${p.restaurant.id}/` : p.kind === "offer" ? `/restaurants/${p.offer.restaurantId}/#offers` : `/restaurants/${p.meal.restaurantId}/`;
     recordSpin({ label: e.label, emoji: e.emoji, href });
   };
 
@@ -294,7 +310,9 @@ export function PickerView() {
             </div>
 
             <div className="mt-6 flex flex-col items-center">
-              {items.length ? (
+              {mode === "near" && placesState.status === "loading" ? (
+                <Loader label={t.places.loading} />
+              ) : items.length ? (
                 <>
                   <Wheel ref={wheel} items={items} onResult={onResult} onStart={() => setSpinning(true)} />
                   <p className="mt-4 text-sm font-semibold text-ink-soft">{t.picker.candidates(items.length)}</p>
@@ -374,6 +392,39 @@ function ResultSheet({ pick, onClose, onAgain, dist, offersByRestaurant, offerBy
   const showToast = useStore((s) => s.showToast);
   if (!pick) return <Sheet open={false} onClose={onClose}>{null}</Sheet>;
 
+  if (pick.kind === "place") {
+    const pl = pick.place;
+    return (
+      <Sheet open onClose={onClose} title={t.picker.result.decided} wide>
+        <div className="flex flex-col items-center gap-3 text-center">
+          <motion.div initial={{ scale: 0, rotate: -40 }} animate={{ scale: 1, rotate: 0 }} transition={{ type: "spring", stiffness: 200, damping: 10 }} className="grid size-32 place-items-center rounded-full border-4 border-ink bg-sun text-6xl shadow-[5px_5px_0_#2B1B3D]">
+            {pl.emoji}
+          </motion.div>
+          <h2 className="font-display text-4xl font-extrabold">{l(pl.name)}</h2>
+          <p className="text-ink-soft">{t.places.kinds[pl.kind]}{pl.cuisineText ? ` · ${pl.cuisineText}` : ""}</p>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <DistanceTag km={pick.km} />
+            <OpenBadge hours={pl.hours} />
+            <DemoBadge source="osm" />
+          </div>
+          <p className="max-w-md text-sm text-ink-soft">{t.places.noRating}</p>
+          <div className="flex flex-wrap justify-center gap-2 pt-2">
+            <button type="button" className="btn btn-chili" onClick={() => { celebrate("small"); showToast(t.picker.result.decided, "😍"); onClose(); }}>
+              <Heart className="size-5 fill-white" /> {t.picker.result.love}
+            </button>
+            <button type="button" className="btn btn-lagoon" onClick={onAgain}>🎡 {t.picker.result.again}</button>
+            <Link href={`/place/?id=${pl.id}`} className="btn btn-light">
+              <Store className="size-4" /> {t.picker.result.view}
+            </Link>
+            <a href={directionsUrl(pl.lat, pl.lng)} target="_blank" rel="noreferrer" className="btn btn-light">
+              <Navigation className="size-4" /> {t.common.directions}
+            </a>
+          </div>
+        </div>
+      </Sheet>
+    );
+  }
+
   if (pick.kind === "category") {
     const c = pick.category;
     const meals = MEALS.filter((m) => m.category === c.id).slice(0, 4);
@@ -419,7 +470,7 @@ function ResultSheet({ pick, onClose, onAgain, dist, offersByRestaurant, offerBy
               -{offer.percent}%
             </motion.span>
           )}
-          <DemoBadge className="absolute bottom-3 start-3" />
+          <DemoBadge className="absolute bottom-3 start-3" source={r.source} />
         </motion.div>
         <div className="flex flex-col gap-3">
           <motion.h2 initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2 }} className="font-display text-4xl font-extrabold leading-tight">

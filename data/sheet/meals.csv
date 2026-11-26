@@ -1,0 +1,2 @@
+id,status,restaurant_id,name_ar,name_en,description_ar,description_en,category,price_kwd,image_url,emoji,spicy,vegetarian,size,moods,times,editors_pick
+example-smash,draft,example-burger,دبل سماش,Double Smash,قطعتين لحم مع جبن,Two beef patties with cheese,burgers,2.750,https://example.com/smash.jpg,🍔,0,no,regular,"starving,delicious","lunch,dinner,late",yes
