@@ -10,6 +10,8 @@ import { useOffers } from "@/lib/hooks";
 import { celebrate, sfx } from "@/lib/fx";
 import type { CategoryId, Meal } from "@/lib/types";
 import { Container, EmptyState, FavButton, FoodImage, PageHero, RatingBadge } from "@/components/ui";
+import { LiveSoon } from "@/components/LiveSoon";
+import { HAS_MEALS } from "@/data/live";
 
 const BUDGETS = [1, 2, 3, 5, 10];
 
@@ -44,6 +46,16 @@ export function MysteryView() {
     sfx.win();
     celebrate("big");
   };
+
+  if (!HAS_MEALS)
+    return (
+      <>
+        <PageHero title={`🎁 ${t.games.mystery.title}`} subtitle={t.games.mystery.desc} color="#FFD23F" />
+        <Container className="py-10">
+          <LiveSoon />
+        </Container>
+      </>
+    );
 
   return (
     <>

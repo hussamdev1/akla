@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import { Bike, Heart, MapPin, Navigation, RotateCcw, ShoppingBag, SlidersHorizontal, Store, Volume2, VolumeX } from "lucide-react";
 import { CATEGORIES } from "@/data/categories";
 import { MEALS, mealsByRestaurant } from "@/data/meals";
+import { HAS_MEALS } from "@/data/live";
 import { RESTAURANTS, restaurantById } from "@/data/restaurants";
 import { areaById } from "@/data/geo";
 import { useI18n } from "@/lib/i18n";
@@ -24,6 +25,8 @@ const MODES: { id: Mode; e: string }[] = [
   { id: "anything", e: "🎁" }, { id: "meal", e: "🍽️" }, { id: "category", e: "🗂️" }, { id: "restaurant", e: "🏪" },
   { id: "offer", e: "🏷️" }, { id: "cheapest", e: "🪙" }, { id: "rated", e: "⭐" }, { id: "near", e: "📍" },
 ];
+/** Without menus only the real-places mode (OpenStreetMap) has anything to spin. */
+const AVAILABLE_MODES = HAS_MEALS ? MODES : MODES.filter((m) => m.id === "near");
 const SIZES: (MealSize | "any")[] = ["any", "snack", "regular", "large", "family"];
 
 type Filters = {
@@ -52,7 +55,7 @@ function shuffle<T>(arr: T[], seed: number) {
 
 export function PickerView() {
   const { t, l } = useI18n();
-  const [mode, setMode] = useState<Mode>("anything");
+  const [mode, setMode] = useState<Mode>(AVAILABLE_MODES[0].id);
   const [f, setF] = useState<Filters>(DEFAULT);
   const [showFilters, setShowFilters] = useState(false);
   const [seed, setSeed] = useState(1);
@@ -72,7 +75,7 @@ export function PickerView() {
   useEffect(() => {
     const m = new URLSearchParams(window.location.search).get("mode") as Mode | null;
     // eslint-disable-next-line react-hooks/set-state-in-effect -- browser-only value read after hydration (static export)
-    if (m && MODES.some((x) => x.id === m)) setMode(m);
+    if (m && AVAILABLE_MODES.some((x) => x.id === m)) setMode(m);
   }, []);
 
   const offerByMeal = useMemo(() => Object.fromEntries(active.filter((o) => o.mealId).map((o) => [o.mealId!, o])), [active]);
@@ -174,7 +177,7 @@ export function PickerView() {
 
   const filtersPanel = (
     <div className="space-y-5">
-      <div>
+      <div className={HAS_MEALS ? undefined : "hidden"}>
         <h3 className="mb-2 font-bold">{t.picker.budget}</h3>
         <div className="flex items-center gap-2">
           <label className="flex-1 text-sm">
@@ -194,7 +197,7 @@ export function PickerView() {
           ))}
         </div>
       </div>
-      <div>
+      <div className={HAS_MEALS ? undefined : "hidden"}>
         <h3 className="mb-2 font-bold">{t.picker.hunger}</h3>
         <input type="range" min={0} max={4} value={SIZES.indexOf(f.size)} onChange={(e) => setF({ ...f, size: SIZES[Number(e.target.value)] })} className="w-full accent-brand" />
         <div className="flex justify-between text-xs font-semibold text-ink-soft">
@@ -225,7 +228,7 @@ export function PickerView() {
           ))}
         </div>
       </div>
-      <div>
+      <div className={HAS_MEALS ? undefined : "hidden"}>
         <h3 className="mb-2 font-bold">{t.picker.restaurants}</h3>
         <div className="flex flex-wrap gap-1.5">
           {RESTAURANTS.map((r) => (
@@ -241,7 +244,7 @@ export function PickerView() {
         </h3>
         <input type="range" min={1} max={60} value={f.maxKm} onChange={(e) => setF({ ...f, maxKm: Number(e.target.value) })} className="w-full accent-brand" />
       </div>
-      <div>
+      <div className={HAS_MEALS ? undefined : "hidden"}>
         <h3 className="mb-2 font-bold">{t.picker.service}</h3>
         <div className="flex flex-wrap gap-1.5">
           {(["both", "delivery", "dineIn"] as const).map((s) => (
@@ -251,7 +254,7 @@ export function PickerView() {
           ))}
         </div>
       </div>
-      <div>
+      <div className={HAS_MEALS ? undefined : "hidden"}>
         <h3 className="mb-2 font-bold">{t.picker.spice}</h3>
         <div className="flex flex-wrap gap-1.5">
           {(["any", "none", "mild", "hot"] as const).map((s) => (
@@ -261,7 +264,7 @@ export function PickerView() {
           ))}
         </div>
       </div>
-      <div className="space-y-3 rounded-2xl border-2 border-ink bg-white p-3">
+      <div className={cx("space-y-3 rounded-2xl border-2 border-ink bg-white p-3", !HAS_MEALS && "hidden")}>
         <Toggle checked={f.onlyOffers} onChange={(v) => setF({ ...f, onlyOffers: v })} label={`🏷️ ${t.picker.onlyOffers}`} />
         <Toggle checked={f.veg} onChange={(v) => setF({ ...f, veg: v })} label={`🌱 ${t.picker.vegOnly}`} />
       </div>
@@ -292,7 +295,7 @@ export function PickerView() {
           <div>
             <h2 className="mb-2 font-bold">{t.picker.mode}</h2>
             <div className="scroll-row !pb-3">
-              {MODES.map((m) => (
+              {AVAILABLE_MODES.map((m) => (
                 <button
                   key={m.id}
                   type="button"

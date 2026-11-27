@@ -18,6 +18,7 @@ import { OfferCard, RestaurantCard } from "@/components/cards";
 import { Container, cx, DemoBadge, DistanceTag, EmptyState, FavButton, FoodImage, Loader, OpenBadge, RatingBadge, SectionHeader, Toggle } from "@/components/ui";
 import { LocationPill } from "@/components/shell/LocationPicker";
 import type { MapMarker } from "@/components/MapView";
+import { HAS_LISTINGS } from "@/data/live";
 
 const MapView = dynamic(() => import("@/components/MapView").then((m) => m.MapView), { ssr: false, loading: () => <div className="h-full min-h-[24rem] animate-pulse rounded-[1.25rem] bg-ink/10" /> });
 
@@ -170,10 +171,12 @@ export function NearbyView() {
 
       <Container className="py-6">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-          <div className="flex flex-wrap gap-4 rounded-2xl border-2 border-ink bg-white px-4 py-2">
-            <Toggle checked={showDemo} onChange={setShowDemo} label={`🧪 ${t.nearby.layerDemo}`} />
-            <Toggle checked={showOsm} onChange={setShowOsm} label={`🗺️ ${t.nearby.layerOsm}`} />
-          </div>
+          {HAS_LISTINGS && (
+            <div className="flex flex-wrap gap-4 rounded-2xl border-2 border-ink bg-white px-4 py-2">
+              <Toggle checked={showDemo} onChange={setShowDemo} label={`🧪 ${t.nearby.layerDemo}`} />
+              <Toggle checked={showOsm} onChange={setShowOsm} label={`🗺️ ${t.nearby.layerOsm}`} />
+            </div>
+          )}
           <div className="flex rounded-full border-2 border-ink bg-white p-1 lg:hidden">
             {(["map", "list"] as const).map((v) => (
               <button key={v} type="button" onClick={() => setView(v)} className={cx("inline-flex items-center gap-1 rounded-full px-3 py-1 text-sm font-bold", view === v && "bg-ink text-white")}>

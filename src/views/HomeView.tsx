@@ -8,6 +8,7 @@ import { MEALS, mealById } from "@/data/meals";
 import { RESTAURANTS, restaurantById } from "@/data/restaurants";
 import { useI18n } from "@/lib/i18n";
 import { SHOW_DEMO } from "@/data/source";
+import { HAS_MEALS, OSM_COUNT } from "@/data/live";
 import { useDistances, useNow, useOffers } from "@/lib/hooks";
 import { useStore } from "@/lib/store";
 import { mealTimeAt } from "@/lib/time";
@@ -122,20 +123,29 @@ export function HomeView() {
             </motion.form>
 
             <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} className="mt-5 flex flex-wrap gap-3">
-              <a href="#mood" className="btn btn-primary text-lg">
-                <Sparkles className="size-5" /> {t.hero.find}
-              </a>
+              {HAS_MEALS ? (
+                <a href="#mood" className="btn btn-primary text-lg">
+                  <Sparkles className="size-5" /> {t.hero.find}
+                </a>
+              ) : (
+                <Link href="/restaurants/?tab=all" className="btn btn-primary text-lg">
+                  <Sparkles className="size-5" /> {t.places.soonCta(OSM_COUNT)}
+                </Link>
+              )}
               <Link href="/picker/" className="btn btn-lagoon text-lg">
                 <Dices className="size-5" /> {t.hero.spin}
               </Link>
             </motion.div>
 
             <div className="mt-6 flex flex-wrap gap-2 text-sm font-bold">
+              {!RESTAURANTS.length && OSM_COUNT > 0 && (
+                <span className="rounded-full border-2 border-ink bg-[#D9FBEF] px-3 py-1">🗺️ {t.places.count(OSM_COUNT)}</span>
+              )}
               {[
                 [RESTAURANTS.length, t.hero.stats.places, "#FFE3C9"],
                 [MEALS.length, t.hero.stats.meals, "#D9FBEF"],
                 [active.length, t.hero.stats.deals, "#FFD9DC"],
-              ].map(([n, label, bg]) => (
+              ].filter(([n]) => (n as number) > 0).map(([n, label, bg]) => (
                 <span key={label as string} className="rounded-full border-2 border-ink px-3 py-1" style={{ background: bg as string }}>
                   <span className="font-display text-base">{n as number}</span> {label as string}
                 </span>
@@ -146,9 +156,9 @@ export function HomeView() {
 
           {/* Collage */}
           <div className="relative mx-auto h-[22rem] w-full max-w-md sm:h-[26rem]">
-            {HERO_MEALS.map((m, i) => (
-              <HeroPhoto key={m.id} m={m} className={["start-0 top-2 w-[58%] -rotate-6", "end-0 top-10 w-[52%] rotate-6", "bottom-0 start-[18%] w-[54%] rotate-3"][i]} delay={0.2 + i * 0.15} />
-            ))}
+            {HERO_MEALS.length
+              ? HERO_MEALS.map((m, i) => <HeroPhoto key={m.id} m={m} className={HERO_SLOTS[i]} delay={0.2 + i * 0.15} />)
+              : HERO_CATEGORIES.map((c, i) => <HeroCategory key={c.id} c={c} className={HERO_SLOTS[i]} delay={0.2 + i * 0.15} />)}
             <motion.div initial={{ scale: 0, rotate: -90 }} animate={{ scale: 1, rotate: 0 }} transition={{ delay: 0.7, type: "spring" }} className="absolute bottom-6 end-0 z-20">
               <Link href="/picker/" aria-label={t.hero.spin} className="block">
                 <MiniWheel size={124} />
@@ -175,12 +185,14 @@ export function HomeView() {
       </div>
 
       {/* ================= HIGHLIGHTS ================= */}
-      <Container className="py-12">
-        <Reveal>
-          <SectionHeader title={t.home.highlights} subtitle={t.home.highlightsSub} emoji="✨" />
-        </Reveal>
-        <Highlights time={time} />
-      </Container>
+      {HAS_MEALS && (
+        <Container className="py-12">
+          <Reveal>
+            <SectionHeader title={t.home.highlights} subtitle={t.home.highlightsSub} emoji="✨" />
+          </Reveal>
+          <Highlights time={time} />
+        </Container>
+      )}
 
       {/* ================= CATEGORIES ================= */}
       <section className="border-y-2 border-ink bg-white py-12">
@@ -199,7 +211,7 @@ export function HomeView() {
       </section>
 
       {/* ================= MOOD ================= */}
-      <MoodSection />
+      {HAS_MEALS && <MoodSection />}
 
       {/* ================= NEAR YOU ================= */}
       {nearest.length > 0 && (
@@ -221,6 +233,7 @@ export function HomeView() {
       <RealNearRow />
 
       {/* ================= OFFERS ================= */}
+      {bestOffers.length > 0 && (
       <section className="relative overflow-hidden border-y-2 border-ink bg-chili py-12">
         <div className="dots-bg absolute inset-0 opacity-30" />
         <Container className="relative">
@@ -245,16 +258,20 @@ export function HomeView() {
         </Container>
       </section>
 
+      )}
+
       {/* ================= GAMES ================= */}
       <GamesTeaser />
 
       {/* ================= FOR NOW ================= */}
-      <Container className="py-12">
-        <Reveal>
-          <SectionHeader title={time ? t.discover.forNow(t.mealTimes[time]) : t.home.hl.reco} href="/discover/" emoji="⏰" />
-        </Reveal>
-        <ForNow offerFor={offerFor} />
-      </Container>
+      {HAS_MEALS && (
+        <Container className="py-12">
+          <Reveal>
+            <SectionHeader title={time ? t.discover.forNow(t.mealTimes[time]) : t.home.hl.reco} href="/discover/" emoji="⏰" />
+          </Reveal>
+          <ForNow offerFor={offerFor} />
+        </Container>
+      )}
     </div>
   );
 }
@@ -270,6 +287,27 @@ function HeroPhoto({ m, className, delay }: { m: Meal; className: string; delay:
           <div className="flex items-center justify-between gap-2 px-1.5 py-1 text-xs font-bold">
             <span className="truncate">{l(m.name)}</span>
             <span className="shrink-0 text-brand">{price(m.price)}</span>
+          </div>
+        </Link>
+      </Tilt>
+    </motion.div>
+  );
+}
+
+const HERO_SLOTS = ["start-0 top-2 w-[58%] -rotate-6", "end-0 top-10 w-[52%] rotate-6", "bottom-0 start-[18%] w-[54%] rotate-3"];
+
+/** Without real menus the collage shows food categories (stock category photos, no prices) and links to the real places. */
+const HERO_CATEGORIES = ["burgers", "sushi", "desserts"].map((id) => CATEGORIES.find((c) => c.id === id)).filter((c): c is (typeof CATEGORIES)[number] => !!c?.image);
+
+function HeroCategory({ c, className, delay }: { c: (typeof CATEGORIES)[number]; className: string; delay: number }) {
+  const { l } = useI18n();
+  return (
+    <motion.div initial={{ opacity: 0, scale: 0.6, y: 40 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ delay, type: "spring", stiffness: 160 }} className={`absolute z-10 ${className}`}>
+      <Tilt>
+        <Link href="/restaurants/?tab=all" className="sticker block overflow-hidden p-1.5">
+          <FoodImage src={c.image} emoji={c.emoji} alt={l(c.name)} color={c.color} className="aspect-square w-full rounded-[1.1rem]" />
+          <div className="truncate px-1.5 py-1 text-xs font-bold">
+            {c.emoji} {l(c.name)}
           </div>
         </Link>
       </Tilt>
@@ -456,8 +494,12 @@ function MoodSection() {
 function GamesTeaser() {
   const { t } = useI18n();
   const games = [
-    { href: "/games/battle/", e: "⚔️", title: t.games.battle.title, desc: t.games.battle.desc, c: "#F2542D" },
-    { href: "/games/mystery/", e: "🎁", title: t.games.mystery.title, desc: t.games.mystery.desc, c: "#FFD23F" },
+    ...(HAS_MEALS
+      ? [
+          { href: "/games/battle/", e: "⚔️", title: t.games.battle.title, desc: t.games.battle.desc, c: "#F2542D" },
+          { href: "/games/mystery/", e: "🎁", title: t.games.mystery.title, desc: t.games.mystery.desc, c: "#FFD23F" },
+        ]
+      : [{ href: "/picker/", e: "🎡", title: t.picker.title, desc: t.picker.subtitle, c: "#E63462" }]),
     { href: "/games/challenges/", e: "🎯", title: t.games.challenges.title, desc: t.games.challenges.desc, c: "#9BE15D" },
     { href: "/games/group/", e: "👯", title: t.games.group.title, desc: t.games.group.desc, c: "#7DD3FC" },
   ];

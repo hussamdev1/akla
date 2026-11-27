@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useI18n } from "@/lib/i18n";
 import { Logo } from "../Logo";
+import { SHOW_DEMO } from "@/data/source";
 
 export function Footer() {
   const { t } = useI18n();
@@ -29,7 +30,7 @@ export function Footer() {
         </nav>
         <div className="space-y-2 text-sm text-white/75">
           <h3 className="font-display text-lg text-white">{t.footer.data}</h3>
-          <p>🧪 {t.footer.demo}</p>
+          {SHOW_DEMO && <p>🧪 {t.footer.demo}</p>}
           <p>
             📸 {t.footer.credits.split("TheMealDB")[0]}
             <a className="underline" href="https://www.themealdb.com" target="_blank" rel="noreferrer">

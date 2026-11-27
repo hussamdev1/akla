@@ -33,7 +33,7 @@ exported as a static site so it runs free on **GitHub Pages**.
 ## Real data
 - **~1,600 real Kuwait food places from OpenStreetMap**, refreshed automatically on every build (every 6 hours).
 - **Your own listings, menus and offers from a Google Sheet** you edit. Setup guide: [docs/DATA.md](docs/DATA.md).
-- Fictional **demo** content (🧪 badge) shows only until the sheet has published restaurants.
+- Live data only by default. Fictional **demo** content (🧪 badge) is off unless `AKLA_SHOW_DEMO=always` or `auto`.
 
 ## Run locally
 

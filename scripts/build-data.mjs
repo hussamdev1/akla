@@ -293,9 +293,10 @@ async function buildSheet() {
 
 const osm = await buildOsm();
 const sheet = await buildSheet();
-const showDemo = (process.env.AKLA_SHOW_DEMO || "auto").toLowerCase();
+// Live data only by default; set AKLA_SHOW_DEMO=always (or auto) to bring the fictional demo content back.
+const showDemo = (process.env.AKLA_SHOW_DEMO || "never").toLowerCase();
 fs.writeFileSync(
   META_OUT,
-  JSON.stringify({ generatedAt: new Date().toISOString(), showDemo: ["always", "never", "auto"].includes(showDemo) ? showDemo : "auto", osm, sheet: sheet.info }, null, 1),
+  JSON.stringify({ generatedAt: new Date().toISOString(), showDemo: ["always", "never", "auto"].includes(showDemo) ? showDemo : "never", osm, sheet: sheet.info }, null, 1),
 );
 log("done");

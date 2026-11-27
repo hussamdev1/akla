@@ -41,8 +41,9 @@ From [docs/ROADMAP.md](docs/ROADMAP.md):
 - **1,628 real OpenStreetMap places** in `public/data/places.json` (snapshot from 2026-11-26; CI refreshes it on every deploy).
 - **0 published Google Sheet rows.** `gh variable list -R hussamdev1/akla` showed **no repository variables**, so
   `AKLA_SHEET_ID` appears unset and builds read the local templates in `data/sheet/*.csv` (all rows `draft`).
-- Because the sheet is empty, the **fictional demo data** (20 restaurants, their meals and offers, 🧪 badge, header
-  banner) is shown. It disappears automatically once one sheet restaurant is published.
+- **Live data only** (`AKLA_SHOW_DEMO` defaults to `never`): the site shows the real OpenStreetMap places. Because the
+  sheet is empty, menu/offer features show a "coming soon" card that links to the real places, and the picker spins
+  real nearby places. The fictional demo data (20 restaurants, meals, offers) is still in the code for `always`/`auto`.
 
 **In progress elsewhere:** a separate session is doing a **responsive-layout pass** on its own branch. Expect changes to
 views and shell components; check open branches/PRs before starting layout work.
@@ -82,7 +83,7 @@ All are optional; there are no secrets.
 | Variable | Where it's set | Effect |
 |---|---|---|
 | `AKLA_SHEET_ID` | GitHub → Settings → Secrets and variables → Actions → **Variables** (read by the workflow); or your shell locally | ID of the Google Sheet (shared "Anyone with the link → Viewer"). Unset → reads `data/sheet/*.csv`. See [DATA.md §1](docs/DATA.md). |
-| `AKLA_SHOW_DEMO` | Same | `auto` (default): demo data only while the sheet has no published restaurants. `always` / `never` force it. |
+| `AKLA_SHOW_DEMO` | Same | `never` (default): live data only. `auto`: demo data while the sheet has no published restaurants. `always`: demo on. |
 | `NEXT_PUBLIC_BASE_PATH` | Hard-coded in the workflow as `/${{ github.event.repository.name }}`; empty locally | URL prefix for GitHub Pages project sites. **Remove it** for a custom domain or a `<user>.github.io` repo. Raw `fetch` URLs must use `BASE_PATH` from `src/lib/img.ts`. |
 | `AKLA_SHEET_DIR` | Shell (rarely needed) | Alternative folder of CSVs instead of `data/sheet/`. |
 
@@ -137,7 +138,7 @@ These need an owner's call before the next phases:
    in Phase 5? Who maintains listings and verifies offers?
 2. **Backend.** The roadmap assumes Supabase (Auth, Realtime, Storage) for Phase 4. Leaving pure static hosting means
    choosing where it runs and how auth works with the static export.
-3. **Demo data at launch.** Keep `auto`, or set `AKLA_SHOW_DEMO=never` once there are enough real listings?
+3. **Demo data at launch.** Decided: demo is off (`never`) by default; real listings come from the Google Sheet.
 4. **Domain.** Custom domain vs. `hussamdev1.github.io/akla` (affects `NEXT_PUBLIC_BASE_PATH`).
 5. **Delivery apps.** Link-out only (`order_url`) for now; affiliate/partner feeds are a Phase 7 business decision
    (see [DATA.md §4](docs/DATA.md) and [APIS.md](docs/APIS.md)).

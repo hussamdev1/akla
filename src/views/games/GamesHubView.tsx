@@ -5,14 +5,19 @@ import { useI18n } from "@/lib/i18n";
 import { ACHIEVEMENTS, achievementProgress, useStore } from "@/lib/store";
 import { Container, PageHero, Reveal, SectionHeader, Tilt } from "@/components/ui";
 import { AchievementBadge } from "@/views/ProfileView";
+import { HAS_MEALS } from "@/data/live";
 
 export function GamesHubView() {
   const { t } = useI18n();
   const state = useStore();
   const prog = achievementProgress(state);
   const games = [
-    { href: "/games/battle/", e: "⚔️", title: t.games.battle.title, desc: t.games.battle.desc, c: "#F2542D" },
-    { href: "/games/mystery/", e: "🎁", title: t.games.mystery.title, desc: t.games.mystery.desc, c: "#FFD23F" },
+    ...(HAS_MEALS
+      ? [
+          { href: "/games/battle/", e: "⚔️", title: t.games.battle.title, desc: t.games.battle.desc, c: "#F2542D" },
+          { href: "/games/mystery/", e: "🎁", title: t.games.mystery.title, desc: t.games.mystery.desc, c: "#FFD23F" },
+        ]
+      : []),
     { href: "/games/challenges/", e: "🎯", title: t.games.challenges.title, desc: t.games.challenges.desc, c: "#9BE15D" },
     { href: "/games/group/", e: "👯", title: t.games.group.title, desc: t.games.group.desc, c: "#7DD3FC" },
     { href: "/picker/", e: "🎡", title: t.picker.title, desc: t.picker.subtitle, c: "#E63462" },

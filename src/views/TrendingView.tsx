@@ -11,6 +11,8 @@ import { useDistances, useMounted, useOffers } from "@/lib/hooks";
 import { useStore } from "@/lib/store";
 import { MealCard, RestaurantCard } from "@/components/cards";
 import { Container, FoodImage, PageHero, RatingBadge, Reveal, SectionHeader } from "@/components/ui";
+import { LiveSoon } from "@/components/LiveSoon";
+import { HAS_LISTINGS } from "@/data/live";
 
 function Note({ children, tone = "#FFF7CC" }: { children: React.ReactNode; tone?: string }) {
   return (
@@ -33,6 +35,16 @@ export function TrendingView() {
   const topRated = [...RESTAURANTS].filter((r) => r.rating).sort((a, b) => b.rating! - a.rating!).slice(0, 5);
   const newest = RESTAURANTS.filter((r) => r.isNew);
   const yourTop = useMemo(() => (mounted ? Object.entries(views).sort((a, b) => b[1] - a[1]).slice(0, 5) : []), [views, mounted]);
+
+  if (!HAS_LISTINGS)
+    return (
+      <>
+        <PageHero title={t.trending.title} subtitle={t.trending.subtitle} emoji="🔥" color="#E63462" />
+        <Container className="py-10">
+          <LiveSoon />
+        </Container>
+      </>
+    );
 
   return (
     <>

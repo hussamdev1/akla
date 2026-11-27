@@ -10,6 +10,8 @@ import { useI18n } from "@/lib/i18n";
 import { useDistances, useOffers } from "@/lib/hooks";
 import type { CategoryId, MealSize } from "@/lib/types";
 import { Container, cx, FoodImage, PageHero, RatingBadge } from "@/components/ui";
+import { LiveSoon } from "@/components/LiveSoon";
+import { HAS_MEALS } from "@/data/live";
 
 const SERVES: Record<MealSize, number> = { snack: 0.5, regular: 1, large: 1.5, family: 4 };
 
@@ -51,6 +53,16 @@ export function CompareView() {
       {rows.map((r) => <td key={r.m.id} className={cx("p-3 text-center font-semibold", best?.m.id === r.m.id && "bg-lime/15")}>{render(r)}</td>)}
     </tr>
   );
+
+  if (!HAS_MEALS)
+    return (
+      <>
+        <PageHero title={t.compare.title} subtitle={t.compare.subtitle} emoji="⚖️" color="#E9B5FF" />
+        <Container className="py-10">
+          <LiveSoon />
+        </Container>
+      </>
+    );
 
   return (
     <>

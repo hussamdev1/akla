@@ -4,6 +4,8 @@ import { AnimatePresence, motion } from "motion/react";
 import { Users } from "lucide-react";
 import { CATEGORIES, categoryById } from "@/data/categories";
 import { MEALS } from "@/data/meals";
+import { HAS_MEALS } from "@/data/live";
+import { LiveSoon } from "@/components/LiveSoon";
 import { restaurantById } from "@/data/restaurants";
 import { useI18n } from "@/lib/i18n";
 import { useDistances, useNow, useOffers } from "@/lib/hooks";
@@ -83,6 +85,16 @@ export function DiscoverView() {
   }, [budget, bmode, offerFor]);
 
   const presets = [1, 2, 3, 5, 10];
+
+  if (!HAS_MEALS)
+    return (
+      <>
+        <PageHero title={t.discover.title} subtitle={t.discover.subtitle} emoji="🧭" color="#9BE15D" />
+        <Container className="py-10">
+          <LiveSoon />
+        </Container>
+      </>
+    );
 
   return (
     <>

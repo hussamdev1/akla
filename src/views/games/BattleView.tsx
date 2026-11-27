@@ -10,6 +10,8 @@ import { useStore } from "@/lib/store";
 import { celebrate, sfx } from "@/lib/fx";
 import type { Meal } from "@/lib/types";
 import { Container, FavButton, FoodImage, PageHero } from "@/components/ui";
+import { LiveSoon } from "@/components/LiveSoon";
+import { HAS_MEALS } from "@/data/live";
 
 function drawEight(): Meal[] {
   const byCat = new Map<string, Meal[]>();
@@ -113,6 +115,16 @@ export function BattleView() {
       </motion.button>
     );
   };
+
+  if (!HAS_MEALS)
+    return (
+      <>
+        <PageHero title={`⚔️ ${t.games.battle.title}`} subtitle={t.games.battle.desc} color="#F2542D" />
+        <Container className="py-10">
+          <LiveSoon />
+        </Container>
+      </>
+    );
 
   return (
     <>

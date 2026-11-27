@@ -12,6 +12,7 @@ import { useStore } from "@/lib/store";
 import type { Offer, OfferType } from "@/lib/types";
 import { OfferCard } from "@/components/cards";
 import { Container, Countdown, cx, EmptyState, PageHero, Sheet, Toggle } from "@/components/ui";
+import { LiveSoon } from "@/components/LiveSoon";
 
 type Cat = "all" | "best" | "bogo" | "u2" | "u3" | "u5" | "family" | "burger" | "pizza" | "chicken" | "lunch" | "dinner" | "delivery" | "exclusive";
 const CAT_EMOJI: Record<Cat, string> = { all: "✨", best: "💥", bogo: "🎁", u2: "🪙", u3: "💵", u5: "💰", family: "👨‍👩‍👧", burger: "🍔", pizza: "🍕", chicken: "🍗", lunch: "🍱", dinner: "🌙", delivery: "🛵", exclusive: "💎" };
@@ -122,6 +123,16 @@ export function OffersView() {
       </button>
     </div>
   );
+
+  if (!active.length && !upcoming.length && !expired.length)
+    return (
+      <>
+        <PageHero title={t.offersPage.title} subtitle={t.offersPage.subtitle} emoji="🏷️" color="#F2542D" />
+        <Container className="py-10">
+          <LiveSoon />
+        </Container>
+      </>
+    );
 
   return (
     <>

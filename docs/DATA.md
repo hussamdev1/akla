@@ -67,8 +67,10 @@ The example rows in the templates are `draft`, so they never appear.
 Expired offers disappear automatically: the visitor's browser checks the time live, and every rebuild checks it again.
 
 ## 3. Demo data switch
-By default demo content disappears as soon as your sheet has at least one published restaurant.
-To force it, add a repository variable `AKLA_SHOW_DEMO` with the value `always` or `never`.
+By default Akla shows **live data only** (`never`): real OpenStreetMap places plus published sheet rows.
+Features that need menus or offers (offers, discover, trending, compare, battle, mystery) show a "coming soon" card
+pointing to the real places until the sheet has published rows. To bring the fictional demo content back (e.g. for a
+preview), add a repository variable `AKLA_SHOW_DEMO` with `always`, or `auto` (demo only while the sheet is empty).
 
 ## 4. About talabat, Keeta, Deliveroo and Cari
 They have **no public API**, and copying their menus, prices or photos automatically goes against their terms

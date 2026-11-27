@@ -86,6 +86,8 @@ const en = {
     days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], closedDay: "Closed", contact: "Contact", noOffers: "No live offers right now.",
   },
   places: {
+    soonTitle: "Real menus and offers are coming", soonBody: "Akla only shows live data. Restaurants are being added one by one — until then, browse the real places around you.",
+    soonCta: (n: number) => `Browse ${n.toLocaleString("en")} real places`, count: (n: number) => `${n.toLocaleString("en")} real places`,
     title: "Real places in Kuwait", subtitle: (n: number) => `${n.toLocaleString("en")} restaurants, cafés and fast-food spots from OpenStreetMap`,
     tabListings: "Akla listings", tabAll: (n: number) => `All real places (${n.toLocaleString("en")})`, loadMore: "Show more",
     badge: "OpenStreetMap", noRating: "Real place from OpenStreetMap — no ratings, prices or offers yet.", hoursRaw: "Hours as published",
@@ -245,6 +247,8 @@ const ar: Messages = {
     days: ["الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"], closedDay: "مسكّر", contact: "التواصل", noOffers: "ما في عروض شغّالة حالياً.",
   },
   places: {
+    soonTitle: "المنيو والعروض الحقيقية جاية قريب", soonBody: "أكلة تعرض بس بيانات حقيقية. قاعدين نضيف المطاعم وحدة وحدة — لين ذاك الوقت تصفّح الأماكن الحقيقية اللي حولك.",
+    soonCta: (n: number) => `تصفّح ${n.toLocaleString("en")} مكان حقيقي`, count: (n: number) => `${n.toLocaleString("en")} مكان حقيقي`,
     title: "أماكن حقيقية في الكويت", subtitle: (n) => `${n.toLocaleString("en")} مطعم وكافيه ووجبات سريعة من OpenStreetMap`,
     tabListings: "قوائم أكلة", tabAll: (n) => `كل الأماكن الحقيقية (${n.toLocaleString("en")})`, loadMore: "عرض المزيد",
     badge: "OpenStreetMap", noRating: "مكان حقيقي من OpenStreetMap — ما في تقييمات أو أسعار أو عروض للحين.", hoursRaw: "الأوقات كما هي منشورة",
