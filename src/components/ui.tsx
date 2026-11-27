@@ -127,16 +127,10 @@ export function FoodImage({ src, emoji, alt, size = "medium", className, color =
 
 /* ---------- Badges ---------- */
 
-/** Shows where data comes from: 🧪 demo, 🗺️ OpenStreetMap. Real partner listings need no badge. */
+/** Marks fictional sample content (demo mode only). Map places and partner listings need no badge. */
 export function DemoBadge({ className, source = "demo" }: { className?: string; source?: "demo" | "osm" | "partner" | "community" }) {
   const { t } = useI18n();
-  if (source === "partner" || source === "community") return null;
-  if (source === "osm")
-    return (
-      <span className={cx("inline-flex items-center gap-1 rounded-full border border-lagoon/40 bg-white/90 px-2 py-0.5 text-[11px] font-bold text-lagoon backdrop-blur", className)}>
-        🗺️ {t.places.badge}
-      </span>
-    );
+  if (source !== "demo") return null;
   return (
     <span title={t.common.demoData} className={cx("inline-flex items-center gap-1 rounded-full border border-ink/30 bg-white/90 px-2 py-0.5 text-[11px] font-bold text-ink-soft backdrop-blur", className)}>
       <FlaskConical className="size-3" /> {t.common.demo}

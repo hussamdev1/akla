@@ -20,7 +20,7 @@ exported as a static site so it runs free on **GitHub Pages**.
 |---|---|---|
 | Home hub | `/` | Animated hero, floating food, time-aware greeting, highlights with live countdowns, 23 categories, mood picker, near you, best offers, games |
 | Food Roulette | `/picker` | 8 modes, 10 filters, wind-up + deceleration physics, tick sounds, confetti, full result screen |
-| Offers | `/offers` | 13 deal categories, 7 sorts, filters, Verified vs Community, expired deals never shown as active |
+| Offers | `/offers` | 13 deal categories, 7 sorts, filters, Confirmed-by-restaurant vs From-a-user, expired offers never shown as active |
 | Restaurants | `/restaurants`, `/restaurants/[id]` | Searchable directory + profile pages (hours with honest open/closed in Kuwait time, map, menu, offers, similar, report) |
 | Nearby | `/nearby` | Leaflet map + list, GPS or area picker, walking/driving radius, **real places from OpenStreetMap** |
 | Discover | `/discover` | Browse meals by category, meal time and mood + **budget planner** (per-head & group totals) |

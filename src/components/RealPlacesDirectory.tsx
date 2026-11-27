@@ -17,8 +17,8 @@ import { EmptyState, Loader, Toggle } from "./ui";
 const PAGE = 30;
 
 export function RealPlacesDirectory() {
-  const { t, l, date } = useI18n();
-  const { status, places, fetchedAt, live, radiusKm, retry } = usePlaces();
+  const { t, l } = useI18n();
+  const { status, places, retry } = usePlaces();
   const loc = useStore((s) => s.location);
   const country = useStore((s) => s.country);
   const regions = regionsIn(country);
@@ -44,16 +44,11 @@ export function RealPlacesDirectory() {
       .sort((a, b) => a.d - b.d);
   }, [places, q, cat, gov, openNow, now, me]);
 
-  if (status === "loading") return <Loader label={live ? t.nearby.osmLoading : t.places.loading} />;
+  if (status === "loading") return <Loader label={t.places.loading} />;
   if (status === "error") return <EmptyState title={t.nearby.osmError} action={<button type="button" className="btn btn-primary" onClick={retry}>{t.region.retry}</button>} />;
 
   return (
     <div>
-      <p className="mb-4 rounded-2xl border-2 border-lagoon/40 bg-lagoon/10 p-3 text-sm font-semibold">
-        🗺️ {t.places.subtitle(places.length)}. {t.places.noRating}
-        {live && <span> {t.region.liveNote}{radiusKm ? ` (≤ ${radiusKm} ${t.common.km})` : ""}</span>}
-        {fetchedAt && <span className="text-ink-soft" suppressHydrationWarning> · {t.places.snapshot(date(fetchedAt))}</span>}
-      </p>
       <div className="mb-4 grid gap-3 md:grid-cols-[1fr_auto_auto] md:items-center">
         <label className="relative">
           <Search className="absolute start-3 top-1/2 size-5 -translate-y-1/2 text-ink-soft" />

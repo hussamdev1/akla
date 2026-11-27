@@ -204,7 +204,7 @@ export function RestaurantView({ id }: { id: string }) {
           <div className="sticker p-3">
             <h2 className="mb-3 px-2 font-display text-xl font-bold">📍 {t.restaurant.location}</h2>
             <MapView center={{ lat: r.lat, lng: r.lng }} zoom={14} markers={[{ id: r.id, lat: r.lat, lng: r.lng, emoji: r.emoji, color: r.brand, label: l(r.name) }]} className="h-64" />
-            <p className="px-2 pt-2 text-xs text-ink-soft">{area ? `${l(area.name)} · ` : ""}{t.common.demoData}</p>
+            {area && <p className="px-2 pt-2 text-xs text-ink-soft">{l(area.name)}</p>}
           </div>
           {r.phone && (
             <div className="sticker p-5">
@@ -239,7 +239,7 @@ export function RestaurantView({ id }: { id: string }) {
               <input type="checkbox" className="size-5 accent-brand" /> {x}
             </label>
           ))}
-          <textarea className="input min-h-24" placeholder="…" />
+          <textarea className="input min-h-24" placeholder={t.restaurant.reportPh} aria-label={t.restaurant.reportPh} />
           <button className="btn btn-primary w-full">{t.common.report}</button>
         </form>
       </Sheet>

@@ -14,16 +14,16 @@ import { directionsUrl, haversineKm, locationPoint } from "@/lib/geo";
 import { localParts } from "@/lib/time";
 import { loadPlaceById, osmUrl, usePlaces, type Place } from "@/lib/places";
 import { PlaceCard } from "@/components/cards";
-import { Container, cx, DemoBadge, DistanceTag, EmptyState, Loader, OpenBadge, SectionHeader } from "@/components/ui";
+import { Container, cx, DistanceTag, EmptyState, Loader, OpenBadge, SectionHeader } from "@/components/ui";
 import { QueryParam } from "@/components/QueryParam";
 
 const MapView = dynamic(() => import("@/components/MapView").then((m) => m.MapView), { ssr: false, loading: () => <div className="h-72 animate-pulse rounded-[1.25rem] bg-ink/10" /> });
 
 export function PlaceView() {
-  const { t, l, clock, date, locale } = useI18n();
+  const { t, l, clock, locale } = useI18n();
   const [id, setId] = useState<string | null>(null);
   const onId = useCallback((v: string | null) => setId(v), []);
-  const { status, places, fetchedAt } = usePlaces();
+  const { status, places } = usePlaces();
   const loc = useStore((s) => s.location);
   const country = useStore((s) => s.country);
   const me = useMemo(() => locationPoint(loc, country), [loc, country]);
@@ -54,6 +54,11 @@ export function PlaceView() {
         : [],
     [p, places],
   );
+  // The static page title is generic ("Place"); show the place's name once it's known.
+  const placeName = p ? l(p.name) : null;
+  useEffect(() => {
+    if (placeName) document.title = `${placeName} · ${t.brand.name}`;
+  }, [placeName, t.brand.name]);
 
   return (
     <>
@@ -74,7 +79,6 @@ export function PlaceView() {
                 </motion.span>
                 <div className="min-w-0">
                   <div className="mb-1 flex flex-wrap gap-2">
-                    <DemoBadge source="osm" />
                     <span className="rounded-full bg-white px-2 py-0.5 text-xs font-bold">{t.places.kinds[p.kind]}</span>
                   </div>
                   <h1 className="font-display text-4xl font-extrabold leading-tight sm:text-5xl">{l(p.name)}</h1>
@@ -100,11 +104,11 @@ export function PlaceView() {
               <MapView center={{ lat: p.lat, lng: p.lng }} zoom={16} markers={[{ id: p.id, lat: p.lat, lng: p.lng, emoji: p.emoji, color: "#FFD23F", label: l(p.name) }]} className="h-72" />
               <div className="sticker space-y-2 p-5">
                 <p className="font-semibold">ℹ️ {t.places.noRating}</p>
-                <p className="text-sm text-ink-soft">
-                  {t.places.cuisine}: {p.cuisineText ?? t.places.unknownCuisine}
-                  {p.vegetarian && ` · 🌱 ${t.places.veg}`}
-                  {p.delivery && ` · 🛵 ${t.places.delivery}`}
-                </p>
+                {(p.cuisineText || p.vegetarian || p.delivery) && (
+                  <p className="text-sm text-ink-soft">
+                    {[p.cuisineText && `${t.places.cuisine}: ${p.cuisineText}`, p.vegetarian && `🌱 ${t.places.veg}`, p.delivery && `🛵 ${t.places.delivery}`].filter(Boolean).join(" · ")}
+                  </p>
+                )}
                 {p.categories.length > 0 && (
                   <div className="flex flex-wrap gap-2 pt-1">
                     {p.categories.map((c) => (
@@ -137,22 +141,16 @@ export function PlaceView() {
                 ) : (
                   <p className="text-sm font-semibold text-ink-soft">{t.common.hoursUnknown}</p>
                 )}
-                {p.hoursText && !p.hours && (
-                  <p className="mt-2 text-xs text-ink-soft">
-                    {t.places.hoursRaw}: <span dir="ltr">{p.hoursText}</span>
-                  </p>
-                )}
               </div>
               <a href={osmUrl(p.id)} target="_blank" rel="noreferrer" className="btn btn-light btn-sm w-full">
                 <Flag className="size-4" /> {t.places.editOsm} <ExternalLink className="size-3.5" />
               </a>
-              {fetchedAt && <p className="text-center text-xs text-ink-soft" suppressHydrationWarning>{t.places.snapshot(date(fetchedAt))}</p>}
             </aside>
           </Container>
 
           {nearby.length > 0 && (
             <Container className="pb-8">
-              <SectionHeader title={t.restaurant.similar} emoji="🔁" href="/restaurants/?tab=all" />
+              <SectionHeader title={t.places.moreNearby} emoji="🔁" href="/restaurants/?tab=all" />
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {nearby.map(({ x }) => <PlaceCard key={x.id} p={x} km={haversineKm(me, x)} />)}
               </div>

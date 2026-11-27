@@ -3,6 +3,7 @@ import { useImperativeHandle, useRef, useState, type Ref } from "react";
 import { animate, motion, useMotionValue, useMotionValueEvent } from "motion/react";
 import { sfx } from "@/lib/fx";
 import { usePrefersReducedMotion } from "@/lib/hooks";
+import { useI18n } from "@/lib/i18n";
 import { CATEGORIES } from "@/data/categories";
 import { Lugma } from "./Logo";
 
@@ -35,6 +36,7 @@ export function Wheel({ items, onResult, onStart, disabled, ref }: { items: Whee
   const [spinning, setSpinning] = useState(false);
   const lastSeg = useRef(-1);
   const reduced = usePrefersReducedMotion();
+  const { t } = useI18n();
   const n = Math.max(items.length, 1);
   const seg = 360 / n;
   const R = 200;
@@ -84,7 +86,7 @@ export function Wheel({ items, onResult, onStart, disabled, ref }: { items: Whee
           <circle cx="27" cy="22" r="8" fill="white" stroke="#2B1B3D" strokeWidth="3" />
         </svg>
       </motion.div>
-      <svg viewBox="-220 -220 440 440" className="relative size-full drop-shadow-[6px_6px_0_#2B1B3D]" role="img" aria-label="Food wheel">
+      <svg viewBox="-220 -220 440 440" className="relative size-full drop-shadow-[6px_6px_0_#2B1B3D]" role="img" aria-label={t.picker.title}>
         <circle r="216" fill="#2B1B3D" />
         <circle r="208" fill="#FFF8EE" />
         {/* rim lights */}
@@ -125,7 +127,7 @@ export function Wheel({ items, onResult, onStart, disabled, ref }: { items: Whee
         onClick={spin}
         disabled={spinning || disabled}
         className="absolute left-1/2 top-1/2 z-10 grid size-[22%] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full transition-transform hover:scale-105 active:scale-95 disabled:cursor-wait"
-        aria-label="Spin"
+        aria-label={t.nav.spin}
       >
         <motion.span animate={spinning ? { rotate: [0, -10, 10, 0] } : {}} transition={{ repeat: Infinity, duration: 0.4 }}>
           <Lugma size={72} mood={spinning ? "wow" : "happy"} />

@@ -256,7 +256,7 @@ export function MiniMealRow({ m, right }: { m: Meal; right?: React.ReactNode }) 
   );
 }
 
-/** Card for a real OpenStreetMap place (no prices / ratings / offers — and we say so). */
+/** Card for a map place (OpenStreetMap data: no prices / ratings / offers). */
 export function PlaceCard({ p, km, className }: { p: import("@/lib/places").Place; km?: number; className?: string }) {
   const { l, t } = useI18n();
   const cat = p.categories[0] ? categoryById(p.categories[0]) : undefined;
@@ -273,7 +273,6 @@ export function PlaceCard({ p, km, className }: { p: import("@/lib/places").Plac
         </p>
         <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
           <DistanceTag km={km} />
-          <DemoBadge source="osm" />
         </div>
         <OpenBadge hours={p.hours} />
       </div>

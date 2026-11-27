@@ -252,7 +252,7 @@ function SubmitOffer({ open, onClose }: { open: boolean; onClose: () => void }) 
           {RESTAURANTS.map((r) => <option key={r.id} value={r.id}>{l(r.name)}</option>)}
         </select>
         <input required className="input" placeholder={t.offersPage.cats} />
-        <input className="input" type="url" placeholder="https://instagram.com/…" />
+        <input className="input" type="url" placeholder={t.offersPage.link} aria-label={t.offersPage.link} />
         <input className="input" type="date" aria-label={t.offersPage.expires} />
         <button className="btn btn-primary w-full">
           <Send className="size-4" /> {t.offersPage.submit}

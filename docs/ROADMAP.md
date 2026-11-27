@@ -15,7 +15,7 @@ Legend: ✅ done in this build · 🟡 partial · ⬜ planned
 - ✅ "Sticker Pop" design system: tokens, cards, chips, badges, buttons, empty states, loaders
 - ✅ App shell: desktop header, **mobile bottom nav**, global search (⌘/Ctrl+K), location picker
 - ✅ Accessibility: reduced‑motion (system + manual), sound toggle, focus rings, semantic HTML
-- ✅ Trust layer: Demo / Verified / Community / OSM badges, "last updated", expired-offer filtering
+- ✅ Trust layer: Sample / Confirmed by the restaurant / From a user labels, "last updated", expired-offer filtering
 
 ## Phase 1 — Core discovery MVP ✅
 - ✅ **Home hub**: animated hero, floating food, photo collage, search + location, Find My Meal / Spin
@@ -55,7 +55,7 @@ Legend: ✅ done in this build · 🟡 partial · ⬜ planned
 
 ## Phase 5 — Admin & restaurant portal ⬜
 - Admin CMS: restaurants, categories, meals, offers (with expiry), featuring, users, reports
-- Approve community offers → "Verified"; "Report incorrect info" pipeline
+- Approve community offers → "Verified"; "Report wrong info" pipeline
 - Analytics: popular restaurants/categories, picker selections, engagement funnels
 - Restaurant self‑service portal (claim listing, post offers, see insights)
 

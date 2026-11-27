@@ -99,7 +99,7 @@ export function CompareView() {
                 <AnimatePresence>
                   {rows.map((r) => (
                     <motion.th key={r.m.id} initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className={cx("relative p-3 align-top", best?.m.id === r.m.id && "bg-lime/15")}>
-                      <button type="button" onClick={() => setIds(ids.filter((x) => x !== r.m.id))} className="absolute end-2 top-2 z-10 grid size-7 place-items-center rounded-full border-2 border-ink bg-white" aria-label="remove"><X className="size-3.5" /></button>
+                      <button type="button" onClick={() => setIds(ids.filter((x) => x !== r.m.id))} className="absolute end-2 top-2 z-10 grid size-7 place-items-center rounded-full border-2 border-ink bg-white" aria-label={t.common.remove}><X className="size-3.5" /></button>
                       {best?.m.id === r.m.id && (
                         <motion.span initial={{ scale: 0 }} animate={{ scale: 1, rotate: -8 }} className="absolute start-2 top-2 z-10 inline-flex items-center gap-1 rounded-full border-2 border-ink bg-lime px-2 py-0.5 text-xs font-extrabold">
                           <Trophy className="size-3.5" /> {t.compare.bestValue}
@@ -127,7 +127,7 @@ export function CompareView() {
           </table>
           {!rows.length && <p className="p-8 text-center font-semibold text-ink-soft">{t.compare.add}</p>}
         </div>
-        <p className="mt-3 text-xs font-semibold text-ink-soft">ℹ️ {t.common.mealPriceOnly} · {t.common.demoData}</p>
+        <p className="mt-3 text-xs font-semibold text-ink-soft">ℹ️ {t.common.mealPriceOnly}</p>
       </Container>
     </>
   );

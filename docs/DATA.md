@@ -5,9 +5,9 @@ static files: no server and no API keys in the browser.
 
 | Source | What it gives | Badge in the app | Where it shows |
 |---|---|---|---|
-| **OpenStreetMap** (automatic) | Real restaurants, cafés and fast-food places — a build-time snapshot for Kuwait, Saudi Arabia, UAE, Qatar, Bahrain and Oman (`public/data/places/<ISO2>.json`), loaded live around the user everywhere else: names, location, cuisine, opening hours, phone, website | 🗺️ OpenStreetMap | Restaurants → *All real places*, Nearby map, Food Picker *Real restaurant near me*, Home *Real places near you*, search, `/place` pages |
+| **OpenStreetMap** (automatic) | Real restaurants, cafés and fast-food places — a build-time snapshot for Kuwait, Saudi Arabia, UAE, Qatar, Bahrain and Oman (`public/data/places/<ISO2>.json`), loaded live around the user everywhere else: names, location, cuisine, opening hours, phone, website | none (credited in the footer and on maps) | Restaurants → *All places*, Nearby map, Food Picker *A place near me*, Home *Places near you*, search, `/place` pages |
 | **Your Google Sheet** (you manage it) | Restaurants you list, with menus, prices, photos, offers, delivery-app links | none (real listing) | Everywhere: home, picker, offers, restaurant pages, games |
-| **Demo data** (built-in) | Fictional sample content | 🧪 Demo | Only while your sheet has **no** published restaurants |
+| **Demo data** (built-in) | Fictional sample content | “Sample” | Only while your sheet has **no** published restaurants |
 
 The GitHub Action rebuilds the site **on every push and every 6 hours**, so sheet edits and OpenStreetMap updates go
 live automatically. To publish right away, go to **Actions → Deploy Akla to GitHub Pages → Run workflow**.

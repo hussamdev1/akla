@@ -179,7 +179,7 @@ export function FavoritesView() {
                     <div key={it.kind + it.id} className="flex items-center gap-3 rounded-2xl border-2 border-ink bg-white p-2">
                       <FoodImage src={lab[2]} emoji={lab[0]} alt="" size="small" className="size-12 shrink-0 rounded-xl border-2 border-ink" />
                       <span className="min-w-0 flex-1 truncate font-bold">{lab[1]}</span>
-                      <button type="button" onClick={() => toggleIn(col.id, it.kind, it.id)} aria-label="remove" className="grid size-10 shrink-0 place-items-center rounded-full"><Trash2 className="size-4 text-chili" /></button>
+                      <button type="button" onClick={() => toggleIn(col.id, it.kind, it.id)} aria-label={t.common.remove} className="grid size-10 shrink-0 place-items-center rounded-full"><Trash2 className="size-4 text-chili" /></button>
                     </div>
                   ) : null;
                 })}

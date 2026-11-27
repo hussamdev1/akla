@@ -75,8 +75,11 @@ Category cards keep their own soft food tints so the 23 categories stay easy to 
 Gulf‑friendly Arabic for headlines and buttons, clear Modern Standard Arabic for terms, prices and legal text.
 
 ## 8. Trust marks (part of the brand)
-- 🟢 **Verified** — offer checked against the restaurant's official source.
-- 🟡 **Community** — submitted by users, not yet verified.
-- 🧪 **Demo data** — sample content while live integrations are not connected.
-- 🗺️ **OpenStreetMap** — real place data from OSM contributors (no ratings invented).
-- Every price/offer shows "last updated"; expired offers never show as active.
+Say it the way a visitor would — no data-pipeline words ("live data", "snapshot", "OSM", "demo data") and no
+selling with «حقيقي» / "real". Honesty shows through what we *don't* show (no invented ratings, prices or offers).
+- 🟢 **Confirmed by the restaurant · مؤكد من المطعم** — offer checked against the restaurant's official source.
+- 🟡 **From a user · من مستخدم** — shared by a visitor, not yet confirmed by the restaurant.
+- **Sample · مثال** — fictional preview content; only appears when demo mode is switched on.
+- Map places (OpenStreetMap) carry no badge. Attribution «© OpenStreetMap contributors» lives once in the footer and on
+  each map, as the ODbL licence requires.
+- Prices show when they were last checked; expired offers never show as active; unknown hours say "Hours not available".

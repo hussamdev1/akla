@@ -3,14 +3,14 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { Crosshair, ExternalLink, Globe, List, Map as MapIcon, Navigation, Phone, X } from "lucide-react";
+import { Crosshair, Globe, List, Map as MapIcon, Navigation, Phone, X } from "lucide-react";
 import { CATEGORIES } from "@/data/categories";
 import { useI18n } from "@/lib/i18n";
 import { useDistances, useLive, useMeals, useNow, useOffers, useRestaurants } from "@/lib/hooks";
 import { useStore } from "@/lib/store";
 import { directionsUrl, haversineKm, locationPoint } from "@/lib/geo";
 import { openState } from "@/lib/time";
-import { osmUrl, usePlaces } from "@/lib/places";
+import { usePlaces } from "@/lib/places";
 import type { CategoryId } from "@/lib/types";
 import { OfferCard, RestaurantCard } from "@/components/cards";
 import { Container, cx, DemoBadge, DistanceTag, EmptyState, FavButton, FoodImage, Loader, OpenBadge, RatingBadge, SectionHeader, Toggle } from "@/components/ui";
@@ -173,7 +173,7 @@ export function NearbyView() {
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           {HAS_LISTINGS && (
             <div className="flex flex-wrap gap-4 rounded-2xl border-2 border-ink bg-white px-4 py-2">
-              <Toggle checked={showDemo} onChange={setShowDemo} label={`🧪 ${t.nearby.layerDemo}`} />
+              <Toggle checked={showDemo} onChange={setShowDemo} label={`🍽️ ${t.nearby.layerDemo}`} />
               <Toggle checked={showOsm} onChange={setShowOsm} label={`🗺️ ${t.nearby.layerOsm}`} />
             </div>
           )}
@@ -186,19 +186,13 @@ export function NearbyView() {
           </div>
         </div>
 
-        {showOsm && (
+        {showOsm && (osmState === "loading" || osmState === "error") && (
           <div className="mb-4 rounded-2xl border-2 border-lagoon bg-lagoon/10 p-3 text-sm font-semibold">
             {osmState === "loading" && <Loader label={t.nearby.osmLoading} />}
             {osmState === "error" && (
               <span className="flex flex-wrap items-center gap-2 text-red-700">
                 {t.nearby.osmError}
                 <button type="button" className="btn btn-light btn-sm" onClick={placesState.retry}>{t.region.retry}</button>
-              </span>
-            )}
-            {osmState === "done" && (
-              <span>
-                ✅ {t.nearby.osmCount(osmAll.length)} · {t.nearby.osmNote}
-                {placesState.live && ` ${t.region.liveNote}${placesState.radiusKm ? ` (≤ ${placesState.radiusKm} ${t.common.km})` : ""}`}
               </span>
             )}
           </div>
@@ -231,15 +225,13 @@ export function NearbyView() {
                   {selOsm && (
                     <div className="space-y-1 pe-6">
                       <div className="flex items-center gap-2"><span className="text-2xl">{selOsm.emoji}</span><b className="min-w-0">{l(selOsm.name)}</b></div>
-                      <p className="text-xs text-ink-soft">{selOsm.cuisineText ?? t.places.kinds[selOsm.kind]} · {fkm(haversineKm(point, selOsm))} · <span className="font-bold text-lagoon">{t.common.osm}</span></p>
+                      <p className="text-xs text-ink-soft">{selOsm.cuisineText ?? t.places.kinds[selOsm.kind]} · {fkm(haversineKm(point, selOsm))}</p>
                       <OpenBadge hours={selOsm.hours} />
-                      <p className="text-xs text-ink-soft">{t.common.ratingUnknown}</p>
                       <div className="flex flex-wrap gap-2 pt-1">
                         <Link href={`/place/?id=${selOsm.id}`} className="btn btn-primary btn-sm">{t.common.viewRestaurant}</Link>
                         <a href={directionsUrl(selOsm.lat, selOsm.lng)} target="_blank" rel="noreferrer" className="btn btn-light btn-sm" aria-label={t.common.directions}><Navigation className="size-4" /></a>
                         {selOsm.phone && <a href={`tel:${selOsm.phone}`} className="btn btn-light btn-sm"><Phone className="size-4" /></a>}
                         {selOsm.website && <a href={selOsm.website} target="_blank" rel="noreferrer" className="btn btn-light btn-sm"><Globe className="size-4" /></a>}
-                        <a href={osmUrl(selOsm.id)} target="_blank" rel="noreferrer" className="btn btn-light btn-sm"><ExternalLink className="size-4" /> OSM</a>
                       </div>
                     </div>
                   )}

@@ -110,7 +110,7 @@ export function GroupView() {
                 {people.map((p, i) => (
                   <motion.span key={p} initial={{ scale: 0 }} animate={{ scale: 1 }} className="chip" style={{ background: ["#FFE3C9", "#D9FBEF", "#F3E8FF", "#FFF7CC", "#DDF1FF"][i % 5] }}>
                     {p}
-                    <button type="button" onClick={() => setPeople(people.filter((x) => x !== p))} aria-label="remove"><X className="size-3.5" /></button>
+                    <button type="button" onClick={() => setPeople(people.filter((x) => x !== p))} aria-label={t.common.remove}><X className="size-3.5" /></button>
                   </motion.span>
                 ))}
               </div>
@@ -142,7 +142,7 @@ export function GroupView() {
                 {options.map((o) => (
                   <motion.li key={o.id} layout initial={{ x: 30, opacity: 0 }} animate={{ x: 0, opacity: 1 }} className="flex items-center justify-between rounded-xl border-2 border-ink bg-white px-3 py-2 font-semibold">
                     <span>{o.emoji} {o.label}</span>
-                    <button type="button" onClick={() => setOptions(options.filter((x) => x.id !== o.id))} aria-label="remove"><Trash2 className="size-4 text-chili" /></button>
+                    <button type="button" onClick={() => setOptions(options.filter((x) => x.id !== o.id))} aria-label={t.common.remove}><Trash2 className="size-4 text-chili" /></button>
                   </motion.li>
                 ))}
               </ul>

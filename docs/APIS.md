@@ -32,8 +32,8 @@ backend later (Phase 4: Supabase / Cloudflare Workers).
 
 ## 🔑 Where real deals will come from
 There is **no free public API for restaurant offers in Kuwait.** Real offer data has to come from:
-1. **Restaurant self‑service portal** (Phase 5) — restaurants post their own offers, with expiry dates → "Verified".
-2. **Community submissions** with photo proof + moderation → "Community" badge until verified.
+1. **Restaurant self‑service portal** (Phase 5) — restaurants post their own offers, with expiry dates → "Confirmed by the restaurant".
+2. **Community submissions** with photo proof + moderation → "From a user" badge until confirmed.
 3. **Editorial team** checking official Instagram/website promotions.
 4. **Affiliate partnerships** with delivery apps (Phase 7).
 

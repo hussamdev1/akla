@@ -5,7 +5,7 @@ import { Search, SlidersHorizontal } from "lucide-react";
 import { CATEGORIES } from "@/data/categories";
 import { areaById, regionsIn } from "@/data/geo";
 import { useI18n } from "@/lib/i18n";
-import { useCountry, useDistances, useLive, useMeals, useNow, useOffers, useRestaurants } from "@/lib/hooks";
+import { useCountry, useDistances, useMeals, useNow, useOffers, useRestaurants } from "@/lib/hooks";
 import { norm } from "@/lib/search";
 import { openState } from "@/lib/time";
 import type { CategoryId } from "@/lib/types";
@@ -20,7 +20,6 @@ type Sort = "recommended" | "rating" | "distance" | "price";
 export function RestaurantsView() {
   const RESTAURANTS = useRestaurants();
   const MEALS = useMeals();
-  const { osmCount } = useLive();
   const regions = regionsIn(useCountry());
   const { t, l } = useI18n();
   const dist = useDistances();
@@ -141,7 +140,7 @@ export function RestaurantsView() {
         <div className="mb-4 flex flex-wrap gap-2" role="tablist">
           {(["listings", "all"] as const).map((k) => (
             <button key={k} type="button" role="tab" aria-selected={tab === k} onClick={() => setTab(k)} className={cx("btn btn-sm", tab === k ? "btn-primary" : "btn-light")}>
-              {k === "listings" ? `🍽️ ${t.places.tabListings}${SHOW_DEMO ? ` (${t.common.demo})` : ""}` : `🗺️ ${t.places.tabAll(osmCount)}`}
+              {k === "listings" ? `🍽️ ${t.places.tabListings}${SHOW_DEMO ? ` (${t.common.demo})` : ""}` : `🗺️ ${t.places.tabAll}`}
             </button>
           ))}
         </div>

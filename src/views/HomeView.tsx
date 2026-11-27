@@ -47,7 +47,7 @@ const MOODS: { id: Mood; e: string; c: string }[] = [
 export function HomeView() {
   const RESTAURANTS = useRestaurants();
   const MEALS = useMeals();
-  const { hasMeals: HAS_MEALS, osmCount: OSM_COUNT } = useLive();
+  const { hasMeals: HAS_MEALS } = useLive();
   const HERO_MEALS = useMemo(() => heroMeals(MEALS), [MEALS]);
   const { t, l, locale } = useI18n();
   const { active } = useOffers();
@@ -132,7 +132,7 @@ export function HomeView() {
                 </a>
               ) : (
                 <Link href="/restaurants/?tab=all" className="btn btn-primary text-lg">
-                  <Sparkles className="size-5" /> {t.places.soonCta(OSM_COUNT)}
+                  <Sparkles className="size-5" /> {t.places.soonCta}
                 </Link>
               )}
               <Link href="/picker/" className="btn btn-lagoon text-lg">
@@ -141,9 +141,6 @@ export function HomeView() {
             </motion.div>
 
             <div className="mt-6 flex flex-wrap gap-2 text-sm font-bold">
-              {!RESTAURANTS.length && !!OSM_COUNT && (
-                <span className="rounded-full border-2 border-ink bg-[#D9FBEF] px-3 py-1">🗺️ {t.places.count(OSM_COUNT)}</span>
-              )}
               {[
                 [RESTAURANTS.length, t.hero.stats.places, "#FFE3C9"],
                 [MEALS.length, t.hero.stats.meals, "#D9FBEF"],

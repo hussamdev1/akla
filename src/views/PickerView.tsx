@@ -345,7 +345,7 @@ export function PickerView() {
                       <SlidersHorizontal className="size-5" /> {t.picker.customize}
                       {filterCount > 0 && <span className="grid size-6 place-items-center rounded-full bg-brand text-xs text-white">{filterCount}</span>}
                     </button>
-                    <button type="button" className="btn btn-light" onClick={() => setSeed((s) => s + 1)} disabled={spinning} aria-label="Shuffle">
+                    <button type="button" className="btn btn-light" onClick={() => setSeed((s) => s + 1)} disabled={spinning} aria-label={t.common.shuffle}>
                       🔀
                     </button>
                   </div>
@@ -419,7 +419,6 @@ function ResultSheet({ pick, onClose, onAgain, dist, offersByRestaurant, offerBy
           <div className="flex flex-wrap items-center justify-center gap-3">
             <DistanceTag km={pick.km} />
             <OpenBadge hours={pl.hours} />
-            <DemoBadge source="osm" />
           </div>
           <p className="max-w-md text-sm text-ink-soft">{t.places.noRating}</p>
           <div className="flex flex-wrap justify-center gap-2 pt-2">
