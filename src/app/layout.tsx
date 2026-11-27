@@ -13,6 +13,9 @@ export const metadata: Metadata = {
   title: { default: "Akla · أكلة — شنو ناكل اليوم؟", template: "%s · Akla" },
   description: "Discover food, deals and fun ways to decide what to eat in Kuwait. اكتشف الأكل والعروض وقرر شنو تاكل اليوم.",
   applicationName: "Akla",
+  // PWA: app/manifest.ts, app/apple-icon.png, app/favicon.ico. The service worker is registered in components/pwa/PwaProvider.
+  appleWebApp: { capable: true, title: "أكلة", statusBarStyle: "default" },
+  other: { "apple-mobile-web-app-capable": "yes" }, // Next 16 only emits mobile-web-app-capable; older iOS needs this one
 };
 
 export const viewport: Viewport = { themeColor: "#E63462", width: "device-width", initialScale: 1, viewportFit: "cover" };

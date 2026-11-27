@@ -155,6 +155,18 @@ const en = {
     made: "Made with appetite in Kuwait 🇰🇼",
   },
   notFound: { title: "This plate is empty", body: "The page you're looking for got eaten.", home: "Back to the food" },
+  pwa: {
+    install: "Install Akla", installSub: "Add it to your home screen — opens full-screen and works offline.",
+    installed: "Akla is installed on this device ✓", howTo: "How to install",
+    iosSteps: ["Tap the Share button in Safari", "Choose “Add to Home Screen”", "Tap “Add” — done!"],
+    otherBrowser: "Open your browser menu and choose “Install app”, “Add to Home screen” or “Add to Dock”.",
+    updateTitle: "New version available", updateBody: "Refresh to get the latest Akla.", refresh: "Refresh", later: "Later",
+    offlinePill: "You're offline — favorites still work",
+    offline: {
+      title: "You're offline", body: "No internet right now. Pages you've opened before, your favorites and your history still work.",
+      retry: "Try again", favorites: "My favorites", picker: "Spin the wheel", home: "Home",
+    },
+  },
 };
 
 export type Messages = typeof en;
@@ -314,6 +326,18 @@ const ar: Messages = {
     made: "انصنع بنفس مفتوحة في الكويت 🇰🇼",
   },
   notFound: { title: "هالصحن فاضي", body: "الصفحة اللي تدورها انأكلت.", home: "ارجع للأكل" },
+  pwa: {
+    install: "ثبّت أكلة", installSub: "حطه على الشاشة الرئيسية — يفتح مثل التطبيق ويشتغل بدون نت.",
+    installed: "أكلة مثبّت على هالجهاز ✓", howTo: "طريقة التثبيت",
+    iosSteps: ["اضغط زر المشاركة في سفاري", "اختار «إضافة إلى الشاشة الرئيسية»", "اضغط «إضافة» — وخلاص!"],
+    otherBrowser: "افتح قائمة المتصفح واختار «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية».",
+    updateTitle: "فيه نسخة جديدة", updateBody: "حدّث الصفحة عشان تاخذ آخر نسخة من أكلة.", refresh: "حدّث", later: "بعدين",
+    offlinePill: "أنت بدون نت — المفضلة شغالة",
+    offline: {
+      title: "انقطع النت", body: "ما فيه إنترنت الحين. الصفحات اللي فتحتها قبل، والمفضلة والسجل، كلها شغالة.",
+      retry: "جرّب مرة ثانية", favorites: "مفضلتي", picker: "لِف العجلة", home: "الرئيسية",
+    },
+  },
 };
 
 export const MESSAGES = { en, ar };

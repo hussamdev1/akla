@@ -194,4 +194,12 @@ A thin imperative wrapper around Leaflet: creates the map once (lazy `import("le
 restaurants, small round pins for `kind: "osm"`, a teal dot + dashed radius circle for the user. Tiles come straight
 from `tile.openstreetmap.org` (fine for low traffic; see the OSM tile usage policy before scaling).
 Views import it with `next/dynamic(..., { ssr: false })` (`NearbyView`, `RestaurantView`, `PlaceView`).
+The tile layer uses `crossOrigin: true` so the service worker can keep a small (60 tile) offline cache.
 Distances use `haversineKm` in `src/lib/geo.ts`; "Directions" opens Google Maps (`directionsUrl`).
+
+## 10. PWA
+
+Installable (manifest + icons) and offline-capable via a hand-written service worker generated after `next build`
+(`scripts/build-sw.mjs` from `scripts/sw.template.js`); no plugin, because the static export has no server and the
+worker only needs the final `out/` file list. Details, cache strategies and how to bump the version:
+[DEVELOPMENT.md → PWA](DEVELOPMENT.md#pwa-install--offline).

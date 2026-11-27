@@ -58,7 +58,8 @@ Legend: ✅ done in this build · 🟡 partial · ⬜ planned
 
 ## Phase 6 — Real data & growth ⬜
 - Foursquare (via serverless proxy) for ratings/photos; nightly GitHub Action to refresh OSM data snapshot
-- PWA (install, offline favourites), push notifications for "your favourite place has a new deal"
+- ✅ PWA: installable (manifest, icons, iOS meta, install button), offline shell + offline page, update toast
+- Push notifications for "your favourite place has a new deal"
 - Lunch/dinner smart alerts, weekly "food wrapped" recap, referral rewards
 - SEO: per‑language URLs (`/ar`, `/en`), OG images per restaurant/offer
 
