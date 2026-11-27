@@ -68,7 +68,7 @@ export function FavoritesView() {
       <Container className="py-10">
         {/* Collections */}
         <section className="mb-12">
-          <div className="mb-4 flex items-center justify-between">
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
             <h2 className="font-display text-3xl font-bold">📚 {t.favorites.collections}</h2>
             <button type="button" className="btn btn-primary btn-sm" onClick={() => setCreating(true)}>
               <FolderPlus className="size-4" /> {t.favorites.newCollection}
@@ -177,9 +177,9 @@ export function FavoritesView() {
                   const lab = itemLabel(it.kind, it.id);
                   return lab ? (
                     <div key={it.kind + it.id} className="flex items-center gap-3 rounded-2xl border-2 border-ink bg-white p-2">
-                      <FoodImage src={lab[2]} emoji={lab[0]} alt="" size="small" className="size-12 rounded-xl border-2 border-ink" />
-                      <span className="flex-1 font-bold">{lab[1]}</span>
-                      <button type="button" onClick={() => toggleIn(col.id, it.kind, it.id)} aria-label="remove"><Trash2 className="size-4 text-chili" /></button>
+                      <FoodImage src={lab[2]} emoji={lab[0]} alt="" size="small" className="size-12 shrink-0 rounded-xl border-2 border-ink" />
+                      <span className="min-w-0 flex-1 truncate font-bold">{lab[1]}</span>
+                      <button type="button" onClick={() => toggleIn(col.id, it.kind, it.id)} aria-label="remove" className="grid size-10 shrink-0 place-items-center rounded-full"><Trash2 className="size-4 text-chili" /></button>
                     </div>
                   ) : null;
                 })}

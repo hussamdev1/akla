@@ -20,7 +20,7 @@ export function LangToggle({ className }: { className?: string }) {
     <button
       type="button"
       onClick={() => setLocale(locale === "ar" ? "en" : "ar")}
-      className={cx("rounded-full border-2 border-ink bg-sun px-3 py-1.5 text-sm font-extrabold shadow-[2px_2px_0_#2B1B3D] transition-transform active:translate-y-0.5", className)}
+      className={cx("hit rounded-full border-2 border-ink bg-sun px-3 py-1.5 text-sm font-extrabold shadow-[2px_2px_0_#2B1B3D] transition-transform active:translate-y-0.5", className)}
       lang={locale === "ar" ? "en" : "ar"}
     >
       {t.header.language}
@@ -92,13 +92,13 @@ export function Header() {
             <span className="w-24 truncate text-start 2xl:w-40">{t.nav.search}…</span>
             <kbd className="rounded border border-ink/30 px-1 text-[10px]">⌘K</kbd>
           </button>
-          <button type="button" onClick={openSearch} className="grid size-9 place-items-center rounded-full border-2 border-ink bg-white xl:hidden" aria-label={t.nav.search}>
+          <button type="button" onClick={openSearch} className="hit grid size-9 place-items-center rounded-full border-2 border-ink bg-white xl:hidden" aria-label={t.nav.search}>
             <Search className="size-4" />
           </button>
           <span className="hidden sm:inline-flex">
             <LocationPill />
           </span>
-          <Link href="/favorites/" className="relative hidden size-9 place-items-center rounded-full border-2 border-ink bg-white sm:grid" aria-label={t.nav.favorites}>
+          <Link href="/favorites/" className="hit hidden size-9 place-items-center rounded-full border-2 border-ink bg-white sm:grid" aria-label={t.nav.favorites}>
             <Heart className="size-4" />
             {favCount > 0 && <span className="absolute -end-1.5 -top-1.5 grid size-5 place-items-center rounded-full border-2 border-ink bg-chili text-[10px] font-bold text-white">{favCount}</span>}
           </Link>

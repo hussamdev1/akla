@@ -115,7 +115,7 @@ export function GroupView() {
               </div>
             </section>
             <section className="sticker p-5">
-              <div className="mb-3 flex items-center justify-between">
+              <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
                 <h2 className="font-display text-2xl font-bold">📝 {t.games.group.options}</h2>
                 {options.length > 0 && <button type="button" className="btn btn-light btn-sm" onClick={share}><Share2 className="size-4" /> {t.games.group.share}</button>}
               </div>

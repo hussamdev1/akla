@@ -93,7 +93,7 @@ export function SearchOverlay() {
           <div className="grid gap-2 sm:grid-cols-2">
             {res.restaurants.map((r) => (
               <Link key={r.id} href={`/restaurants/${r.id}/`} onClick={close} className="flex items-center gap-3 rounded-2xl border-2 border-ink bg-white p-2 hover:bg-rice-deep">
-                <FoodImage src={r.cover} emoji={r.emoji} alt="" size="small" className="size-12 rounded-xl border-2 border-ink" />
+                <FoodImage src={r.cover} emoji={r.emoji} alt="" size="small" className="size-12 shrink-0 rounded-xl border-2 border-ink" />
                 <div className="min-w-0">
                   <div className="truncate font-bold">{l(r.name)}</div>
                   <div className="truncate text-sm text-ink-soft">{l(r.tagline)}</div>

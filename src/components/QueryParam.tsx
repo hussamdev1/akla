@@ -5,7 +5,9 @@ import { useSearchParams } from "next/navigation";
 function Inner({ name, onValue }: { name: string; onValue: (v: string | null) => void }) {
   const sp = useSearchParams();
   const v = sp.get(name);
-  useEffect(() => onValue(v), [v, onValue]);
+  useEffect(() => {
+    onValue(v);
+  }, [v, onValue]);
   return null;
 }
 

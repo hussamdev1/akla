@@ -195,23 +195,23 @@ export function NearbyView() {
           </div>
         )}
 
-        <div className="grid gap-5 lg:grid-cols-[1fr_24rem]">
+        <div className="grid gap-5 grid-cols-[minmax(0,1fr)] lg:grid-cols-[minmax(0,1fr)_24rem]">
           <div className={cx("relative h-[65dvh] min-h-[24rem]", view === "list" && "hidden lg:block")}>
             <MapView center={point} zoom={zoom} markers={markers} user={point} radiusKm={radius < 60 ? radius : undefined} selected={selected} onSelect={setSelected} className="h-full" />
             <AnimatePresence>
               {(selDemo || selOsm) && (
                 <motion.div initial={{ y: 40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 40, opacity: 0 }} className="sticker absolute inset-x-3 bottom-3 z-[500] p-3 sm:max-w-sm">
-                  <button type="button" className="absolute end-2 top-2 grid size-7 place-items-center rounded-full border-2 border-ink bg-white" onClick={() => setSelected(null)} aria-label={t.common.close}>
+                  <button type="button" className="hit absolute end-2 top-2 grid size-8 place-items-center rounded-full border-2 border-ink bg-white" onClick={() => setSelected(null)} aria-label={t.common.close}>
                     <X className="size-4" />
                   </button>
                   {selDemo && (
                     <div className="flex gap-3">
-                      <FoodImage src={selDemo.cover} emoji={selDemo.emoji} alt="" size="small" className="size-20 shrink-0 rounded-xl border-2 border-ink" />
+                      <FoodImage src={selDemo.cover} emoji={selDemo.emoji} alt="" size="small" className="size-16 shrink-0 rounded-xl border-2 border-ink sm:size-20" />
                       <div className="min-w-0 flex-1 space-y-1 pe-6">
                         <div className="flex items-center gap-1.5"><b className="truncate">{l(selDemo.name)}</b><DemoBadge source={selDemo.source} /></div>
                         <div className="flex flex-wrap gap-2 text-xs"><RatingBadge rating={selDemo.rating} compact /><DistanceTag km={dist[selDemo.id]} /></div>
                         <OpenBadge hours={selDemo.hours} />
-                        <div className="flex gap-2 pt-1">
+                        <div className="flex flex-wrap gap-2 pt-1">
                           <Link href={`/restaurants/${selDemo.id}/`} className="btn btn-primary btn-sm">{t.common.viewRestaurant}</Link>
                           <a href={directionsUrl(selDemo.lat, selDemo.lng)} target="_blank" rel="noreferrer" className="btn btn-light btn-sm" aria-label={t.common.directions}><Navigation className="size-4" /></a>
                           <FavButton kind="restaurants" id={selDemo.id} size="sm" />
@@ -221,7 +221,7 @@ export function NearbyView() {
                   )}
                   {selOsm && (
                     <div className="space-y-1 pe-6">
-                      <div className="flex items-center gap-2"><span className="text-2xl">{selOsm.emoji}</span><b>{l(selOsm.name)}</b></div>
+                      <div className="flex items-center gap-2"><span className="text-2xl">{selOsm.emoji}</span><b className="min-w-0">{l(selOsm.name)}</b></div>
                       <p className="text-xs text-ink-soft">{selOsm.cuisineText ?? t.places.kinds[selOsm.kind]} · {fkm(haversineKm(point, selOsm))} · <span className="font-bold text-lagoon">{t.common.osm}</span></p>
                       <OpenBadge hours={selOsm.hours} />
                       <p className="text-xs text-ink-soft">{t.common.ratingUnknown}</p>

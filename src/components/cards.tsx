@@ -37,7 +37,7 @@ export function RestaurantCard({ r, km, offers = 0, featuredMeal, className }: {
         </div>
         <div className="flex flex-1 flex-col gap-2 p-4 pt-7">
           <div className="flex items-start justify-between gap-2">
-            <h3 className="font-display text-xl font-bold leading-tight">{l(r.name)}</h3>
+            <h3 className="min-w-0 font-display text-xl font-bold leading-tight">{l(r.name)}</h3>
             <PriceLevel level={r.priceLevel} />
           </div>
           <p className="line-clamp-1 text-sm text-ink-soft">{r.categories.map((c) => l(categoryById(c).name)).join(" · ")}</p>

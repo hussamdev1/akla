@@ -58,9 +58,9 @@ export function BottomNav() {
         </div>
       </nav>
       <Sheet open={more} onClose={() => setMore(false)} title={t.nav.more}>
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-2 gap-2 min-[370px]:grid-cols-3 sm:gap-3">
           {all.map((a) => (
-            <Link key={a.href} href={a.href} onClick={() => setMore(false)} className="sticker flex flex-col items-center gap-1 p-3 text-center text-sm font-bold">
+            <Link key={a.href} href={a.href} onClick={() => setMore(false)} className="sticker flex min-w-0 flex-col items-center gap-1 p-2 text-center text-sm font-bold sm:p-3">
               <span className="text-2xl">{a.e}</span>
               {a.label}
             </Link>
