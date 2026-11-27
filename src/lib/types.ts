@@ -72,6 +72,10 @@ export type Restaurant = {
   ratingSource?: string;
   website?: string;
   instagram?: string;
+  /** brand logo: full URL or a path inside /public */
+  logo?: string;
+  /** tile colour behind the logo (default white) */
+  logoBg?: string;
   osmId?: string;
   phone?: string;
   hours?: WeeklyHours; // undefined = unknown

@@ -9,7 +9,7 @@ const en = {
   },
   common: {
     seeAll: "See all", viewRestaurant: "View restaurant", viewOffer: "View offer", directions: "Directions",
-    order: "Order", call: "Call", save: "Save", saved: "Saved", close: "Close", back: "Back", clear: "Clear",
+    order: "Order", website: "Website", call: "Call", save: "Save", saved: "Saved", close: "Close", back: "Back", clear: "Clear",
     apply: "Apply", reset: "Reset", all: "All", any: "Any", km: "km", min: "min", from: "from",
     delivery: "Delivery", dineIn: "Dine-in", open: "Open now", closed: "Closed", closesAt: (t: string) => `Closes ${t}`,
     opensAt: (t: string) => `Opens ${t}`, closingSoon: "Closing soon", hoursUnknown: "Hours not available",
@@ -189,7 +189,7 @@ const ar: Messages = {
   },
   common: {
     seeAll: "عرض الكل", viewRestaurant: "عرض المطعم", viewOffer: "عرض العرض", directions: "الاتجاهات",
-    order: "اطلب", call: "اتصال", save: "حفظ", saved: "محفوظ", close: "إغلاق", back: "رجوع", clear: "مسح",
+    order: "اطلب", website: "الموقع", call: "اتصال", save: "حفظ", saved: "محفوظ", close: "إغلاق", back: "رجوع", clear: "مسح",
     apply: "تطبيق", reset: "إعادة ضبط", all: "الكل", any: "أي", km: "كم", min: "دقيقة", from: "من",
     delivery: "توصيل", dineIn: "داخل المطعم", open: "مفتوح الحين", closed: "مسكّر", closesAt: (t) => `يسكّر ${t}`,
     opensAt: (t) => `يفتح ${t}`, closingSoon: "يسكّر قريب", hoursUnknown: "أوقات العمل غير متوفرة",

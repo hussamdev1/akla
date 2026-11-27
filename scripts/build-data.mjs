@@ -291,6 +291,8 @@ async function buildSheet() {
       phone: r.phone || undefined, hoursText: r.hours || undefined,
       delivery: yes(r.delivery), dineIn: yes(r.dine_in),
       cover: r.cover_image_url || undefined, emoji: r.emoji || "🍽️", brand: r.brand_color || "#E63462",
+      // logo: full URL or a path inside /public (e.g. /logos/x.png); logo_bg is the tile colour behind it (default white)
+      logo: r.logo_url || undefined, logoBg: r.logo_bg || undefined,
       featured: yes(r.featured), isNew: yes(r.is_new),
       orderUrl: r.order_url || undefined, website: r.website || undefined, instagram: r.instagram || undefined,
       updatedAt: r.updated_at || new Date().toISOString().slice(0, 10),

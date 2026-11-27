@@ -7,7 +7,7 @@ import { BadgeCheck, Clock, FlaskConical, Heart, MapPin, Star, Users, X } from "
 import { useI18n } from "@/lib/i18n";
 import { useFav, useStore } from "@/lib/store";
 import { countdownParts, openState } from "@/lib/time";
-import { sized } from "@/lib/img";
+import { assetUrl, sized } from "@/lib/img";
 import { sfx } from "@/lib/fx";
 import { useMounted, useNow } from "@/lib/hooks";
 import type { FavKind, WeeklyHours } from "@/lib/types";
@@ -123,6 +123,24 @@ export function FoodImage({ src, emoji, alt, size = "medium", className, color =
   }
   // eslint-disable-next-line @next/next/no-img-element
   return <img src={url} alt={alt} loading="lazy" decoding="async" onError={() => setFailed(true)} className={cx("object-cover", className)} />;
+}
+
+/** Restaurant logo tile: the brand's logo when the sheet has one, otherwise its emoji on the brand colour. */
+export function BrandMark({ r, className }: { r: { logo?: string; logoBg?: string; emoji: string; brand: string; name?: { en: string } }; className?: string }) {
+  const [failed, setFailed] = useState(false);
+  if (r.logo && !failed) {
+    return (
+      <span className={cx("grid place-items-center overflow-hidden", className)} style={{ background: r.logoBg || "#fff" }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={assetUrl(r.logo)} alt={r.name ? `${r.name.en} logo` : ""} loading="lazy" decoding="async" onError={() => setFailed(true)} className="size-full object-contain p-[8%]" />
+      </span>
+    );
+  }
+  return (
+    <span className={cx("grid place-items-center", className)} style={{ background: r.brand }}>
+      {r.emoji}
+    </span>
+  );
 }
 
 /* ---------- Badges ---------- */

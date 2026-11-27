@@ -8,3 +8,6 @@ export function sized(url: string | undefined, size: "small" | "medium" | "full"
 }
 
 export const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
+/** Site-relative paths ("/logos/x.png") get the GitHub Pages base path; full URLs pass through. */
+export const assetUrl = (url: string) => (url.startsWith("/") ? `${BASE_PATH}${url}` : url);
