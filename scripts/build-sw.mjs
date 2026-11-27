@@ -17,7 +17,7 @@ const OUT = path.join(ROOT, "out");
 const BASE = (process.env.NEXT_PUBLIC_BASE_PATH || "").replace(/\/$/, "");
 
 // Pages available offline from the first visit (manifest shortcuts + the ones that work on local data).
-const SHELL_PAGES = ["/", "/offline/", "/picker/", "/offers/", "/nearby/", "/favorites/", "/profile/", "/restaurants/", "/discover/", "/games/"];
+const SHELL_PAGES = ["/", "/offline/", "/picker/", "/offers/", "/nearby/", "/favorites/", "/profile/", "/restaurants/", "/discover/", "/games/", "/recipes/"];
 const STATIC_FILES = ["/manifest.webmanifest", "/favicon.ico", "/icon.svg", "/apple-icon.png", "/icons/icon-192.png", "/icons/icon-512.png", "/icons/maskable-192.png", "/icons/maskable-512.png"];
 // Places data to have offline from the first visit: the single snapshot, or (per-country layout) the default country.
 // Other data files are cached at runtime (stale-while-revalidate); live Overpass/Nominatim calls are never cached.

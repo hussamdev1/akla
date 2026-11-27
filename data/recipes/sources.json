@@ -1,0 +1,70 @@
+{
+  "_readme": "Curated recipe list for /recipes. `node scripts/build-recipes.mjs --refresh` downloads each entry into src/data/generated/recipes.json. mealdb = TheMealDB meal id; wikibooks = exact Wikibooks Cookbook page title (CC BY-SA 4.0). Optional: name (English display name), course (main|soup|salad|side|dessert|breakfast|bread), servings. Recipes with pork or alcohol are left out on purpose. See docs/APIS.md → Recipes.",
+  "cuisines": {
+    "syrian": [
+      { "mealdb": "53094" }, { "mealdb": "53091" }, { "mealdb": "53092" }, { "mealdb": "53089" }, { "mealdb": "53095" }, { "mealdb": "53093" },
+      { "wikibooks": "Cookbook:Tabouli", "course": "salad", "name": "Tabbouleh" }
+    ],
+    "lebanese": [
+      { "wikibooks": "Cookbook:Fattoush", "course": "salad" },
+      { "wikibooks": "Cookbook:Moutabbal", "course": "side", "name": "Moutabbal" },
+      { "wikibooks": "Cookbook:Toum (Lebanese Garlic Sauce)", "course": "side", "name": "Toum (Garlic Sauce)" },
+      { "wikibooks": "Cookbook:Hummus I", "course": "side", "name": "Hummus" },
+      { "wikibooks": "Cookbook:Rice in Fish Broth (Sayyadieh)", "course": "main", "name": "Sayyadieh (Fish & Rice)" },
+      { "wikibooks": "Cookbook:Garlic Lemon Chicken", "course": "main" }
+    ],
+    "palestinian": [
+      { "wikibooks": "Cookbook:Easy Maklubi", "course": "main", "name": "Maqluba" },
+      { "wikibooks": "Cookbook:Baked Chicken with Onions, Sumac and Allspice (Musakhan)", "course": "main", "name": "Musakhan" },
+      { "wikibooks": "Cookbook:Mejadra", "course": "main", "name": "Mujaddara" }
+    ],
+    "gulf": [
+      { "mealdb": "53220", "name": "Kabsa" }, { "mealdb": "53223" }, { "mealdb": "53221", "name": "Maamoul (Eid Biscuits)" }, { "mealdb": "53216" },
+      { "mealdb": "53218", "name": "Chicken Shawarma with Garlic Yoghurt" }
+    ],
+    "yemeni": [
+      { "mealdb": "53358" }, { "mealdb": "53225", "course": "breakfast" },
+      { "wikibooks": "Cookbook:Maraq", "course": "soup" },
+      { "wikibooks": "Cookbook:Bint as-Saḥn (Yemenite Layered Pastry)", "course": "dessert", "name": "Bint al-Sahn" },
+      { "wikibooks": "Cookbook:Hilbah (Fenugreek Condiment)", "course": "side", "name": "Hilbah" }
+    ],
+    "egyptian": [
+      { "mealdb": "53027" }, { "mealdb": "53025" }, { "mealdb": "53026" }, { "mealdb": "53029" }, { "mealdb": "53031" }, { "mealdb": "53030" },
+      { "mealdb": "52963", "course": "breakfast" }, { "mealdb": "53028" }
+    ],
+    "moroccan": [
+      { "mealdb": "52850" }, { "mealdb": "52843" }, { "mealdb": "52782" }, { "mealdb": "53047" }, { "mealdb": "52797", "course": "salad" }, { "mealdb": "52869" }
+    ],
+    "algerian": [
+      { "mealdb": "53281" }, { "mealdb": "53289", "course": "soup", "name": "Chorba Hamra (Lamb & Freekeh Soup)" }, { "mealdb": "53283" }, { "mealdb": "53287", "name": "Chicken & Sweet Potato Tagine" }, { "mealdb": "53286", "course": "bread" }, { "mealdb": "53291" }
+    ],
+    "tunisian": [
+      { "mealdb": "52969", "course": "breakfast" }, { "mealdb": "52971" }, { "mealdb": "52973", "course": "soup" }, { "mealdb": "52975", "course": "side" }, { "mealdb": "52972", "course": "soup" }, { "mealdb": "52970" }
+    ],
+    "turkish": [
+      { "mealdb": "53262" }, { "mealdb": "53256", "course": "side" }, { "mealdb": "52977", "course": "soup" }, { "mealdb": "53254", "course": "salad" },
+      { "mealdb": "52978" }, { "mealdb": "53263" }, { "mealdb": "53252", "course": "side" }, { "mealdb": "53271" }
+    ],
+    "indian": [
+      { "mealdb": "52785" }, { "mealdb": "52805" }, { "mealdb": "52795" }, { "mealdb": "52865" }, { "mealdb": "52806" }, { "mealdb": "52807" }, { "mealdb": "52868" }
+    ],
+    "chinese": [
+      { "mealdb": "53367" }, { "mealdb": "53376" }, { "mealdb": "53372" }, { "mealdb": "52955", "course": "soup" }, { "mealdb": "52956", "course": "soup" },
+      { "mealdb": "53369", "course": "side" }
+    ],
+    "japanese": [
+      { "mealdb": "52820" }, { "mealdb": "52772" }
+    ],
+    "thai": [
+      { "mealdb": "53191" }, { "mealdb": "52814" }, { "mealdb": "53207", "course": "soup" }, { "mealdb": "52827" }, { "mealdb": "53210", "course": "soup" }
+    ],
+    "italian": [
+      { "mealdb": "52770" }, { "mealdb": "52771" }, { "mealdb": "53064" }, { "mealdb": "53014" }, { "mealdb": "52811", "course": "soup" }, { "mealdb": "52839" }, { "mealdb": "52775" }
+    ],
+    "mexican": [
+      { "mealdb": "52819" }, { "mealdb": "52765" }, { "mealdb": "52830" }, { "mealdb": "53067" },
+      { "wikibooks": "Cookbook:Guacamole", "course": "side", "name": "Guacamole" },
+      { "wikibooks": "Cookbook:Huevos Rancheros", "course": "breakfast" }
+    ]
+  }
+}

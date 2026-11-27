@@ -8,6 +8,8 @@ import { norm, searchAll } from "@/lib/search";
 import { usePlaces } from "@/lib/places";
 import { CATEGORIES } from "@/data/categories";
 import { MiniMealRow } from "../cards";
+import { RecipeRow } from "../recipes";
+import { RECIPE_INDEX } from "@/data/recipeIndex";
 import { FoodImage, Sheet } from "../ui";
 
 export function SearchOverlay() {
@@ -50,8 +52,13 @@ export function SearchOverlay() {
     if (nq.length < 2) return [];
     return places.filter((p) => norm(`${p.name.ar} ${p.name.en} ${p.cuisineText ?? ""}`).includes(nq)).slice(0, 8);
   }, [q, places]);
+  const recipeHits = useMemo(() => {
+    const nq = norm(q);
+    if (nq.length < 2) return [];
+    return RECIPE_INDEX.filter((r) => norm(`${r.name.en} ${r.name.ar ?? ""} ${r.keys}`).includes(nq)).slice(0, 6);
+  }, [q]);
   const close = () => setOpen(false);
-  const empty = q && !res.categories.length && !res.restaurants.length && !res.meals.length && !placeHits.length;
+  const empty = q && !res.categories.length && !res.restaurants.length && !res.meals.length && !placeHits.length && !recipeHits.length;
 
   return (
     <Sheet open={open} onClose={close} title={t.search.title} wide>
@@ -115,6 +122,21 @@ export function SearchOverlay() {
                   <div className="truncate text-sm text-ink-soft">{p.cuisineText ?? t.places.kinds[p.kind]}</div>
                 </div>
               </Link>
+            ))}
+          </div>
+        </section>
+      )}
+      {recipeHits.length > 0 && (
+        <section className="mt-5">
+          <div className="mb-2 flex items-center justify-between gap-2">
+            <h3 className="text-sm font-bold text-ink-soft">👩‍🍳 {t.recipes.nav}</h3>
+            <Link href={`/recipes/?q=${encodeURIComponent(q)}`} onClick={close} className="text-sm font-bold text-brand">
+              {t.common.seeAll}
+            </Link>
+          </div>
+          <div className="grid gap-2 sm:grid-cols-2">
+            {recipeHits.map((r) => (
+              <RecipeRow key={r.id} r={r} onClick={close} />
             ))}
           </div>
         </section>

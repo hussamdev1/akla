@@ -11,12 +11,15 @@ import { useDistances, useMounted, useOffers } from "@/lib/hooks";
 import { useStore } from "@/lib/store";
 import type { FavKind } from "@/lib/types";
 import { CategoryCard, MealCard, OfferCard, RestaurantCard } from "@/components/cards";
+import { RecipeCard } from "@/components/recipes";
+import { RECIPE_INDEX } from "@/data/recipeIndex";
+import { COURSE_EMOJI, recipeName } from "@/lib/recipes";
 import { Container, cx, EmptyState, FoodImage, PageHero, Sheet } from "@/components/ui";
 
 const EMOJIS = ["🍔", "🍕", "⭐", "💸", "👨‍👩‍👧", "🌙", "🔥", "🥗", "🍰", "📍"];
 
 export function FavoritesView() {
-  const { t, l } = useI18n();
+  const { t, l, locale } = useI18n();
   const mounted = useMounted();
   const favs = useStore((s) => s.favorites);
   const collections = useStore((s) => s.collections);
@@ -33,7 +36,7 @@ export function FavoritesView() {
   const [adding, setAdding] = useState<{ kind: FavKind; id: string } | null>(null);
 
   const tabs: { id: FavKind; e: string }[] = [
-    { id: "restaurants", e: "🍽️" }, { id: "meals", e: "🍔" }, { id: "offers", e: "🏷️" }, { id: "categories", e: "🗂️" },
+    { id: "restaurants", e: "🍽️" }, { id: "meals", e: "🍔" }, { id: "offers", e: "🏷️" }, { id: "recipes", e: "👩‍🍳" }, { id: "categories", e: "🗂️" },
   ];
   const ids = mounted ? favs[tab] : [];
   const col = collections.find((c) => c.id === openCol);
@@ -51,6 +54,10 @@ export function FavoritesView() {
       const o = all.find((x) => x.id === id);
       return o && <OfferCard o={o} km={dist[o.restaurantId]} />;
     }
+    if (kind === "recipes") {
+      const r = RECIPE_INDEX.find((x) => x.id === id);
+      return r && <RecipeCard r={r} />;
+    }
     const c = CATEGORIES.find((x) => x.id === id);
     return c && <CategoryCard c={c} />;
   };
@@ -59,6 +66,7 @@ export function FavoritesView() {
     if (kind === "restaurants") { const r = RESTAURANTS.find((x) => x.id === id); return r ? [r.emoji, l(r.name), r.cover] as const : null; }
     if (kind === "meals") { const m = MEALS.find((x) => x.id === id); return m ? [m.emoji, l(m.name), m.image] as const : null; }
     if (kind === "categories") { const c = CATEGORIES.find((x) => x.id === id); return c ? [c.emoji, l(c.name), c.image] as const : null; }
+    if (kind === "recipes") { const r = RECIPE_INDEX.find((x) => x.id === id); return r ? [COURSE_EMOJI[r.course], recipeName(r.name, locale), r.image] as const : null; }
     const o = all.find((x) => x.id === id); return o ? ["🏷️", l(o.title), undefined] as const : null;
   };
 
@@ -103,7 +111,7 @@ export function FavoritesView() {
         <div className="mb-6 flex flex-wrap gap-2">
           {tabs.map((x) => (
             <button key={x.id} type="button" className="chip !px-4 !py-2 !text-base" aria-pressed={tab === x.id} onClick={() => setTab(x.id)}>
-              {x.e} {t.favorites.tabs[x.id]} <span className="opacity-60">({mounted ? favs[x.id].length : 0})</span>
+              {x.e} {x.id === "recipes" ? t.recipes.nav : t.favorites.tabs[x.id]} <span className="opacity-60">({mounted ? favs[x.id].length : 0})</span>
             </button>
           ))}
         </div>

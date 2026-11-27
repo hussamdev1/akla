@@ -44,6 +44,7 @@ From [docs/ROADMAP.md](docs/ROADMAP.md):
 - **Live data only** (`AKLA_SHOW_DEMO` defaults to `never`): the site shows the real OpenStreetMap places. Because the
   sheet is empty, menu/offer features show a "coming soon" card that links to the real places, and the picker spins
   real nearby places. The fictional demo data (20 restaurants, meals, offers) is still in the code for `always`/`auto`.
+- **93 recipes** in 16 cuisines at `/recipes` (TheMealDB + Wikibooks Cookbook, fully translated to Arabic), committed snapshot; see [APIS.md → Recipes](docs/APIS.md) and [ARCHITECTURE.md §4](docs/ARCHITECTURE.md). Public use of TheMealDB expects its one-off supporter key (`MEALDB_KEY`).
 
 **In progress elsewhere:** a separate session is doing a **responsive-layout pass** on its own branch. Expect changes to
 views and shell components; check open branches/PRs before starting layout work.

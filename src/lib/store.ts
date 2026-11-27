@@ -85,7 +85,7 @@ const initial: Persisted = {
   regionHint: "pending",
   motion: "system",
   sound: true,
-  favorites: { restaurants: [], meals: [], offers: [], categories: [] },
+  favorites: { restaurants: [], meals: [], offers: [], categories: [], recipes: [] },
   collections: [],
   views: {},
   offerViews: [],
@@ -242,6 +242,7 @@ export const useStore = create<State & Actions>()(
       },
       merge: (persisted, current) => {
         const s = { ...current, ...(persisted as Partial<Persisted>) };
+        s.favorites = { ...current.favorites, ...s.favorites }; // kinds added later (recipes) start empty
         if (!isCountry(s.country)) s.country = DEFAULT_COUNTRY;
         return { ...s, region: regionFor(s.country, s.location) };
       },

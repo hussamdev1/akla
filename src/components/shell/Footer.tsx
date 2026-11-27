@@ -7,7 +7,7 @@ import { SHOW_DEMO } from "@/data/source";
 export function Footer() {
   const { t } = useI18n();
   const links = [
-    ["/discover/", t.nav.discover], ["/restaurants/", t.nav.restaurants], ["/offers/", t.nav.offers], ["/nearby/", t.nav.nearby],
+    ["/discover/", t.nav.discover], ["/recipes/", t.recipes.nav], ["/restaurants/", t.nav.restaurants], ["/offers/", t.nav.offers], ["/nearby/", t.nav.nearby],
     ["/picker/", t.nav.picker], ["/games/", t.nav.games], ["/trending/", t.nav.trending], ["/compare/", t.nav.compare],
     ["/favorites/", t.nav.favorites], ["/profile/", t.nav.profile],
   ];

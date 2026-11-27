@@ -1,4 +1,5 @@
 import type { MealSize, MealTime, Mood, OfferTag, OfferType } from "./types";
+import { recipesAr, recipesEn } from "./messages-recipes";
 
 const en = {
   brand: { name: "Akla", tagline: "Decide less. Eat better.", descriptor: "Your daily food decider" },
@@ -177,6 +178,7 @@ const en = {
       retry: "Try again", favorites: "My favorites", picker: "Spin the wheel", home: "Home",
     },
   },
+  recipes: recipesEn,
 };
 
 export type Messages = typeof en;
@@ -358,6 +360,7 @@ const ar: Messages = {
       retry: "جرّب مرة ثانية", favorites: "مفضلتي", picker: "لِف العجلة", home: "الرئيسية",
     },
   },
+  recipes: recipesAr,
 };
 
 export const MESSAGES = { en, ar };
