@@ -83,7 +83,7 @@ const en = {
   restaurant: {
     about: "About", hours: "Opening hours", location: "Location", menu: "Menu & featured meals", popular: "Popular dishes", offers: "Current promotions",
     similar: "Similar restaurants", reviews: "Ratings & reviews", reviewsSoon: "Community reviews arrive with accounts (Phase 4). Ratings shown are demo values.",
-    days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], closedDay: "Closed", contact: "Contact", noOffers: "No live offers right now.",
+    days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], closedDay: "Closed", contact: "Contact", noOffers: "No live offers right now.", pricesChecked: (d: string) => `Prices from the official menu, checked ${d}`, officialMenu: "Official menu",
   },
   places: {
     soonTitle: "Real menus and offers are coming", soonBody: "Akla only shows live data. Restaurants are being added one by one — until then, browse the real places around you.",
@@ -264,7 +264,7 @@ const ar: Messages = {
   restaurant: {
     about: "عن المطعم", hours: "أوقات العمل", location: "الموقع", menu: "المنيو والأطباق المميزة", popular: "الأطباق المشهورة", offers: "العروض الحالية",
     similar: "مطاعم مشابهة", reviews: "التقييمات والمراجعات", reviewsSoon: "مراجعات المجتمع تجي مع الحسابات (المرحلة ٤). التقييمات المعروضة تجريبية.",
-    days: ["الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"], closedDay: "مسكّر", contact: "التواصل", noOffers: "ما في عروض شغّالة حالياً.",
+    days: ["الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"], closedDay: "مسكّر", contact: "التواصل", noOffers: "ما في عروض شغّالة حالياً.", pricesChecked: (d) => `الأسعار من المنيو الرسمي، تم التحقق ${d}`, officialMenu: "المنيو الرسمي",
   },
   places: {
     soonTitle: "المنيو والعروض الحقيقية جاية قريب", soonBody: "أكلة تعرض بس بيانات حقيقية. قاعدين نضيف المطاعم وحدة وحدة — لين ذاك الوقت تصفّح الأماكن الحقيقية اللي حولك.",

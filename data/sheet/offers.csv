@@ -1,2 +1,1 @@
 id,status,restaurant_id,meal_id,title_ar,title_en,description_ar,description_en,type,original_price,final_price,percent,starts_at,expires_at,verified,source_url,terms_ar,terms_en,tags,editors_pick,added_at
-example-bogo,draft,example-burger,example-smash,اشترِ واحد واحصل على الثاني مجاناً,Buy 1 get 1 free,كل ثلاثاء,Every Tuesday,bogo,5.500,2.750,50,2026-12-01 12:00,2026-12-31 23:59,yes,https://instagram.com/p/example,لفترة محدودة,Limited time,"dinner,limited",no,2026-11-26 09:00

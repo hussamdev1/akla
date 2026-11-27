@@ -1,2 +1,389 @@
-id,status,restaurant_id,name_ar,name_en,description_ar,description_en,category,price_kwd,image_url,emoji,spicy,vegetarian,size,moods,times,editors_pick
-example-smash,draft,example-burger,دبل سماش,Double Smash,قطعتين لحم مع جبن,Two beef patties with cheese,burgers,2.750,https://example.com/smash.jpg,🍔,0,no,regular,"starving,delicious","lunch,dinner,late",yes
+id,status,restaurant_id,name_ar,name_en,description_ar,description_en,category,price_kwd,image_url,emoji,spicy,vegetarian,size,moods,times,editors_pick,source_url,checked_at
+burger-king-whopper-burger,draft,burger-king,وابر,Whopper Burger,,,burgers,1.550,,🍔,0,no,regular,delicious,"lunch,dinner,late",yes,https://www.bk.com.kw/menu/sandwiches,2026-11-28
+burger-king-spicy-whopper,draft,burger-king,وابر حار,Spicy Whopper,,,burgers,1.650,,🌶️,2,no,regular,spicy,"lunch,dinner,late",no,https://www.bk.com.kw/menu/sandwiches,2026-11-28
+burger-king-double-whopper-burger,draft,burger-king,دبل وابر,Double Whopper Burger,,,burgers,1.950,,🍔,0,no,large,starving,"lunch,dinner,late",no,https://www.bk.com.kw/menu/sandwiches,2026-11-28
+burger-king-triple-whopper-burger,draft,burger-king,تريبل وابر,Triple Whopper Burger,,,burgers,2.350,,🍔,0,no,large,starving,"lunch,dinner,late",no,https://www.bk.com.kw/menu/sandwiches,2026-11-28
+burger-king-whopper-jr-burger,draft,burger-king,وابر جونيور,Whopper Jr Burger,,,burgers,1.100,,🍔,0,no,regular,cheap,"lunch,dinner,late",no,https://www.bk.com.kw/menu/sandwiches,2026-11-28
+burger-king-cheeseburger,draft,burger-king,تشيز برجر,Cheeseburger,,,burgers,0.750,,🧀,0,no,regular,cheap,"lunch,dinner,late",no,https://www.bk.com.kw/menu/sandwiches,2026-11-28
+burger-king-double-cheeseburger,draft,burger-king,دبل تشيز برجر,Double Cheeseburger,,,burgers,1.200,,🍔,0,no,regular,cheap,"lunch,dinner,late",no,https://www.bk.com.kw/menu/sandwiches,2026-11-28
+burger-king-chicken-royale,draft,burger-king,تشيكن رويال,Chicken Royale,,,fried-chicken,1.450,,🐔,0,no,regular,,"lunch,dinner,late",no,https://www.bk.com.kw/menu/sandwiches,2026-11-28
+burger-king-classic-crispy-fillet,draft,burger-king,كلاسيك كرسبي فيليه,Classic Crispy Fillet,,,fried-chicken,1.700,,🍗,0,no,regular,,"lunch,dinner,late",no,https://www.bk.com.kw/menu/sandwiches,2026-11-28
+burger-king-big-king-beef-xl-burger,draft,burger-king,بيج كنج XL لحم,Big King Beef XL Burger,,,burgers,1.950,,🍔,0,no,large,starving,"lunch,dinner,late",no,https://www.bk.com.kw/menu/sandwiches,2026-11-28
+burger-king-whopper-burger-meal,draft,burger-king,وجبة وابر,Whopper Burger Meal,,,burgers,2.450,,🍟,0,no,large,starving,"lunch,dinner,late",no,https://www.bk.com.kw/menu/flame-grilled-meals,2026-11-28
+burger-king-double-whopper-burger-meal,draft,burger-king,وجبة دبل وابر,Double Whopper Burger Meal,,,burgers,2.850,,🍟,0,no,large,starving,"lunch,dinner,late",no,https://www.bk.com.kw/menu/flame-grilled-meals,2026-11-28
+burger-king-fries,draft,burger-king,بطاطس,Fries,,,burgers,0.700,,🍟,0,yes,snack,cheap,"lunch,dinner,late",no,https://www.bk.com.kw/menu/sides-salads,2026-11-28
+burger-king-onion-rings,draft,burger-king,حلقات البصل,Onion Rings,,,burgers,1.000,,🧅,0,yes,snack,cheap,"lunch,dinner,late",no,https://www.bk.com.kw/menu/sides-salads,2026-11-28
+burger-king-chicken-strips,draft,burger-king,أصابع دجاج (٣ قطع),Chicken Strips,,,fried-chicken,1.250,,🍗,0,no,snack,cheap,"lunch,dinner,late",no,https://www.bk.com.kw/menu/sides-salads,2026-11-28
+burger-king-mozzarella-sticks,draft,burger-king,أصابع موزاريلا (٤ قطع),Mozzarella Sticks,,,burgers,1.100,,🧀,0,yes,snack,cheap,"lunch,dinner,late",no,https://www.bk.com.kw/menu/sides-salads,2026-11-28
+shake-shack-the-big-shack,draft,shake-shack,ذا بيج شاك,The Big Shack,,,burgers,4.000,,🍔,0,no,large,starving,"lunch,dinner,late",no,https://www.shakeshackme.com/en/menu?country=Kuwait,2026-11-28
+shake-shack-shackburger,draft,shake-shack,شاك برجر,ShackBurger,,,burgers,2.750,,🍔,0,no,regular,"starving,delicious","lunch,dinner,late",yes,https://www.shakeshackme.com/en/menu?country=Kuwait,2026-11-28
+shake-shack-smokeshack,draft,shake-shack,سموك شاك,SmokeShack,,,burgers,3.250,,🥓,0,no,regular,starving,"lunch,dinner,late",no,https://www.shakeshackme.com/en/menu?country=Kuwait,2026-11-28
+shake-shack-black-truffle,draft,shake-shack,بلاك ترافل,Black Truffle,,,burgers,3.000,,🍄,0,no,regular,starving,"lunch,dinner,late",no,https://www.shakeshackme.com/en/menu?country=Kuwait,2026-11-28
+shake-shack-shroom-burger,draft,shake-shack,مشروم برجر,'Shroom Burger,,,burgers,2.500,,🍄,0,yes,regular,starving,"lunch,dinner,late",no,https://www.shakeshackme.com/en/menu?country=Kuwait,2026-11-28
+shake-shack-cheeseburger,draft,shake-shack,تشيز برجر,Cheeseburger,,,burgers,2.500,,🧀,0,no,regular,starving,"lunch,dinner,late",no,https://www.shakeshackme.com/en/menu?country=Kuwait,2026-11-28
+shake-shack-chicken-shack,draft,shake-shack,تشيكن شاك,Chicken Shack,,,fried-chicken,2.750,,🐔,0,no,regular,starving,"lunch,dinner,late",no,https://www.shakeshackme.com/en/menu?country=Kuwait,2026-11-28
+shake-shack-hot-chicken,draft,shake-shack,هوت تشيكن,Hot Chicken,,,fried-chicken,2.750,,🌶️,2,no,regular,"starving,spicy","lunch,dinner,late",no,https://www.shakeshackme.com/en/menu?country=Kuwait,2026-11-28
+shake-shack-chicken-bites,draft,shake-shack,قطع دجاج,Chicken Bites,,,fried-chicken,1.000,,🍗,0,no,snack,cheap,"lunch,dinner,late",no,https://www.shakeshackme.com/en/menu?country=Kuwait,2026-11-28
+shake-shack-fries,draft,shake-shack,بطاطس,Fries,,,burgers,1.500,,🍟,0,yes,snack,,"lunch,dinner,late",no,https://www.shakeshackme.com/en/menu?country=Kuwait,2026-11-28
+shake-shack-cheese-fries,draft,shake-shack,بطاطس بالجبن,Cheese Fries,,,burgers,2.000,,🧀,0,yes,snack,,"lunch,dinner,late",no,https://www.shakeshackme.com/en/menu?country=Kuwait,2026-11-28
+shake-shack-hot-dog,draft,shake-shack,هوت دوق,Hot Dog,,,sandwiches,1.500,,🌭,0,no,regular,,"lunch,dinner,late",no,https://www.shakeshackme.com/en/menu?country=Kuwait,2026-11-28
+shake-shack-vanilla-shake,draft,shake-shack,شيك فانيلا,Vanilla Shake,,,desserts,2.000,,🥤,0,yes,regular,sweet,"lunch,dinner,late",no,https://www.shakeshackme.com/en/menu?country=Kuwait,2026-11-28
+shake-shack-cookies-and-cream-shake,draft,shake-shack,شيك كوكيز آند كريم,Cookies & Cream Shake,,,desserts,2.250,,🥤,0,yes,regular,sweet,"lunch,dinner,late",no,https://www.shakeshackme.com/en/menu?country=Kuwait,2026-11-28
+shake-shack-lemonade,draft,shake-shack,ليمونادة,Lemonade,,,beverages,1.650,,🍋,0,yes,regular,,"lunch,dinner,late",no,https://www.shakeshackme.com/en/menu?country=Kuwait,2026-11-28
+thinnies-the-original,draft,thinnies,ذي أورجينال,The Original,,,burgers,2.350,,🍔,0,no,regular,delicious,"lunch,dinner,late",yes,https://img1.wsimg.com/blobby/go/5470abb0-621c-4446-82dd-d58693de8fd3/KW%20Menu%20HRZ%20(1).pdf,2026-11-28
+thinnies-the-fresh,draft,thinnies,ذي فريش,The Fresh,,,burgers,2.550,,🍔,0,no,regular,starving,"lunch,dinner,late",no,https://img1.wsimg.com/blobby/go/5470abb0-621c-4446-82dd-d58693de8fd3/KW%20Menu%20HRZ%20(1).pdf,2026-11-28
+thinnies-the-slicer,draft,thinnies,ذي سلايسر,The Slicer,,,burgers,2.350,,🍔,0,no,regular,,"lunch,dinner,late",no,https://img1.wsimg.com/blobby/go/5470abb0-621c-4446-82dd-d58693de8fd3/KW%20Menu%20HRZ%20(1).pdf,2026-11-28
+thinnies-the-mushroom,draft,thinnies,ذي مشروم,The Mushroom,,,burgers,2.950,,🍄,0,no,regular,starving,"lunch,dinner,late",no,https://img1.wsimg.com/blobby/go/5470abb0-621c-4446-82dd-d58693de8fd3/KW%20Menu%20HRZ%20(1).pdf,2026-11-28
+thinnies-the-spicy-burger,draft,thinnies,ذي سبايسي برجر,The Spicy Burger,,,burgers,2.950,,🌶️,2,no,regular,"starving,spicy","lunch,dinner,late",no,https://img1.wsimg.com/blobby/go/5470abb0-621c-4446-82dd-d58693de8fd3/KW%20Menu%20HRZ%20(1).pdf,2026-11-28
+thinnies-smokey-bbq,draft,thinnies,سموكي باربيكيو,Smokey BBQ,,,burgers,2.950,,🍔,0,no,regular,starving,"lunch,dinner,late",no,https://img1.wsimg.com/blobby/go/5470abb0-621c-4446-82dd-d58693de8fd3/KW%20Menu%20HRZ%20(1).pdf,2026-11-28
+thinnies-the-bacon-jam,draft,thinnies,ذي بيكون جام,The Bacon Jam,,,burgers,2.950,,🥓,0,no,regular,starving,"lunch,dinner,late",no,https://img1.wsimg.com/blobby/go/5470abb0-621c-4446-82dd-d58693de8fd3/KW%20Menu%20HRZ%20(1).pdf,2026-11-28
+thinnies-the-chicken,draft,thinnies,ذي تشيكن,The Chicken,,,fried-chicken,2.300,,🐔,0,no,regular,,"lunch,dinner,late",no,https://img1.wsimg.com/blobby/go/5470abb0-621c-4446-82dd-d58693de8fd3/KW%20Menu%20HRZ%20(1).pdf,2026-11-28
+thinnies-the-spicy-chicken,draft,thinnies,ذي سبايسي تشيكن,The Spicy Chicken,,,fried-chicken,2.550,,🌶️,2,no,regular,"starving,spicy","lunch,dinner,late",no,https://img1.wsimg.com/blobby/go/5470abb0-621c-4446-82dd-d58693de8fd3/KW%20Menu%20HRZ%20(1).pdf,2026-11-28
+thinnies-chicken-tenders,draft,thinnies,تشيكن تندرز (٣ قطع),Chicken Tenders,,,fried-chicken,1.950,,🍗,0,no,snack,,"lunch,dinner,late",no,https://img1.wsimg.com/blobby/go/5470abb0-621c-4446-82dd-d58693de8fd3/KW%20Menu%20HRZ%20(1).pdf,2026-11-28
+thinnies-french-fries,draft,thinnies,بطاطس مقلية,French Fries,,,burgers,1.250,,🍟,0,yes,snack,cheap,"lunch,dinner,late",no,https://img1.wsimg.com/blobby/go/5470abb0-621c-4446-82dd-d58693de8fd3/KW%20Menu%20HRZ%20(1).pdf,2026-11-28
+thinnies-onion-rings,draft,thinnies,حلقات بصل,Onion Rings,,,burgers,1.250,,🧅,0,yes,snack,cheap,"lunch,dinner,late",no,https://img1.wsimg.com/blobby/go/5470abb0-621c-4446-82dd-d58693de8fd3/KW%20Menu%20HRZ%20(1).pdf,2026-11-28
+thinnies-kids-meal-burger,draft,thinnies,وجبة أطفال برجر,Kids Meal Burger,,,burgers,2.950,,🧒,0,no,regular,starving,"lunch,dinner,late",no,https://img1.wsimg.com/blobby/go/5470abb0-621c-4446-82dd-d58693de8fd3/KW%20Menu%20HRZ%20(1).pdf,2026-11-28
+thinnies-oreo-shaker,draft,thinnies,أوريو شيكر,Oreo Shaker,,,desserts,1.750,,🥤,0,yes,regular,sweet,"lunch,dinner,late",no,https://img1.wsimg.com/blobby/go/5470abb0-621c-4446-82dd-d58693de8fd3/KW%20Menu%20HRZ%20(1).pdf,2026-11-28
+kfc-big-kentaaky-combo,draft,kfc,كومبو بيج كنتاكي,Big Kentaaky Combo,,,fried-chicken,3.300,,🍟,0,no,large,starving,"lunch,dinner,late",no,https://kuwait.kfc.me/en/burgers/1365,2026-11-28
+kfc-double-cheesy-burger-original,draft,kfc,دبل تشيزي برجر أوريجينال,Double Cheesy Burger - Original,,,fried-chicken,0.900,,🍔,0,no,regular,cheap,"lunch,dinner,late",no,https://kuwait.kfc.me/en/burgers/1365,2026-11-28
+kfc-double-cheesy-burger-spicy,draft,kfc,دبل تشيزي برجر حار,Double Cheesy Burger - Spicy,,,fried-chicken,0.900,,🌶️,2,no,regular,"cheap,spicy","lunch,dinner,late",no,https://kuwait.kfc.me/en/burgers/1365,2026-11-28
+kfc-double-cheesy-burger-combo,draft,kfc,كومبو دبل تشيزي برجر,Double Cheesy Burger Combo,,,fried-chicken,1.950,,🍟,0,no,regular,,"lunch,dinner,late",no,https://kuwait.kfc.me/en/burgers/1365,2026-11-28
+kfc-big-kentaaky-original,draft,kfc,بيج كنتاكي أوريجينال,Big Kentaaky Original,,,fried-chicken,1.950,,🍔,0,no,regular,,"lunch,dinner,late",no,https://kuwait.kfc.me/en/burgers/1365,2026-11-28
+kfc-big-kentaaky-spicy,draft,kfc,بيج كنتاكي حار,Big Kentaaky Spicy,,,fried-chicken,1.950,,🌶️,2,no,regular,spicy,"lunch,dinner,late",no,https://kuwait.kfc.me/en/burgers/1365,2026-11-28
+kfc-zinger-sandwich,draft,kfc,ساندويتش زنجر,Zinger Sandwich,,,fried-chicken,1.700,,🌶️,1,no,regular,delicious,"lunch,dinner,late",yes,https://kuwait.kfc.me/en/burgers/1365,2026-11-28
+kfc-zinger-supreme-sandwich,draft,kfc,ساندويتش زنجر سوبريم,Zinger Supreme Sandwich,,,fried-chicken,1.750,,🍔,1,no,regular,,"lunch,dinner,late",no,https://kuwait.kfc.me/en/burgers/1365,2026-11-28
+kfc-mighty-zinger-sandwich,draft,kfc,ساندويتش مايتي زنجر,Mighty Zinger Sandwich,,,fried-chicken,2.000,,🍔,1,no,large,starving,"lunch,dinner,late",no,https://kuwait.kfc.me/en/burgers/1365,2026-11-28
+kfc-zinger-meal-combo,draft,kfc,وجبة زنجر,Zinger Meal Combo,,,fried-chicken,2.750,,🍟,1,no,regular,starving,"lunch,dinner,late",no,https://kuwait.kfc.me/en/burgers/1365,2026-11-28
+kfc-mighty-zinger-meal-combo,draft,kfc,وجبة مايتي زنجر,Mighty Zinger Meal Combo,,,fried-chicken,3.050,,🍟,1,no,large,starving,"lunch,dinner,late",no,https://kuwait.kfc.me/en/burgers/1365,2026-11-28
+kfc-supreme-combo,draft,kfc,كومبو سوبريم,Supreme Combo,,,fried-chicken,2.800,,🍟,0,no,regular,starving,"lunch,dinner,late",no,https://kuwait.kfc.me/en/burgers/1365,2026-11-28
+kfc-zinger-box,draft,kfc,بوكس زنجر,Zinger Box,,,fried-chicken,3.450,,📦,1,no,large,starving,"lunch,dinner,late",no,https://kuwait.kfc.me/en/burgers/1365,2026-11-28
+kfc-mighty-zinger-box,draft,kfc,بوكس مايتي زنجر,Mighty Zinger Box,,,fried-chicken,3.750,,📦,1,no,large,starving,"lunch,dinner,late",no,https://kuwait.kfc.me/en/burgers/1365,2026-11-28
+kfc-supreme-box,draft,kfc,بوكس سوبريم,Supreme Box,,,fried-chicken,3.500,,📦,0,no,large,starving,"lunch,dinner,late",no,https://kuwait.kfc.me/en/burgers/1365,2026-11-28
+naif-chicken-charcoal-chicken-plate,draft,naif-chicken,ماعون دجاجة على الفحم,Charcoal Chicken Plate,,,grilled,0.950,,🔥,0,no,regular,"cheap,delicious","lunch,dinner,late",yes,https://www.ordernaif.com/,2026-11-28
+naif-chicken-beef-burger-sandwich-drink,draft,naif-chicken,ساندويتش برجر لحم + مشروب,Beef Burger Sandwich + Drink,,,sandwiches,0.950,,🍔,0,no,regular,cheap,"lunch,dinner,late",no,https://www.ordernaif.com/,2026-11-28
+naif-chicken-crispy-wrap-sandwich-drink,draft,naif-chicken,ساندويتش كرسبي راب + مشروب,Crispy Wrap Sandwich + Drink,,,sandwiches,0.950,,🌯,0,no,regular,cheap,"lunch,dinner,late",no,https://www.ordernaif.com/,2026-11-28
+naif-chicken-charcoal-chicken-meal,draft,naif-chicken,وجبة دجاج على الفحم,Charcoal Chicken Meal,,,grilled,1.750,,🍗,0,no,large,starving,"lunch,dinner,late",no,https://www.ordernaif.com/,2026-11-28
+naif-chicken-sweet-wings-6-pc-meal,draft,naif-chicken,وجبة أجنحة سويت ٦ قطع,Sweet Wings 6 Pc Meal,,,fried-chicken,1.700,,🍗,0,no,regular,,"lunch,dinner,late",no,https://www.ordernaif.com/,2026-11-28
+naif-chicken-multi-taste-rice,draft,naif-chicken,أرز ملتي تيست,Multi Taste Rice,,,grilled,1.500,,🍚,0,no,regular,,"lunch,dinner,late",no,https://www.ordernaif.com/,2026-11-28
+naif-chicken-super-crispy-large-meal,draft,naif-chicken,وجبة سوبر كرسبي كبيرة,Super Crispy Large Meal,,,fried-chicken,3.550,,🍗,0,no,large,starving,"lunch,dinner,late",no,https://www.ordernaif.com/,2026-11-28
+naif-chicken-double-deluxe-meal,draft,naif-chicken,وجبة دبل ديلوكس,Double Deluxe Meal,,,sandwiches,3.250,,🍔,0,no,large,starving,"lunch,dinner,late",no,https://www.ordernaif.com/,2026-11-28
+naif-chicken-double-classic-burger-meal,draft,naif-chicken,وجبة دبل كلاسيك برجر,Double Classic Burger Meal,,,sandwiches,3.600,,🍔,0,no,large,starving,"lunch,dinner,late",no,https://www.ordernaif.com/,2026-11-28
+naif-chicken-quesadilla-crispy-2-drinks,draft,naif-chicken,كاساديا كرسبي + ٢ مشروب,Quesadilla Crispy + 2 Drinks,,,sandwiches,2.750,,🌮,0,no,regular,,"lunch,dinner,late",no,https://www.ordernaif.com/,2026-11-28
+naif-chicken-protein-salad,draft,naif-chicken,سلطة بروتين,Protein Salad,,,salads,0.950,,🥗,0,no,regular,"cheap,healthy","lunch,dinner,late",no,https://www.ordernaif.com/,2026-11-28
+naif-chicken-sweet-corn,draft,naif-chicken,سويت كورن,Sweet Corn,,,fried-chicken,0.600,,🌽,0,yes,snack,cheap,"lunch,dinner,late",no,https://www.ordernaif.com/,2026-11-28
+raising-canes-box-combo,draft,raising-canes,بوكس كومبو (٤ أصابع),Box Combo,,,fried-chicken,3.500,,📦,0,no,regular,"starving,delicious","lunch,dinner,late",yes,https://www.raisingcanesme.com/en/menu,2026-11-28
+raising-canes-sandwich-combo,draft,raising-canes,ساندويتش كومبو,Sandwich Combo,,,fried-chicken,3.350,,🍔,0,no,regular,starving,"lunch,dinner,late",no,https://www.raisingcanesme.com/en/menu,2026-11-28
+raising-canes-kids-combo,draft,raising-canes,كومبو أطفال,Kids Combo,,,fried-chicken,1.850,,🧒,0,no,snack,,"lunch,dinner,late",no,https://www.raisingcanesme.com/en/menu,2026-11-28
+raising-canes-caniac-combo,draft,raising-canes,كانياك كومبو (٦ أصابع),Caniac Combo,,,fried-chicken,4.500,,🍗,0,no,large,starving,"lunch,dinner,late",no,https://www.raisingcanesme.com/en/menu,2026-11-28
+raising-canes-3-finger-combo,draft,raising-canes,كومبو ٣ أصابع,3 Finger Combo,,,fried-chicken,2.950,,🍗,0,no,regular,starving,"lunch,dinner,late",no,https://www.raisingcanesme.com/en/menu,2026-11-28
+raising-canes-tailgate-25-pieces,draft,raising-canes,تيلقيت ٢٥ قطعة,Tailgate 25 Pieces,,,fried-chicken,13.250,,🎉,0,no,family,starving,"lunch,dinner,late",no,https://www.raisingcanesme.com/en/menu,2026-11-28
+raising-canes-tailgate-50-pieces,draft,raising-canes,تيلقيت ٥٠ قطعة,Tailgate 50 Pieces,,,fried-chicken,25.500,,🎉,0,no,family,starving,"lunch,dinner,late",no,https://www.raisingcanesme.com/en/menu,2026-11-28
+raising-canes-tailgate-75-pieces,draft,raising-canes,تيلقيت ٧٥ قطعة,Tailgate 75 Pieces,,,fried-chicken,37.500,,🎉,0,no,family,starving,"lunch,dinner,late",no,https://www.raisingcanesme.com/en/menu,2026-11-28
+chicster-classic-sandwich,draft,chicster,كلاسيك ساندويتش,Classic Sandwich,,,sandwiches,1.800,,🍔,0,no,regular,delicious,"lunch,dinner,late",yes,https://www.chicsterkw.com/,2026-11-28
+chicster-original-sandwich,draft,chicster,أوريجينال ساندويتش,Original Sandwich,,,sandwiches,1.600,,🍔,0,no,regular,,"lunch,dinner,late",no,https://www.chicsterkw.com/,2026-11-28
+chicster-chipotle-sandwich,draft,chicster,تشيبوتلي ساندويتش,Chipotle Sandwich,,,sandwiches,1.950,,🌶️,1,no,regular,,"lunch,dinner,late",no,https://www.chicsterkw.com/,2026-11-28
+chicster-classic-wrap,draft,chicster,كلاسيك راب,Classic Wrap,,,sandwiches,1.600,,🌯,0,no,regular,,"lunch,dinner,late",no,https://www.chicsterkw.com/,2026-11-28
+chicster-classic-spicy-wrap,draft,chicster,كلاسيك راب حار,Classic Spicy Wrap,,,sandwiches,1.700,,🌯,2,no,regular,spicy,"lunch,dinner,late",no,https://www.chicsterkw.com/,2026-11-28
+chicster-d-best-sandwich,draft,chicster,دي بيست ساندويتش,D' Best Sandwich,,,sandwiches,1.900,,🍔,0,no,regular,,"lunch,dinner,late",no,https://www.chicsterkw.com/,2026-11-28
+chicster-crunch-craze,draft,chicster,كرنش كريز,Crunch Craze,,,sandwiches,1.950,,🍔,0,no,regular,,"lunch,dinner,late",no,https://www.chicsterkw.com/,2026-11-28
+chicster-3-pcs-bone-in,draft,chicster,٣ قطع بالعظم,3 Pcs Bone-In,,,fried-chicken,2.950,,🍗,0,no,regular,starving,"lunch,dinner,late",no,https://www.chicsterkw.com/,2026-11-28
+chicster-6-pcs-bone-in,draft,chicster,٦ قطع بالعظم,6 Pcs Bone-In,,,fried-chicken,4.950,,🍗,0,no,large,starving,"lunch,dinner,late",no,https://www.chicsterkw.com/,2026-11-28
+chicster-3-pcs-strips,draft,chicster,٣ قطع ستربس,3 Pcs Strips,,,fried-chicken,1.850,,🍗,0,no,regular,,"lunch,dinner,late",no,https://www.chicsterkw.com/,2026-11-28
+chicster-6-pcs-strips,draft,chicster,٦ قطع ستربس,6 Pcs Strips,,,fried-chicken,3.400,,🍗,0,no,large,starving,"lunch,dinner,late",no,https://www.chicsterkw.com/,2026-11-28
+chicster-crave-box-regular,draft,chicster,كريف بوكس عادي,Crave Box Regular,,,fried-chicken,2.900,,📦,0,no,regular,starving,"lunch,dinner,late",no,https://www.chicsterkw.com/,2026-11-28
+chicster-original-sandwich-meal,draft,chicster,وجبة أوريجينال ساندويتش,Original Sandwich Meal,,,sandwiches,2.600,,🍟,0,no,regular,,"lunch,dinner,late",no,https://www.chicsterkw.com/,2026-11-28
+chicster-extreme-bucket,draft,chicster,إكستريم بكت,Extreme Bucket,,,fried-chicken,6.950,,🪣,0,no,family,starving,"lunch,dinner,late",no,https://www.chicsterkw.com/,2026-11-28
+chicster-super-bucket,draft,chicster,سوبر بكت,Super Bucket,,,fried-chicken,8.950,,🪣,0,no,family,starving,"lunch,dinner,late",no,https://www.chicsterkw.com/,2026-11-28
+chicster-wrap-it-up-meal,draft,chicster,وجبة رابت أب,Wrap It Up Meal,,,sandwiches,2.000,,🌯,0,no,regular,,"lunch,dinner,late",no,https://www.chicsterkw.com/,2026-11-28
+chicster-the-big-dip,draft,chicster,ذا بيج دب,The Big Dip,,,fried-chicken,0.750,,🥣,0,no,snack,cheap,"lunch,dinner,late",no,https://www.chicsterkw.com/,2026-11-28
+bazooka-sniper-chicken-box,draft,bazooka,سنايبر تشيكن بوكس,SNIPER CHICKEN BOX,,,fried-chicken,3.450,,📦,0,no,large,starving,"lunch,dinner,late",no,https://bazookakuwait.com/en/resturant/bazooka,2026-11-28
+bazooka-mighty-fire,draft,bazooka,مايتي فاير,MIGHTY FIRE,,,fried-chicken,2.450,,🌶️,2,no,regular,"spicy,delicious","lunch,dinner,late",yes,https://bazookakuwait.com/en/resturant/bazooka,2026-11-28
+bazooka-chicken-turkey-single,draft,bazooka,تشيكن تيركي سنقل,CHICKEN TURKEY SINGLE,,,sandwiches,2.350,,🥪,0,no,regular,,"lunch,dinner,late",no,https://bazookakuwait.com/en/resturant/bazooka,2026-11-28
+bazooka-chicken-wrap-classic,draft,bazooka,تشيكن راب كلاسيك,CHICKEN WRAP CLASSIC,,,sandwiches,1.450,,🌯,0,no,regular,,"lunch,dinner,late",no,https://bazookakuwait.com/en/resturant/bazooka,2026-11-28
+bazooka-bazooka-burger-single,draft,bazooka,بازوكا برجر سنقل,BAZOOKA BURGER SINGLE,,,burgers,2.450,,🍔,0,no,regular,,"lunch,dinner,late",no,https://bazookakuwait.com/en/resturant/bazooka,2026-11-28
+bazooka-classic-burger,draft,bazooka,كلاسيك برجر,Classic Burger,,,burgers,1.950,,🍔,0,no,regular,,"lunch,dinner,late",no,https://bazookakuwait.com/en/resturant/bazooka,2026-11-28
+bazooka-golden-offer-6-pcs,draft,bazooka,قولدن أوفر ٦ قطع,Golden Offer 6 Pcs,,,fried-chicken,5.000,,🍗,0,no,family,starving,"lunch,dinner,late",no,https://bazookakuwait.com/en/resturant/bazooka,2026-11-28
+bazooka-golden-dewaniya-chicken,draft,bazooka,قولدن ديوانية تشيكن,Golden Dewaniya Chicken,,,fried-chicken,7.950,,🍗,0,no,family,starving,"lunch,dinner,late",no,https://bazookakuwait.com/en/resturant/bazooka,2026-11-28
+bazooka-sub-classic-sandwich,draft,bazooka,ساب كلاسيك ساندويتش,Sub Classic Sandwich,,,sandwiches,1.500,,🥖,0,no,regular,,"lunch,dinner,late",no,https://bazookakuwait.com/en/resturant/bazooka,2026-11-28
+bazooka-sharing-box,draft,bazooka,شيرنق بوكس,Sharing Box,,,fried-chicken,3.000,,📦,0,no,family,starving,"lunch,dinner,late",no,https://bazookakuwait.com/en/resturant/bazooka,2026-11-28
+bazooka-loaded-fries-strips,draft,bazooka,بطاطس محملة بالستربس,Loaded Fries Strips,,,fried-chicken,1.500,,🍟,0,no,snack,,"lunch,dinner,late",no,https://bazookakuwait.com/en/resturant/bazooka,2026-11-28
+bazooka-nuggets-6-pcs,draft,bazooka,ناقتس ٦ قطع,Nuggets 6 pcs,,,fried-chicken,1.100,,🍗,0,no,snack,cheap,"lunch,dinner,late",no,https://bazookakuwait.com/en/resturant/bazooka,2026-11-28
+bazooka-cheesecake-strawberry,draft,bazooka,تشيز كيك فراولة,Cheesecake Strawberry,,,desserts,1.500,,🍰,0,yes,regular,sweet,"lunch,dinner,late",no,https://bazookakuwait.com/en/resturant/bazooka,2026-11-28
+bazooka-mojito,draft,bazooka,موهيتو,Mojito,,,beverages,1.150,,🍹,0,yes,regular,cheap,"lunch,dinner,late",no,https://bazookakuwait.com/en/resturant/bazooka,2026-11-28
+subway-meatballs,draft,subway,ميت بولز,Meatballs,,,sandwiches,1.650,,🥖,0,no,regular,,"lunch,dinner,afternoon",no,https://www.subway.com.kw/menu/mc-sub-sandwiches,2026-11-28
+subway-classic-chicken-bites-sub,draft,subway,كلاسيك تشيكن بايتس ساب,Classic Chicken Bites Sub,,,sandwiches,1.500,,🥖,0,no,regular,,"lunch,dinner,afternoon",no,https://www.subway.com.kw/menu/mc-sub-sandwiches,2026-11-28
+subway-halloumi,draft,subway,حلومي,Halloumi,,,sandwiches,1.450,,🧀,0,yes,regular,,"lunch,dinner,afternoon",no,https://www.subway.com.kw/menu/mc-sub-sandwiches,2026-11-28
+subway-rotisserie-chicken,draft,subway,روتيسري تشيكن,Rotisserie Chicken,,,sandwiches,1.600,,🍗,0,no,regular,,"lunch,dinner,afternoon",no,https://www.subway.com.kw/menu/mc-sub-sandwiches,2026-11-28
+subway-oven-roasted-chicken,draft,subway,تشيكن مشوي بالفرن,Oven Roasted Chicken,,,sandwiches,1.500,,🥖,0,no,regular,,"lunch,dinner,afternoon",no,https://www.subway.com.kw/menu/mc-sub-sandwiches,2026-11-28
+subway-steak-and-cheese,draft,subway,ستيك آند تشيز,Steak and Cheese,,,sandwiches,1.600,,🥩,0,no,regular,delicious,"lunch,dinner,afternoon",yes,https://www.subway.com.kw/menu/mc-sub-sandwiches,2026-11-28
+subway-turkey-breast,draft,subway,صدر تيركي,Turkey Breast,,,sandwiches,1.500,,🥖,0,no,regular,,"lunch,dinner,afternoon",no,https://www.subway.com.kw/menu/mc-sub-sandwiches,2026-11-28
+subway-peri-peri-chicken,draft,subway,بيري بيري تشيكن,Peri Peri Chicken,,,sandwiches,1.500,,🌶️,1,no,regular,,"lunch,dinner,afternoon",no,https://www.subway.com.kw/menu/mc-sub-sandwiches,2026-11-28
+subway-roast-beef,draft,subway,روست بيف,Roast Beef,,,sandwiches,1.600,,🥩,0,no,regular,,"lunch,dinner,afternoon",no,https://www.subway.com.kw/menu/mc-sub-sandwiches,2026-11-28
+subway-chicken-teriyaki,draft,subway,تشيكن ترياكي,Chicken Teriyaki,,,sandwiches,1.500,,🥖,0,no,regular,,"lunch,dinner,afternoon",no,https://www.subway.com.kw/menu/mc-sub-sandwiches,2026-11-28
+subway-subway-club,draft,subway,صب واي كلوب,Subway Club,,,sandwiches,1.600,,🥖,0,no,regular,,"lunch,dinner,afternoon",no,https://www.subway.com.kw/menu/mc-sub-sandwiches,2026-11-28
+subway-italian-b-m-t,draft,subway,إيطاليان بي إم تي,Italian B.M.T,,,sandwiches,1.450,,🥖,0,no,regular,,"lunch,dinner,afternoon",no,https://www.subway.com.kw/menu/mc-sub-sandwiches,2026-11-28
+subway-smoked-turkey,draft,subway,تيركي مدخن,Smoked Turkey,,,sandwiches,1.450,,🥖,0,no,regular,,"lunch,dinner,afternoon",no,https://www.subway.com.kw/menu/mc-sub-sandwiches,2026-11-28
+subway-veggie-delight,draft,subway,فيجي ديلايت,Veggie Delight,,,sandwiches,1.200,,🥗,0,yes,regular,cheap,"lunch,dinner,afternoon",no,https://www.subway.com.kw/menu/mc-sub-sandwiches,2026-11-28
+subway-tuna,draft,subway,تونة,Tuna,,,sandwiches,1.500,,🐟,0,no,regular,,"lunch,dinner,afternoon",no,https://www.subway.com.kw/menu/mc-sub-sandwiches,2026-11-28
+solo-pizza-margo,draft,solo-pizza,مارقو,Margo,,,pizza,4.750,,🍕,0,yes,regular,"starving,comfort,delicious","lunch,dinner",yes,https://order.solopn.com/category/pizza,2026-11-28
+solo-pizza-marinara,draft,solo-pizza,مارينارا,Marinara,,,pizza,4.000,,🍅,0,yes,regular,"starving,comfort","lunch,dinner",no,https://order.solopn.com/category/pizza,2026-11-28
+solo-pizza-super-mario,draft,solo-pizza,سوبر ماريو,Super Mario,,,pizza,6.000,,🍕,0,no,regular,"starving,comfort","lunch,dinner",no,https://order.solopn.com/category/pizza,2026-11-28
+solo-pizza-funghi,draft,solo-pizza,فونغي,Funghi,,,pizza,5.000,,🍄,0,yes,regular,"starving,comfort","lunch,dinner",no,https://order.solopn.com/category/pizza,2026-11-28
+solo-pizza-frodo,draft,solo-pizza,فرودو,Frodo,,,pizza,5.250,,🍕,0,no,regular,"starving,comfort","lunch,dinner",no,https://order.solopn.com/category/pizza,2026-11-28
+solo-pizza-bianca,draft,solo-pizza,بيانكا,Bianca,,,pizza,4.750,,🍕,0,yes,regular,"starving,comfort","lunch,dinner",no,https://order.solopn.com/category/pizza,2026-11-28
+solo-pizza-hibbzi,draft,solo-pizza,هبزي,Hibbzi,,,pizza,5.250,,🍕,0,no,regular,"starving,comfort","lunch,dinner",no,https://order.solopn.com/category/pizza,2026-11-28
+solo-pizza-don-calzone,draft,solo-pizza,دون كالزوني,Don Calzone,,,pizza,5.000,,🥟,0,no,regular,"starving,comfort","lunch,dinner",no,https://order.solopn.com/category/pizza,2026-11-28
+solo-pizza-mezzaluna,draft,solo-pizza,ميتزالونا,Mezzaluna,,,pizza,5.500,,🌙,0,no,regular,"starving,comfort","lunch,dinner",no,https://order.solopn.com/category/pizza,2026-11-28
+solo-pizza-caprese,draft,solo-pizza,كابريزي,Caprese,,,italian,3.500,,🍅,0,yes,regular,,"lunch,dinner",no,https://order.solopn.com/category/antipasti,2026-11-28
+solo-pizza-zaatar-marwan,draft,solo-pizza,زعتر مروان,Zaatar Marwan,,,italian,2.500,,🌿,0,yes,regular,,"lunch,dinner",no,https://order.solopn.com/category/antipasti,2026-11-28
+solo-pizza-rosa-al-forno,draft,solo-pizza,روزا ألفورنو,"Rosa ""AL FORNO""",,,pasta,6.000,,🍝,0,no,regular,comfort,"lunch,dinner",no,https://order.solopn.com/category/pasta,2026-11-28
+solo-pizza-donna-nutella,draft,solo-pizza,دونا نوتيلا,Donna Nutella,,,desserts,3.250,,🍫,0,yes,regular,sweet,"lunch,dinner",no,https://order.solopn.com/category/dolci,2026-11-28
+solo-pizza-limonata,draft,solo-pizza,ليموناتا,Limonata,,,beverages,1.250,,🍋,0,yes,regular,cheap,"lunch,dinner",no,https://order.solopn.com/category/drinks,2026-11-28
+mais-alghanim-tikka,draft,mais-alghanim,تكة,Tikka,,,grilled,5.750,,🍢,0,no,regular,"starving,delicious","lunch,dinner",yes,https://qrmenu.maisalghanim.com/category/grilled-meat/,2026-11-28
+mais-alghanim-kabbab-sultani,draft,mais-alghanim,كباب سلطاني,Kabbab Sultani,,,grilled,4.850,,🍢,0,no,regular,starving,"lunch,dinner",no,https://qrmenu.maisalghanim.com/category/grilled-meat/,2026-11-28
+mais-alghanim-lamb-chops,draft,mais-alghanim,ريش غنم,Lamb Chops,,,grilled,4.950,,🥩,0,no,regular,starving,"lunch,dinner",no,https://qrmenu.maisalghanim.com/category/grilled-meat/,2026-11-28
+mais-alghanim-kabbab,draft,mais-alghanim,كباب,Kabbab,,,grilled,4.150,,🍢,0,no,regular,starving,"lunch,dinner",no,https://qrmenu.maisalghanim.com/category/grilled-meat/,2026-11-28
+mais-alghanim-meat-arayes,draft,mais-alghanim,عرايس لحم,Meat Arayes,,,grilled,3.450,,🫓,0,no,regular,starving,"lunch,dinner",no,https://qrmenu.maisalghanim.com/category/grilled-meat/,2026-11-28
+mais-alghanim-mais-alghanim-grill,draft,mais-alghanim,مشاوي ميس الغانم,Mais Alghanim Grill,,,grilled,5.750,,🔥,0,no,large,starving,"lunch,dinner",no,https://qrmenu.maisalghanim.com/category/mix-grill/,2026-11-28
+mais-alghanim-family-grilled-platter,draft,mais-alghanim,طبق مشاوي عائلي,Family Grilled Platter,,,grilled,23.950,,🔥,0,no,family,starving,"lunch,dinner",no,https://qrmenu.maisalghanim.com/category/mix-grill/,2026-11-28
+mais-alghanim-shish-taouk,draft,mais-alghanim,شيش طاووق,Shish Taouk,,,grilled,4.150,,🍗,0,no,regular,starving,"lunch,dinner",no,https://qrmenu.maisalghanim.com/category/grilled-chicken/,2026-11-28
+mais-alghanim-whole-grilled-chicken,draft,mais-alghanim,دجاج مشوي كامل,Whole Grilled Chicken,,,grilled,4.350,,🍗,0,no,large,starving,"lunch,dinner",no,https://qrmenu.maisalghanim.com/category/grilled-chicken/,2026-11-28
+mais-alghanim-hummus-with-meat,draft,mais-alghanim,حمص باللحم,Hummus with Meat,,,arabic,2.850,,🥙,0,no,regular,comfort,"lunch,dinner",no,https://qrmenu.maisalghanim.com/category/hot-appetizers/,2026-11-28
+mais-alghanim-batata-harra,draft,mais-alghanim,بطاطا حارة,Batata Harra,,,arabic,1.850,,🌶️,1,yes,snack,comfort,"lunch,dinner",no,https://qrmenu.maisalghanim.com/category/hot-appetizers/,2026-11-28
+mais-alghanim-warbat-shawarma,draft,mais-alghanim,وربات شاورما,Warbat Shawarma,,,shawarma,2.350,,🥙,0,no,regular,,"lunch,dinner",no,https://qrmenu.maisalghanim.com/category/hot-appetizers/,2026-11-28
+mais-alghanim-grilled-halloum,draft,mais-alghanim,حلوم مشوي,Grilled Halloum,,,arabic,2.650,,🧀,0,yes,regular,comfort,"lunch,dinner",no,https://qrmenu.maisalghanim.com/category/hot-appetizers/,2026-11-28
+mais-alghanim-hummus,draft,mais-alghanim,حمص,Hummus,,,arabic,1.650,,🫘,0,yes,snack,comfort,"lunch,dinner",no,https://qrmenu.maisalghanim.com/category/cold-appetizers/,2026-11-28
+mais-alghanim-baba-ghanouj,draft,mais-alghanim,بابا غنوج,Baba Ghanouj,,,arabic,1.750,,🍆,0,yes,snack,comfort,"lunch,dinner",no,https://qrmenu.maisalghanim.com/category/cold-appetizers/,2026-11-28
+mais-alghanim-fattoush,draft,mais-alghanim,فتوش,Fattoush,,,salads,1.750,,🥗,0,yes,regular,healthy,"lunch,dinner",no,https://qrmenu.maisalghanim.com/category/salads/,2026-11-28
+mais-alghanim-tabouleh,draft,mais-alghanim,تبولة,Tabouleh,,,salads,1.750,,🥗,0,yes,regular,healthy,"lunch,dinner",no,https://qrmenu.maisalghanim.com/category/salads/,2026-11-28
+mais-alghanim-grilled-salmon,draft,mais-alghanim,سلمون مشوي,Grilled Salmon,,,seafood,6.750,,🐟,0,no,regular,,"lunch,dinner",no,https://qrmenu.maisalghanim.com/category/sea-food/,2026-11-28
+mais-alghanim-grilled-shrimp,draft,mais-alghanim,روبيان مشوي,Grilled Shrimp,,,seafood,6.450,,🦐,0,no,regular,,"lunch,dinner",no,https://qrmenu.maisalghanim.com/category/sea-food/,2026-11-28
+mais-alghanim-um-ali,draft,mais-alghanim,أم علي,Um Ali,,,desserts,1.450,,🥧,0,yes,regular,sweet,"lunch,dinner",no,https://qrmenu.maisalghanim.com/category/arabic-desserts/,2026-11-28
+mais-alghanim-lebanese-kunafa,draft,mais-alghanim,كنافة لبنانية,Lebanese Kunafa,,,desserts,1.650,,🧀,0,yes,regular,sweet,"lunch,dinner",no,https://qrmenu.maisalghanim.com/category/arabic-desserts/,2026-11-28
+mais-alghanim-lemon-with-mint,draft,mais-alghanim,ليمون بالنعناع,Lemon with Mint,,,beverages,1.650,,🍋,0,yes,regular,,"lunch,dinner",no,https://qrmenu.maisalghanim.com/category/fresh-juices/,2026-11-28
+freej-swaileh-mix-grill-medium,draft,freej-swaileh,مشاوي مشكلة (وسط),Mix Grill (Medium),,,grilled,6.500,,🔥,0,no,regular,starving,"lunch,dinner",no,https://freej-swaeleh.com/home,2026-11-28
+freej-swaileh-mix-grill-large,draft,freej-swaileh,مشاوي مشكلة (كبير),Mix Grill (Large),,,grilled,8.500,,🔥,0,no,family,starving,"lunch,dinner",no,https://freej-swaeleh.com/home,2026-11-28
+freej-swaileh-grilled-chicken-full,draft,freej-swaileh,دجاج مشوي (كامل),Grilled Chicken (Full),,,grilled,3.000,,🍗,0,no,large,starving,"lunch,dinner",no,https://freej-swaeleh.com/home,2026-11-28
+freej-swaileh-majbous-leham-habra,draft,freej-swaileh,مجبوس لحم هبرة,Majbous Leham Habra,,,arabic,6.000,,🍛,0,no,regular,"comfort,delicious","lunch,dinner",yes,https://freej-swaeleh.com/home,2026-11-28
+freej-swaileh-magluba-swaeleh,draft,freej-swaileh,مقلوبة صويلح,Magluba Swaeleh,,,arabic,6.500,,🍲,0,no,regular,comfort,"lunch,dinner",no,https://freej-swaeleh.com/home,2026-11-28
+freej-swaileh-bamiya-swaeleh,draft,freej-swaileh,بامية صويلح,Bamiya Swaeleh,,,arabic,4.750,,🍲,0,no,regular,comfort,"lunch,dinner",no,https://freej-swaeleh.com/home,2026-11-28
+freej-swaileh-white-rice,draft,freej-swaileh,عيش أبيض,White Rice,,,arabic,1.000,,🍚,0,yes,snack,"cheap,comfort","lunch,dinner",no,https://freej-swaeleh.com/home,2026-11-28
+freej-swaileh-tuna-salad,draft,freej-swaileh,سلطة تونة,Tuna Salad,,,salads,1.250,,🥗,0,no,snack,"cheap,healthy","lunch,dinner",no,https://freej-swaeleh.com/home,2026-11-28
+freej-swaileh-muthabal,draft,freej-swaileh,متبل,Muthabal,,,arabic,0.750,,🍆,0,yes,snack,"cheap,comfort","lunch,dinner",no,https://freej-swaeleh.com/home,2026-11-28
+freej-swaileh-chicken-corn-soup,draft,freej-swaileh,شوربة دجاج بالذرة,Chicken Corn Soup,,,arabic,1.250,,🥣,0,no,snack,"cheap,comfort","lunch,dinner",no,https://freej-swaeleh.com/home,2026-11-28
+freej-swaileh-camel-milk-small-bottle,draft,freej-swaileh,حليب نياق (صغير),Camel Milk (Small Bottle),,,beverages,1.750,,🥛,0,no,regular,,"lunch,dinner",no,https://freej-swaeleh.com/home,2026-11-28
+freej-swaileh-pomegranate-juice,draft,freej-swaileh,عصير رمان,Pomegranate Juice,,,beverages,1.000,,🧃,0,yes,regular,cheap,"lunch,dinner",no,https://freej-swaeleh.com/home,2026-11-28
+freej-swaileh-lemon-nana-a,draft,freej-swaileh,ليمون نعناع,Lemon Nana'a,,,beverages,1.000,,🍋,0,yes,regular,cheap,"lunch,dinner",no,https://freej-swaeleh.com/home,2026-11-28
+cafe-bazza-saudi-kabsa-with-chicken,draft,cafe-bazza,كبسة سعودية دجاج,Saudi Kabsa with Chicken,,,arabic,4.450,,🍛,0,no,regular,comfort,"lunch,dinner",no,https://www.cafebazzadelivery.com/,2026-11-28
+cafe-bazza-saudi-kabsa-with-lamb,draft,cafe-bazza,كبسة سعودية لحم,Saudi Kabsa with Lamb,,,arabic,4.950,,🍛,0,no,regular,comfort,"lunch,dinner",no,https://www.cafebazzadelivery.com/,2026-11-28
+cafe-bazza-chicken-biryani,draft,cafe-bazza,برياني دجاج,Chicken Biryani,,,indian,4.450,,🍛,1,no,regular,comfort,"lunch,dinner",no,https://www.cafebazzadelivery.com/,2026-11-28
+cafe-bazza-lamb-shank-biryani,draft,cafe-bazza,برياني موزات لحم,Lamb Shank Biryani,,,indian,6.900,,🍖,0,no,large,"starving,comfort","lunch,dinner",no,https://www.cafebazzadelivery.com/,2026-11-28
+cafe-bazza-machbous-chicken,draft,cafe-bazza,مكبوس دجاج,Machbous Chicken,,,arabic,4.450,,🍛,0,no,regular,"comfort,delicious","lunch,dinner",yes,https://www.cafebazzadelivery.com/,2026-11-28
+cafe-bazza-shrimp-mumawash,draft,cafe-bazza,روبيان مموش,Shrimp Mumawash,,,seafood,5.700,,🦐,0,no,regular,,"lunch,dinner",no,https://www.cafebazzadelivery.com/,2026-11-28
+cafe-bazza-chicken-maqlouba,draft,cafe-bazza,مقلوبة دجاج,Chicken Maqlouba,,,arabic,4.700,,🍲,0,no,regular,comfort,"lunch,dinner",no,https://www.cafebazzadelivery.com/,2026-11-28
+cafe-bazza-lamb-chop,draft,cafe-bazza,ريش لحم,Lamb Chop,,,grilled,5.950,,🥩,0,no,regular,starving,"lunch,dinner",no,https://www.cafebazzadelivery.com/,2026-11-28
+cafe-bazza-mixed-grill,draft,cafe-bazza,مشاوي مشكلة,Mixed Grill,,,grilled,3.950,,🔥,0,no,regular,starving,"lunch,dinner",no,https://www.cafebazzadelivery.com/,2026-11-28
+cafe-bazza-shish-tawook,draft,cafe-bazza,شيش طاووق,Shish Tawook,,,grilled,3.450,,🍗,0,no,regular,starving,"lunch,dinner",no,https://www.cafebazzadelivery.com/,2026-11-28
+cafe-bazza-chicken-shawarma-wraps,draft,cafe-bazza,راب شاورما دجاج,Chicken Shawarma Wraps,,,shawarma,3.550,,🌯,0,no,regular,,"lunch,dinner",no,https://www.cafebazzadelivery.com/,2026-11-28
+cafe-bazza-musakhan-tanoor,draft,cafe-bazza,مسخن تنور,Musakhan Tanoor,,,arabic,3.300,,🫓,0,no,regular,comfort,"lunch,dinner",no,https://www.cafebazzadelivery.com/,2026-11-28
+cafe-bazza-shakshouka,draft,cafe-bazza,شكشوكة,Shakshouka,,,breakfast,2.950,,🍳,0,yes,regular,,"breakfast,morning",no,https://www.cafebazzadelivery.com/,2026-11-28
+cafe-bazza-qibla-breakfast,draft,cafe-bazza,فطور القبلة,Qibla Breakfast,,,breakfast,8.500,,🍽️,0,no,family,starving,"breakfast,morning",no,https://www.cafebazzadelivery.com/,2026-11-28
+cafe-bazza-english-breakfast,draft,cafe-bazza,فطور إنجليزي,English Breakfast,,,breakfast,4.950,,🍳,0,no,regular,,"breakfast,morning",no,https://www.cafebazzadelivery.com/,2026-11-28
+cafe-bazza-karak,draft,cafe-bazza,كرك,Karak,,,beverages,1.450,,☕,0,yes,regular,,"morning,afternoon,late",no,https://www.cafebazzadelivery.com/,2026-11-28
+cafe-bazza-wafra-cocktail,draft,cafe-bazza,كوكتيل وفرة,Wafra Cocktail,,,beverages,2.250,,🥤,0,yes,regular,,"lunch,dinner",no,https://www.cafebazzadelivery.com/,2026-11-28
+cafe-bazza-umm-ali,draft,cafe-bazza,أم علي,Umm Ali,,,desserts,2.450,,🥧,0,yes,regular,sweet,"lunch,dinner",no,https://www.cafebazzadelivery.com/,2026-11-28
+cafe-bazza-kunafa,draft,cafe-bazza,كنافة,Kunafa,,,desserts,2.450,,🧀,0,yes,regular,sweet,"lunch,dinner",no,https://www.cafebazzadelivery.com/,2026-11-28
+cafe-bazza-london-cheesecake,draft,cafe-bazza,تشيز كيك لندن,London Cheesecake,,,desserts,2.450,,🍰,0,yes,regular,sweet,"lunch,dinner",no,https://www.cafebazzadelivery.com/,2026-11-28
+caesars-chicken-biryani,draft,caesars,برياني دجاج,Chicken Biryani,,,indian,2.950,,🍛,1,no,regular,"comfort,delicious","lunch,dinner",yes,https://restaurant.ordercaesars.com/,2026-11-28
+caesars-mutton-biryani,draft,caesars,برياني لحم,Mutton Biryani,,,indian,3.500,,🍛,1,no,regular,comfort,"lunch,dinner",no,https://restaurant.ordercaesars.com/,2026-11-28
+caesars-prawn-biryani,draft,caesars,برياني روبيان,Prawn Biryani,,,indian,3.950,,🦐,1,no,regular,comfort,"lunch,dinner",no,https://restaurant.ordercaesars.com/,2026-11-28
+caesars-chicken-tikka,draft,caesars,تكا دجاج,Chicken Tikka,,,indian,3.750,,🍢,1,no,regular,comfort,"lunch,dinner",no,https://restaurant.ordercaesars.com/,2026-11-28
+caesars-mixed-chicken-tikka,draft,caesars,تكا دجاج مشكل,Mixed Chicken Tikka,,,indian,4.950,,🍢,1,no,large,"starving,comfort","lunch,dinner",no,https://restaurant.ordercaesars.com/,2026-11-28
+caesars-butter-chicken,draft,caesars,زبدة دجاج,Butter Chicken,,,indian,3.850,,🍛,0,no,regular,comfort,"lunch,dinner",no,https://restaurant.ordercaesars.com/,2026-11-28
+caesars-chicken-tikka-masala,draft,caesars,تكا ماسالا دجاج,Chicken Tikka Masala,,,indian,3.250,,🍛,1,no,regular,comfort,"lunch,dinner",no,https://restaurant.ordercaesars.com/,2026-11-28
+caesars-mutton-rogan-josh,draft,caesars,روغان جوش لحم,Mutton Rogan Josh,,,indian,3.250,,🍲,2,no,regular,"spicy,comfort","lunch,dinner",no,https://restaurant.ordercaesars.com/,2026-11-28
+caesars-caesars-steak,draft,caesars,ستيك قيصر,Caesars Steak,,,grilled,4.950,,🥩,0,no,regular,starving,"lunch,dinner",no,https://restaurant.ordercaesars.com/,2026-11-28
+caesars-mixed-grill,draft,caesars,مشاوي مشكلة,Mixed Grill,,,grilled,3.950,,🔥,0,no,regular,starving,"lunch,dinner",no,https://restaurant.ordercaesars.com/,2026-11-28
+caesars-sweet-and-sour-chicken,draft,caesars,دجاج حلو وحامض,Sweet And Sour Chicken,,,asian,3.250,,🍗,0,no,regular,,"lunch,dinner",no,https://restaurant.ordercaesars.com/,2026-11-28
+caesars-mongolian-chicken,draft,caesars,دجاج منغولي,Mongolian Chicken,,,asian,3.500,,🍗,1,no,regular,,"lunch,dinner",no,https://restaurant.ordercaesars.com/,2026-11-28
+caesars-caesars-fried-rice,draft,caesars,رز مقلي قيصر,Caesars Fried Rice,,,asian,1.900,,🍚,0,no,regular,,"lunch,dinner",no,https://restaurant.ordercaesars.com/,2026-11-28
+caesars-plain-caesars-chow-mein,draft,caesars,تشاو مين قيصر,Plain Caesars Chow Mein,,,asian,2.250,,🍜,0,no,regular,,"lunch,dinner",no,https://restaurant.ordercaesars.com/,2026-11-28
+caesars-drums-of-heaven,draft,caesars,درمز أوف هيفن,Drums Of Heaven,,,asian,2.650,,🍗,1,no,regular,,"lunch,dinner",no,https://restaurant.ordercaesars.com/,2026-11-28
+caesars-chinese-fried-prawn,draft,caesars,روبيان مقلي صيني,Chinese Fried Prawn,,,asian,4.500,,🦐,0,no,regular,,"lunch,dinner",no,https://restaurant.ordercaesars.com/,2026-11-28
+caesars-naan,draft,caesars,نان,Naan,,,indian,0.300,,🫓,0,yes,snack,"cheap,comfort","lunch,dinner",no,https://restaurant.ordercaesars.com/,2026-11-28
+caesars-gulab-jamun,draft,caesars,قلاب جامون,Gulab Jamun,,,desserts,0.950,,🍮,0,yes,regular,"cheap,sweet","lunch,dinner",no,https://restaurant.ordercaesars.com/,2026-11-28
+mughal-mahal-chicken-65,draft,mughal-mahal,تشيكن ٦٥,Chicken 65,,,indian,3.350,,🍗,2,no,regular,"spicy,comfort","lunch,dinner",no,https://www.mughalmahal2go.com/category/,2026-11-28
+mughal-mahal-chilli-chicken,draft,mughal-mahal,تشيلي تشيكن,Chilli Chicken,,,asian,3.350,,🌶️,2,no,regular,spicy,"lunch,dinner",no,https://www.mughalmahal2go.com/category/,2026-11-28
+mughal-mahal-fattoush,draft,mughal-mahal,فتوش,Fattoush,,,salads,1.700,,🥗,0,yes,regular,healthy,"lunch,dinner",no,https://www.mughalmahal2go.com/category/,2026-11-28
+mughal-mahal-hummus,draft,mughal-mahal,حمص,Hummus,,,arabic,1.550,,🫘,0,yes,snack,comfort,"lunch,dinner",no,https://www.mughalmahal2go.com/category/,2026-11-28
+mughal-mahal-lentil-soup-adas,draft,mughal-mahal,شوربة عدس,Lentil Soup (Adas),,,indian,1.550,,🥣,0,yes,snack,comfort,"lunch,dinner",no,https://www.mughalmahal2go.com/category/,2026-11-28
+mughal-mahal-hot-and-sour-soup,draft,mughal-mahal,شوربة هوت آند ساور,Hot & Sour Soup,,,asian,1.650,,🥣,1,no,snack,,"lunch,dinner",no,https://www.mughalmahal2go.com/category/,2026-11-28
+mughal-mahal-fish-curry-hamur,draft,mughal-mahal,كاري سمك هامور,Fish Curry (Hamur),,,seafood,5.750,,🐟,1,no,regular,,"lunch,dinner",no,https://www.mughalmahal2go.com/category/,2026-11-28
+mughal-mahal-kadai-prawn-jumbo,draft,mughal-mahal,كاداي روبيان جامبو,Kadai Prawn Jumbo,,,seafood,5.950,,🦐,2,no,regular,spicy,"lunch,dinner",no,https://www.mughalmahal2go.com/category/,2026-11-28
+mughal-mahal-jumbo-shrimp-biryani,draft,mughal-mahal,برياني روبيان جامبو,Jumbo Shrimp Biryani,,,indian,6.450,,🦐,1,no,regular,comfort,"lunch,dinner",no,https://www.mughalmahal2go.com/category/,2026-11-28
+mughal-mahal-lamb-chops-biryani,draft,mughal-mahal,برياني ريش لحم,Lamb Chops Biryani,,,indian,5.950,,🍖,1,no,regular,"comfort,delicious","lunch,dinner",yes,https://www.mughalmahal2go.com/category/,2026-11-28
+mughal-mahal-chicken-65-with-biryani-rice,draft,mughal-mahal,تشيكن ٦٥ مع رز برياني,Chicken 65 With Biryani Rice,,,indian,4.250,,🍛,2,no,regular,"spicy,comfort","lunch,dinner",no,https://www.mughalmahal2go.com/category/,2026-11-28
+mughal-mahal-lamb-mixed-grill-sizzler-combo-with-fries,draft,mughal-mahal,سيزلر مشاوي لحم مع بطاطس,Lamb Mixed Grill Sizzler (combo) With Fries,,,grilled,5.950,,🔥,0,no,large,starving,"lunch,dinner",no,https://www.mughalmahal2go.com/category/,2026-11-28
+mughal-mahal-chicken-breast-oh-la-la,draft,mughal-mahal,صدر دجاج أو لا لا,Chicken Breast Oh-La-La,,,grilled,3.950,,🍗,0,no,regular,starving,"lunch,dinner",no,https://www.mughalmahal2go.com/category/,2026-11-28
+mughal-mahal-cheese-broccoli-sizzler,draft,mughal-mahal,سيزلر بروكلي بالجبن,Cheese Broccoli Sizzler,,,indian,3.450,,🥦,0,yes,regular,comfort,"lunch,dinner",no,https://www.mughalmahal2go.com/category/,2026-11-28
+mughal-mahal-beef-chunky,draft,mughal-mahal,بيف تشانكي,Beef Chunky,,,asian,5.250,,🥩,0,no,regular,,"lunch,dinner",no,https://www.mughalmahal2go.com/category/,2026-11-28
+mughal-mahal-chicken-with-broccoli-and-cashew-nut,draft,mughal-mahal,دجاج بالبروكلي والكاجو,Chicken with Broccoli & Cashew Nut,,,asian,4.500,,🥦,0,no,regular,,"lunch,dinner",no,https://www.mughalmahal2go.com/category/,2026-11-28
+mughal-mahal-chicken-machboos,draft,mughal-mahal,مكبوس دجاج,Chicken Machboos,,,arabic,3.950,,🍛,0,no,regular,comfort,"lunch,dinner",no,https://www.mughalmahal2go.com/category/,2026-11-28
+pf-changs-chang-s-chicken-lettuce-wraps,draft,pf-changs,لفائف الخس بالدجاج,Chang's Chicken Lettuce Wraps,,,asian,4.100,,🥬,0,no,regular,delicious,"lunch,dinner",yes,https://www.pfchangsme.com/en/menu?country=Kuwait,2026-11-28
+pf-changs-the-original-dynamite-shrimp,draft,pf-changs,روبيان ديناميت الأصلي,The Original Dynamite Shrimp,,,asian,4.400,,🦐,1,no,regular,,"lunch,dinner",no,https://www.pfchangsme.com/en/menu?country=Kuwait,2026-11-28
+pf-changs-crispy-green-beans,draft,pf-changs,فاصوليا خضراء مقرمشة,Crispy Green Beans,,,asian,3.500,,🫛,0,yes,snack,,"lunch,dinner",no,https://www.pfchangsme.com/en/menu?country=Kuwait,2026-11-28
+pf-changs-shrimp-dumplings,draft,pf-changs,دمبلنغ روبيان,Shrimp Dumplings,,,asian,3.600,,🥟,0,no,snack,,"lunch,dinner",no,https://www.pfchangsme.com/en/menu?country=Kuwait,2026-11-28
+pf-changs-chicken-dumplings,draft,pf-changs,دمبلنغ دجاج,Chicken Dumplings,,,asian,2.600,,🥟,0,no,snack,,"lunch,dinner",no,https://www.pfchangsme.com/en/menu?country=Kuwait,2026-11-28
+pf-changs-mongolian-beef,draft,pf-changs,لحم منغولي,Mongolian Beef,,,asian,7.000,,🥩,0,no,regular,,"lunch,dinner",no,https://www.pfchangsme.com/en/menu?country=Kuwait,2026-11-28
+pf-changs-kung-pao-chicken,draft,pf-changs,دجاج كونغ باو,Kung Pao Chicken,,,asian,5.700,,🌶️,2,no,regular,spicy,"lunch,dinner",no,https://www.pfchangsme.com/en/menu?country=Kuwait,2026-11-28
+pf-changs-chang-s-spicy-chicken,draft,pf-changs,دجاج تشانغز الحار,Chang's Spicy Chicken,,,asian,5.700,,🌶️,2,no,regular,spicy,"lunch,dinner",no,https://www.pfchangsme.com/en/menu?country=Kuwait,2026-11-28
+pf-changs-sweet-and-sour-chicken,draft,pf-changs,دجاج حلو وحامض,Sweet & Sour Chicken,,,asian,5.400,,🍗,0,no,regular,,"lunch,dinner",no,https://www.pfchangsme.com/en/menu?country=Kuwait,2026-11-28
+pf-changs-miso-glazed-salmon,draft,pf-changs,سلمون بالميسو,Miso Glazed Salmon,,,asian,8.200,,🐟,0,no,regular,,"lunch,dinner",no,https://www.pfchangsme.com/en/menu?country=Kuwait,2026-11-28
+pf-changs-shaking-beef,draft,pf-changs,شيكنق بيف,Shaking Beef,,,asian,7.000,,🥩,0,no,regular,,"lunch,dinner",no,https://www.pfchangsme.com/en/menu?country=Kuwait,2026-11-28
+pf-changs-pad-thai,draft,pf-changs,باد تاي,Pad Thai,,,asian,5.100,,🍜,0,no,regular,,"lunch,dinner",no,https://www.pfchangsme.com/en/menu?country=Kuwait,2026-11-28
+pf-changs-lo-mein,draft,pf-changs,لو مين,Lo Mein,,,asian,4.600,,🍜,0,no,regular,,"lunch,dinner",no,https://www.pfchangsme.com/en/menu?country=Kuwait,2026-11-28
+pf-changs-chang-s-fried-rice,draft,pf-changs,رز تشانغز المقلي,Chang's Fried Rice,,,asian,3.000,,🍚,0,no,regular,,"lunch,dinner",no,https://www.pfchangsme.com/en/menu?country=Kuwait,2026-11-28
+pf-changs-great-wall-of-chocolate,draft,pf-changs,سور الصين من الشوكولاتة,Great Wall of Chocolate,,,desserts,5.100,,🍫,0,yes,regular,sweet,"lunch,dinner",no,https://www.pfchangsme.com/en/menu?country=Kuwait,2026-11-28
+pf-changs-jade-lemonade,draft,pf-changs,ليمونادة جيد,Jade Lemonade,,,beverages,2.100,,🍋,0,yes,regular,,"lunch,dinner",no,https://www.pfchangsme.com/en/menu?country=Kuwait,2026-11-28
+the-cheesecake-factory-famous-factory-meatloaf,draft,the-cheesecake-factory,ميت لوف الفاكتوري,Famous Factory Meatloaf,,,italian,7.100,,🥩,0,no,regular,,"lunch,dinner",no,https://thecheesecakefactoryme.com/kw/en/list/specialties,2026-11-28
+the-cheesecake-factory-chicken-madeira,draft,the-cheesecake-factory,دجاج ماديرا,Chicken Madeira,,,italian,7.900,,🍗,0,no,regular,delicious,"lunch,dinner",yes,https://thecheesecakefactoryme.com/kw/en/list/specialties,2026-11-28
+the-cheesecake-factory-chicken-parmesan-pizza-style,draft,the-cheesecake-factory,دجاج بارميزان على طريقة البيتزا,"Chicken Parmesan ""Pizza Style""",,,italian,7.100,,🍗,0,no,regular,,"lunch,dinner",no,https://thecheesecakefactoryme.com/kw/en/list/specialties,2026-11-28
+the-cheesecake-factory-bang-bang-chicken-and-shrimp,draft,the-cheesecake-factory,بانق بانق دجاج وروبيان,Bang-Bang Chicken And Shrimp,,,asian,8.300,,🦐,2,no,regular,spicy,"lunch,dinner",no,https://thecheesecakefactoryme.com/kw/en/list/specialties,2026-11-28
+the-cheesecake-factory-korean-fried-chicken,draft,the-cheesecake-factory,دجاج مقلي كوري,Korean Fried Chicken,,,asian,5.800,,🍗,1,no,regular,,"lunch,dinner",no,https://thecheesecakefactoryme.com/kw/en/list/specialties,2026-11-28
+the-cheesecake-factory-shepherd-s-pie,draft,the-cheesecake-factory,فطيرة الراعي,Shepherd's Pie,,,italian,6.900,,🥧,0,no,regular,,"lunch,dinner",no,https://thecheesecakefactoryme.com/kw/en/list/specialties,2026-11-28
+the-cheesecake-factory-fish-tacos,draft,the-cheesecake-factory,تاكو سمك,Fish Tacos,,,mexican,6.300,,🌮,0,no,regular,,"lunch,dinner",no,https://thecheesecakefactoryme.com/kw/en/list/specialties,2026-11-28
+the-cheesecake-factory-thai-stir-fried-noodles,draft,the-cheesecake-factory,نودلز تايلندية مقلية,Thai Stir Fried Noodles,,,asian,5.500,,🍜,1,no,regular,,"lunch,dinner",no,https://thecheesecakefactoryme.com/kw/en/list/specialties,2026-11-28
+the-cheesecake-factory-orange-chicken,draft,the-cheesecake-factory,دجاج بالبرتقال,Orange Chicken,,,asian,7.500,,🍊,0,no,regular,,"lunch,dinner",no,https://thecheesecakefactoryme.com/kw/en/list/specialties,2026-11-28
+the-cheesecake-factory-french-fries,draft,the-cheesecake-factory,بطاطس مقلية,French Fries,,,italian,2.130,,🍟,0,yes,snack,,"lunch,dinner",no,https://thecheesecakefactoryme.com/kw/en/list/specialties,2026-11-28
+the-cheesecake-factory-macaroni-and-cheese,draft,the-cheesecake-factory,مكرونة بالجبن,Macaroni & Cheese,,,pasta,2.430,,🧀,0,yes,snack,comfort,"lunch,dinner",no,https://thecheesecakefactoryme.com/kw/en/list/specialties,2026-11-28
+the-cheesecake-factory-caesar-salad,draft,the-cheesecake-factory,سلطة سيزر,Caesar Salad,,,salads,4.300,,🥗,0,no,regular,healthy,"lunch,dinner",no,https://thecheesecakefactoryme.com/kw/en/list/salads,2026-11-28
+the-cheesecake-factory-cobb-salad,draft,the-cheesecake-factory,سلطة كوب,Cobb Salad,,,salads,6.750,,🥗,0,no,regular,healthy,"lunch,dinner",no,https://thecheesecakefactoryme.com/kw/en/list/salads,2026-11-28
+the-cheesecake-factory-factory-chopped-salad,draft,the-cheesecake-factory,سلطة الفاكتوري المقطعة,Factory Chopped Salad,,,salads,5.400,,🥗,0,no,regular,healthy,"lunch,dinner",no,https://thecheesecakefactoryme.com/kw/en/list/salads,2026-11-28
+the-cheesecake-factory-original-cheesecake,draft,the-cheesecake-factory,تشيزكيك أوريجينال,Original Cheesecake,,,desserts,2.900,,🍰,0,yes,regular,"sweet,delicious","lunch,dinner",yes,https://www.thecheesecakefactoryme.com/kw/en/elist/cheesecakes-specialty-desserts,2026-11-28
+the-cheesecake-factory-fresh-strawberry-cheesecake,draft,the-cheesecake-factory,تشيزكيك فراولة طازجة,Fresh Strawberry Cheesecake,,,desserts,3.600,,🍓,0,yes,regular,sweet,"lunch,dinner",no,https://www.thecheesecakefactoryme.com/kw/en/elist/cheesecakes-specialty-desserts,2026-11-28
+the-cheesecake-factory-godiva-chocolate-cheesecake,draft,the-cheesecake-factory,تشيزكيك جوديفا بالشوكولاتة,Godiva Chocolate Cheesecake,,,desserts,3.500,,🍫,0,yes,regular,sweet,"lunch,dinner",no,https://www.thecheesecakefactoryme.com/kw/en/elist/cheesecakes-specialty-desserts,2026-11-28
+the-cheesecake-factory-linda-s-fudge-cake,draft,the-cheesecake-factory,كيكة فدج ليندا,Linda's Fudge Cake,,,desserts,3.700,,🍫,0,yes,regular,sweet,"lunch,dinner",no,https://www.thecheesecakefactoryme.com/kw/en/elist/cheesecakes-specialty-desserts,2026-11-28
+the-cheesecake-factory-classic-basque-cheesecake,draft,the-cheesecake-factory,تشيزكيك باسك كلاسيك,Classic Basque Cheesecake,,,desserts,3.600,,🍰,0,yes,regular,sweet,"lunch,dinner",no,https://www.thecheesecakefactoryme.com/kw/en/elist/cheesecakes-specialty-desserts,2026-11-28
+shrimpy-shrimptastic-meal,draft,shrimpy,وجبة شرمبتاستك,Shrimptastic Meal,,,seafood,2.850,,🦐,0,no,regular,,"lunch,dinner,late",no,https://www.shrimpy.com/,2026-11-28
+shrimpy-shrimpino-meal,draft,shrimpy,وجبة شرمبينو,Shrimpino Meal,,,seafood,2.850,,🦐,0,no,regular,,"lunch,dinner,late",no,https://www.shrimpy.com/,2026-11-28
+shrimpy-butterfly-shrimp-meal,draft,shrimpy,وجبة روبيان باترفلاي,Butterfly Shrimp Meal,,,seafood,3.250,,🦐,0,no,regular,,"lunch,dinner,late",no,https://www.shrimpy.com/,2026-11-28
+shrimpy-shrimpy-original-meal,draft,shrimpy,وجبة شرمبي أوريجينال,Shrimpy Original Meal,,,seafood,2.450,,🦐,0,no,regular,delicious,"lunch,dinner,late",yes,https://www.shrimpy.com/,2026-11-28
+shrimpy-shrimpino,draft,shrimpy,شرمبينو,Shrimpino,,,sandwiches,1.850,,🥖,0,no,regular,,"lunch,dinner,late",no,https://www.shrimpy.com/,2026-11-28
+shrimpy-shrimptastic,draft,shrimpy,شرمبتاستك,Shrimptastic,,,sandwiches,1.850,,🥖,0,no,regular,,"lunch,dinner,late",no,https://www.shrimpy.com/,2026-11-28
+shrimpy-shrimpy-wrap,draft,shrimpy,شرمبي راب,Shrimpy Wrap,,,sandwiches,1.350,,🌯,0,no,regular,,"lunch,dinner,late",no,https://www.shrimpy.com/,2026-11-28
+shrimpy-surf-and-turf-meal,draft,shrimpy,وجبة سيرف آند تيرف,Surf & Turf Meal,,,seafood,3.250,,🍽️,0,no,large,starving,"lunch,dinner,late",no,https://www.shrimpy.com/,2026-11-28
+shrimpy-fish-4,draft,shrimpy,فيش ٤,Fish 4,,,seafood,2.450,,🐟,0,no,regular,,"lunch,dinner,late",no,https://www.shrimpy.com/,2026-11-28
+shrimpy-shrimpy-45,draft,shrimpy,شرمبي ٤٥,Shrimpy 45,,,seafood,6.950,,🦐,0,no,family,starving,"lunch,dinner,late",no,https://www.shrimpy.com/,2026-11-28
+shrimpy-grilled-fish,draft,shrimpy,سمك مشوي,Grilled Fish,,,seafood,2.250,,🐟,0,no,regular,,"lunch,dinner,late",no,https://www.shrimpy.com/,2026-11-28
+shrimpy-jumbo-grilled-shrimp,draft,shrimpy,روبيان جامبو مشوي,Jumbo Grilled Shrimp,,,seafood,8.200,,🦐,0,no,large,starving,"lunch,dinner,late",no,https://www.shrimpy.com/,2026-11-28
+shrimpy-blazin-bucket,draft,shrimpy,بليزن بكت,Blazin' Bucket,,,seafood,6.950,,🪣,2,no,family,"starving,spicy","lunch,dinner,late",no,https://www.shrimpy.com/,2026-11-28
+shrimpy-dynamite-shrimp,draft,shrimpy,روبيان ديناميت,Dynamite Shrimp,,,seafood,1.850,,🌶️,1,no,snack,,"lunch,dinner,late",no,https://www.shrimpy.com/,2026-11-28
+shrimpy-onion-rings,draft,shrimpy,حلقات بصل,Onion Rings,,,seafood,0.950,,🧅,0,yes,snack,cheap,"lunch,dinner,late",no,https://www.shrimpy.com/,2026-11-28
+shrimpy-cheese-fries,draft,shrimpy,بطاطس بالجبن,Cheese Fries,,,seafood,0.950,,🧀,0,yes,snack,cheap,"lunch,dinner,late",no,https://www.shrimpy.com/,2026-11-28
+shrimpy-chocolate-chip-cookies,draft,shrimpy,كوكيز بالشوكولاتة,Chocolate Chip Cookies,,,desserts,0.550,,🍪,0,yes,snack,"cheap,sweet","lunch,dinner,late",no,https://www.shrimpy.com/,2026-11-28
+pick-acai-classic-bowl,draft,pick,أساي كلاسيك بول,Acai Classic Bowl,,,healthy,2.500,,🫐,0,yes,regular,healthy,"breakfast,morning,afternoon",no,https://orderpick.com/en/pick-aljahra-31,2026-11-28
+pick-acai-passion-fruit-bowl,draft,pick,أساي باشن فروت بول,Acai Passion Fruit Bowl,,,healthy,3.000,,🫐,0,yes,regular,healthy,"breakfast,morning,afternoon",no,https://orderpick.com/en/pick-aljahra-31,2026-11-28
+pick-crisp-caesar-salad,draft,pick,سلطة سيزر كرسب,Crisp Caesar Salad,,,salads,2.250,,🥗,0,no,regular,healthy,"morning,lunch,afternoon",no,https://orderpick.com/en/pick-aljahra-31,2026-11-28
+pick-kale-harvest-salad,draft,pick,سلطة كيل هارفست,Kale Harvest Salad,,,salads,2.750,,🥬,0,yes,regular,"healthy,delicious","morning,lunch,afternoon",yes,https://orderpick.com/en/pick-aljahra-31,2026-11-28
+pick-greek-quinoa-salad,draft,pick,سلطة كينوا يونانية,Greek Quinoa Salad,,,salads,2.500,,🥗,0,yes,regular,healthy,"morning,lunch,afternoon",no,https://orderpick.com/en/pick-aljahra-31,2026-11-28
+pick-korean-salad,draft,pick,سلطة كورية,Korean Salad,,,salads,2.250,,🥗,0,no,regular,healthy,"morning,lunch,afternoon",no,https://orderpick.com/en/pick-aljahra-31,2026-11-28
+pick-chicken-caesar-wrap,draft,pick,راب دجاج سيزر,Chicken Caesar Wrap,,,healthy,1.750,,🌯,0,no,regular,healthy,"morning,lunch,afternoon",no,https://orderpick.com/en/pick-aljahra-31,2026-11-28
+pick-chicken-shawarma-wrap,draft,pick,راب شاورما دجاج,Chicken Shawarma Wrap,,,shawarma,0.950,,🌯,0,no,regular,cheap,"morning,lunch,afternoon",no,https://orderpick.com/en/pick-aljahra-31,2026-11-28
+pick-nutty-chicken-sandwich,draft,pick,ساندويتش نتي تشيكن,Nutty Chicken Sandwich,,,healthy,2.750,,🥪,0,no,regular,healthy,"morning,lunch,afternoon",no,https://orderpick.com/en/pick-aljahra-31,2026-11-28
+pick-cheese-croissant,draft,pick,كرواسون جبن,Cheese Croissant,,,breakfast,1.000,,🥐,0,yes,regular,cheap,"breakfast,morning",no,https://orderpick.com/en/pick-aljahra-31,2026-11-28
+pick-chicken-green-curry,draft,pick,كاري أخضر بالدجاج,Chicken Green Curry,,,healthy,2.750,,🍛,1,no,regular,healthy,"morning,lunch,afternoon",no,https://orderpick.com/en/pick-aljahra-31,2026-11-28
+pick-salmon-protein-pack,draft,pick,باك بروتين سلمون,Salmon Protein Pack,,,healthy,4.750,,🐟,0,no,regular,healthy,"morning,lunch,afternoon",no,https://orderpick.com/en/pick-aljahra-31,2026-11-28
+pick-butter-chicken-protein-pack,draft,pick,باك بروتين زبدة دجاج,Butter Chicken Protein Pack,,,healthy,2.750,,🍛,0,no,regular,healthy,"morning,lunch,afternoon",no,https://orderpick.com/en/pick-aljahra-31,2026-11-28
+pick-cafe-latte,draft,pick,كافيه لاتيه,Cafe Latte,,,coffee,1.250,,☕,0,yes,regular,cheap,"morning,afternoon",no,https://orderpick.com/en/pick-aljahra-31,2026-11-28
+pick-cappucino,draft,pick,كابتشينو,Cappucino,,,coffee,1.250,,☕,0,yes,regular,cheap,"morning,afternoon",no,https://orderpick.com/en/pick-aljahra-31,2026-11-28
+pick-hot-matcha-latte,draft,pick,ماتشا لاتيه حار,Hot Matcha Latte,,,coffee,1.500,,🍵,0,yes,regular,,"morning,afternoon",no,https://orderpick.com/en/pick-aljahra-31,2026-11-28
+pick-orange-juice,draft,pick,عصير برتقال,Orange Juice,,,beverages,1.000,,🍊,0,yes,regular,cheap,"morning,lunch,afternoon",no,https://orderpick.com/en/pick-aljahra-31,2026-11-28
+pick-pecan-pro-shake,draft,pick,بيكان برو شيك,Pecan Pro Shake,,,healthy,2.000,,🥤,0,yes,regular,healthy,"morning,lunch,afternoon",no,https://orderpick.com/en/pick-aljahra-31,2026-11-28
+pick-pick-brownie,draft,pick,براوني بِك,PICK Brownie,,,desserts,0.750,,🍫,0,yes,snack,"cheap,sweet","morning,lunch,afternoon",no,https://orderpick.com/en/pick-aljahra-31,2026-11-28
+pick-chocolate-babka,draft,pick,بابكا شوكولاتة,Chocolate Babka,,,desserts,1.500,,🍫,0,yes,regular,sweet,"morning,lunch,afternoon",no,https://orderpick.com/en/pick-aljahra-31,2026-11-28
+dhahia-juice-classic-acai,draft,dhahia-juice,كلاسيك أساي,Classic Acai,,,healthy,2.950,,🫐,0,yes,regular,"healthy,delicious","morning,lunch,afternoon",yes,https://order.dhahia.com/,2026-11-28
+dhahia-juice-acai-make-your-own,draft,dhahia-juice,أساي اصنعه بنفسك,Acai Make your Own,,,healthy,2.250,,🫐,0,yes,regular,healthy,"morning,lunch,afternoon",no,https://order.dhahia.com/,2026-11-28
+dhahia-juice-dhahia-latte-spanish-latte,draft,dhahia-juice,ضاحية لاتيه (سبانش لاتيه),Dhahia Latte (Spanish latte),,,coffee,1.500,,☕,0,yes,regular,,"morning,afternoon",no,https://order.dhahia.com/,2026-11-28
+dhahia-juice-latte,draft,dhahia-juice,لاتيه,Latte,,,coffee,1.200,,☕,0,yes,regular,cheap,"morning,afternoon",no,https://order.dhahia.com/,2026-11-28
+dhahia-juice-americano,draft,dhahia-juice,أمريكانو,Americano,,,coffee,0.950,,☕,0,yes,regular,cheap,"morning,afternoon",no,https://order.dhahia.com/,2026-11-28
+dhahia-juice-double-espresso,draft,dhahia-juice,دبل إسبريسو,Double Espresso,,,coffee,0.750,,☕,0,yes,snack,cheap,"morning,afternoon",no,https://order.dhahia.com/,2026-11-28
+dhahia-juice-hulk-cold-press,draft,dhahia-juice,هلك (عصير بارد),Hulk Cold Press,,,beverages,2.000,,🥬,0,yes,regular,,"morning,lunch,afternoon",no,https://order.dhahia.com/,2026-11-28
+dhahia-juice-pom-pom-cold-press,draft,dhahia-juice,بوم بوم (عصير بارد),Pom Pom Cold Press,,,beverages,1.500,,🍎,0,yes,regular,,"morning,lunch,afternoon",no,https://order.dhahia.com/,2026-11-28
+dhahia-juice-v-c-cold-press,draft,dhahia-juice,ڤي سي (عصير بارد),V-C Cold Press,,,beverages,1.000,,🍊,0,yes,regular,cheap,"morning,lunch,afternoon",no,https://order.dhahia.com/,2026-11-28
+dhahia-juice-green-queen-cold-press,draft,dhahia-juice,جرين كوين (عصير بارد),Green Queen Cold Press,,,beverages,1.200,,🥒,0,yes,regular,cheap,"morning,lunch,afternoon",no,https://order.dhahia.com/,2026-11-28
+dhahia-juice-turkey-sourdough,draft,dhahia-juice,ساوردو تيركي,Turkey Sourdough,,,sandwiches,1.900,,🥪,0,no,regular,,"morning,lunch,afternoon",no,https://order.dhahia.com/,2026-11-28
+dhahia-juice-halloumi-sourdough,draft,dhahia-juice,ساوردو حلومي,Halloumi Sourdough,,,sandwiches,1.650,,🧀,0,yes,regular,,"morning,lunch,afternoon",no,https://order.dhahia.com/,2026-11-28
+dhahia-juice-chicken-rocca-sandwich,draft,dhahia-juice,ساندويتش دجاج روكا,Chicken Rocca Sandwich,,,sandwiches,1.750,,🥪,0,no,regular,,"morning,lunch,afternoon",no,https://order.dhahia.com/,2026-11-28
+dhahia-juice-halloumi-bacon-wrap,draft,dhahia-juice,راب حلومي بيكن,Halloumi Bacon Wrap,,,sandwiches,1.900,,🌯,0,no,regular,,"morning,lunch,afternoon",no,https://order.dhahia.com/,2026-11-28
+dhahia-juice-mushroom-sourdough,draft,dhahia-juice,ساوردو مشروم,Mushroom Sourdough,,,sandwiches,1.700,,🍄,0,yes,regular,,"morning,lunch,afternoon",no,https://order.dhahia.com/,2026-11-28
+dhahia-juice-fruit-salad-pot,draft,dhahia-juice,كوب سلطة فواكه,Fruit Salad Pot,,,healthy,1.250,,🍓,0,yes,snack,"cheap,healthy","morning,lunch,afternoon",no,https://order.dhahia.com/,2026-11-28
+dhahia-juice-mango-pot,draft,dhahia-juice,كوب مانجو,Mango Pot,,,healthy,1.000,,🥭,0,yes,snack,"cheap,healthy","morning,lunch,afternoon",no,https://order.dhahia.com/,2026-11-28
+dhahia-juice-immunity-shot,draft,dhahia-juice,شوت المناعة,Immunity Shot,,,beverages,0.900,,💪,0,yes,snack,cheap,"morning,lunch,afternoon",no,https://order.dhahia.com/,2026-11-28
+dhahia-juice-boost-shot,draft,dhahia-juice,شوت بووست,Boost Shot,,,beverages,0.750,,⚡,0,yes,snack,cheap,"morning,lunch,afternoon",no,https://order.dhahia.com/,2026-11-28
+dhahia-juice-pack-of-8,draft,dhahia-juice,باك ٨ عصائر,Pack of 8,,,beverages,7.000,,🧃,0,yes,family,starving,"morning,lunch,afternoon",no,https://order.dhahia.com/,2026-11-28
+dhahia-juice-pack-of-12,draft,dhahia-juice,باك ١٢ عصير,Pack of 12,,,beverages,10.500,,🧃,0,yes,family,starving,"morning,lunch,afternoon",no,https://order.dhahia.com/,2026-11-28
+koobs-coffee-spanish-latte,draft,koobs-coffee,سبانش لاتيه,Spanish Latte,,,coffee,2.000,,☕,0,yes,regular,delicious,"morning,afternoon",yes,https://www.koobs.cafe/menu,2026-11-28
+koobs-coffee-black-spanish,draft,koobs-coffee,بلاك سبانش,Black Spanish,,,coffee,2.250,,☕,0,yes,regular,,"morning,afternoon",no,https://www.koobs.cafe/menu,2026-11-28
+koobs-coffee-salted-caramel,draft,koobs-coffee,سولتد كراميل,Salted Caramel,,,coffee,2.150,,☕,0,yes,regular,,"morning,afternoon",no,https://www.koobs.cafe/menu,2026-11-28
+koobs-coffee-brown-sugar-latte,draft,koobs-coffee,براون شوقر لاتيه,Brown Sugar Latte,,,coffee,1.950,,☕,0,yes,regular,,"morning,afternoon",no,https://www.koobs.cafe/menu,2026-11-28
+koobs-coffee-americano,draft,koobs-coffee,أمريكانو,Americano,,,coffee,1.300,,☕,0,yes,regular,,"morning,afternoon",no,https://www.koobs.cafe/menu,2026-11-28
+koobs-coffee-latte,draft,koobs-coffee,لاتيه,Latte,,,coffee,1.500,,☕,0,yes,regular,,"morning,afternoon",no,https://www.koobs.cafe/menu,2026-11-28
+koobs-coffee-flat-white,draft,koobs-coffee,فلات وايت,Flat White,,,coffee,1.500,,☕,0,yes,regular,,"morning,afternoon",no,https://www.koobs.cafe/menu,2026-11-28
+koobs-coffee-cappuccino,draft,koobs-coffee,كابتشينو,Cappuccino,,,coffee,1.550,,☕,0,yes,regular,,"morning,afternoon",no,https://www.koobs.cafe/menu,2026-11-28
+koobs-coffee-v60,draft,koobs-coffee,V60,V60,,,coffee,1.600,,☕,0,yes,regular,,"morning,afternoon",no,https://www.koobs.cafe/menu,2026-11-28
+koobs-coffee-cold-brew,draft,koobs-coffee,كولد برو,Cold Brew,,,coffee,1.850,,🧊,0,yes,regular,,"morning,afternoon",no,https://www.koobs.cafe/menu,2026-11-28
+koobs-coffee-chipotle-chicken-wrap,draft,koobs-coffee,راب دجاج تشيبوتلي,Chipotle Chicken Wrap,,,sandwiches,1.750,,🌯,1,no,regular,,"morning,lunch,afternoon",no,https://www.koobs.cafe/menu,2026-11-28
+koobs-coffee-ultimate-club-sandwich,draft,koobs-coffee,ألتيميت كلوب ساندويتش,Ultimate Club Sandwich,,,sandwiches,2.950,,🥪,0,no,regular,,"morning,lunch,afternoon",no,https://www.koobs.cafe/menu,2026-11-28
+koobs-coffee-halloumi-wrap,draft,koobs-coffee,راب حلومي,Halloumi Wrap,,,sandwiches,1.600,,🌯,0,yes,regular,,"breakfast,morning,afternoon",no,https://www.koobs.cafe/menu,2026-11-28
+koobs-coffee-feta-croissant,draft,koobs-coffee,كرواسون فيتا,Feta Croissant,,,breakfast,1.250,,🥐,0,yes,regular,cheap,"breakfast,morning",no,https://www.koobs.cafe/menu,2026-11-28
+koobs-coffee-sumac-and-labneh-fold,draft,koobs-coffee,فولد سماق ولبنة,Sumac & Labneh Fold,,,breakfast,1.350,,🫓,0,yes,regular,,"breakfast,morning",no,https://www.koobs.cafe/menu,2026-11-28
+baked-kramer,draft,baked,كرامر (بيقل بالكريمة),Kramer,,,breakfast,1.500,,🥯,0,yes,regular,,"breakfast,morning,afternoon",no,https://whileimbaked.ordable.com/category/bangin-bagels,2026-11-28
+baked-bec,draft,baked,BEC (بيض وجبن),BEC,,,breakfast,2.250,,🥯,0,no,regular,delicious,"breakfast,morning,afternoon",yes,https://whileimbaked.ordable.com/category/bangin-bagels,2026-11-28
+baked-turkey-avo-boi,draft,baked,تيركي أفو بوي,Turkey Avo Boi,,,breakfast,3.000,,🥯,0,no,regular,,"breakfast,morning,afternoon",no,https://whileimbaked.ordable.com/category/bangin-bagels,2026-11-28
+baked-sandi-s-turkey,draft,baked,تيركي ساندي,Sandi's Turkey,,,breakfast,2.750,,🥯,0,no,regular,,"breakfast,morning,afternoon",no,https://whileimbaked.ordable.com/category/bangin-bagels,2026-11-28
+baked-classic-banana-bread,draft,baked,خبز موز كلاسيك,Classic Banana Bread,,,desserts,1.500,,🍌,0,yes,regular,sweet,"breakfast,morning,afternoon",no,https://whileimbaked.ordable.com/category/sweet-thaangs,2026-11-28
+baked-brownie,draft,baked,براوني,Brownie,,,desserts,1.500,,🍫,0,yes,regular,sweet,"breakfast,morning,afternoon",no,https://whileimbaked.ordable.com/category/sweet-thaangs,2026-11-28
+baked-chocolate-banana-bread,draft,baked,خبز موز بالشوكولاتة,Chocolate Banana Bread,,,desserts,2.000,,🍫,0,yes,regular,sweet,"breakfast,morning,afternoon",no,https://whileimbaked.ordable.com/category/sweet-thaangs,2026-11-28
+baked-chocolate-chip-classic-cookie,draft,baked,كوكيز تشوكليت تشيب,Chocolate Chip Classic Cookie,,,desserts,1.000,,🍪,0,yes,snack,"cheap,sweet","breakfast,morning,afternoon",no,https://whileimbaked.ordable.com/category/sweet-thaangs,2026-11-28
+baked-white-chocolate-and-pecan-chunky-cookie,draft,baked,كوكيز شوكولاتة بيضاء وبيكان,White Chocolate & Pecan Chunky Cookie,,,desserts,1.250,,🍪,0,yes,snack,"cheap,sweet","breakfast,morning,afternoon",no,https://whileimbaked.ordable.com/category/sweet-thaangs,2026-11-28
+baked-oj-cold-pressed-orange-juice,draft,baked,عصير برتقال معصور,OJ (cold pressed orange juice),,,beverages,1.250,,🍊,0,yes,regular,cheap,"breakfast,morning,afternoon",no,https://whileimbaked.ordable.com/category/drinks,2026-11-28
+baked-mint-lemonade,draft,baked,ليمون نعناع,Mint Lemonade,,,beverages,1.750,,🍋,0,yes,regular,,"breakfast,morning,afternoon",no,https://whileimbaked.ordable.com/category/drinks,2026-11-28
+baked-watermelon-lemonade,draft,baked,ليمونادة بطيخ,Watermelon Lemonade,,,beverages,1.750,,🍉,0,yes,regular,,"breakfast,morning,afternoon",no,https://whileimbaked.ordable.com/category/drinks,2026-11-28
+dipndip-chocolate-crepe-roll,draft,dipndip,رول كريب شوكولاتة,Chocolate crepe roll,,,desserts,3.750,,🍫,0,yes,regular,sweet,"afternoon,dinner,late",no,https://order.dipndipkw.com/menu/category/dip-crepes-1,2026-11-28
+dipndip-pistachio-kunafa-crepe-roll,draft,dipndip,رول كريب كنافة فستق,Pistachio kunafa crepe roll,,,desserts,3.750,,🥙,0,yes,regular,sweet,"afternoon,dinner,late",no,https://order.dipndipkw.com/menu/category/dip-crepes-1,2026-11-28
+dipndip-chocolate-crunchy-mighty-crepe,draft,dipndip,مايتي كريب شوكولاتة كرنشي,Chocolate Crunchy Mighty Crepe,,,desserts,4.500,,🍫,0,yes,regular,sweet,"afternoon,dinner,late",no,https://order.dipndipkw.com/menu/category/dip-crepes-1,2026-11-28
+dipndip-cinnamon-pouch-crepe,draft,dipndip,كريب بوتش قرفة,Cinnamon Pouch Crepe,,,desserts,3.500,,🥞,0,yes,regular,sweet,"afternoon,dinner,late",no,https://order.dipndipkw.com/menu/category/dip-crepes-1,2026-11-28
+dipndip-dipndip-crepe,draft,dipndip,كريب ديب أن ديب,Dipndip Crepe,,,desserts,4.500,,🍫,0,yes,regular,"sweet,delicious","afternoon,dinner,late",yes,https://order.dipndipkw.com/menu/category/dip-crepes-1,2026-11-28
+dipndip-dipndip-waffle,draft,dipndip,وافل ديب أن ديب,DipnDip Waffle,,,desserts,4.500,,🧇,0,yes,regular,sweet,"afternoon,dinner,late",no,https://order.dipndipkw.com/menu/category/dip-waffles-1,2026-11-28
+dipndip-triple-chocolate-waffle,draft,dipndip,وافل تريبل شوكليت,Triple Chocolate Waffle,,,desserts,3.750,,🧇,0,yes,regular,sweet,"afternoon,dinner,late",no,https://order.dipndipkw.com/menu/category/dip-waffles-1,2026-11-28
+dipndip-kinder-waffle,draft,dipndip,وافل كندر,Kinder Waffle,,,desserts,3.950,,🧇,0,yes,regular,sweet,"afternoon,dinner,late",no,https://order.dipndipkw.com/menu/category/dip-waffles-1,2026-11-28
+dipndip-dip-pancake,draft,dipndip,ديب بان كيك,Dip Pancake,,,desserts,3.950,,🥞,0,yes,regular,sweet,"afternoon,dinner,late",no,https://order.dipndipkw.com/menu/category/dip-pancakes-1,2026-11-28
+dipndip-kinder-pancake,draft,dipndip,بان كيك كندر,Kinder pancake,,,desserts,3.950,,🥞,0,yes,regular,sweet,"afternoon,dinner,late",no,https://order.dipndipkw.com/menu/category/dip-pancakes-1,2026-11-28
+dipndip-strawberry-with-milk-chocolate,draft,dipndip,فراولة مع شوكولاتة بالحليب,Strawberry with Milk Chocolate,,,desserts,2.500,,🍓,0,yes,snack,sweet,"afternoon,dinner,late",no,https://order.dipndipkw.com/menu/category/dip-cups,2026-11-28
+dipndip-rice-krispy-with-milk-chocolate,draft,dipndip,رايس كرسبي مع شوكولاتة بالحليب,Rice Krispy with Milk Chocolate,,,desserts,2.250,,🍫,0,yes,snack,sweet,"afternoon,dinner,late",no,https://order.dipndipkw.com/menu/category/dip-cups,2026-11-28
+dipndip-spanish-latte,draft,dipndip,سبانش لاتيه,Spanish Latte,,,coffee,2.250,,☕,0,yes,regular,,"afternoon,dinner,late",no,https://order.dipndipkw.com/menu/category/dip-coffee,2026-11-28
+dipndip-cafe-latte,draft,dipndip,كافيه لاتيه,Cafe Latte,,,coffee,1.750,,☕,0,yes,regular,,"afternoon,dinner,late",no,https://order.dipndipkw.com/menu/category/dip-coffee,2026-11-28
+dipndip-iced-strawberry-matcha,draft,dipndip,ماتشا فراولة مثلجة,Iced Strawberry Matcha,,,coffee,2.500,,🍵,0,yes,regular,,"afternoon,dinner,late",no,https://order.dipndipkw.com/menu/category/dip-coffee,2026-11-28
+dipndip-vanilla-milkshake,draft,dipndip,ميلك شيك فانيلا,Vanilla Milkshake,,,desserts,2.500,,🥤,0,yes,regular,sweet,"afternoon,dinner,late",no,https://order.dipndipkw.com/menu/category/milkshake,2026-11-28
+cinnabon-cinnabon-classic,draft,cinnabon,سينابون كلاسيك,Cinnabon Classic,,,desserts,1.250,,🥐,0,yes,regular,"cheap,sweet,delicious","breakfast,morning,afternoon,late",yes,https://cinnabonkw.ordable.com/,2026-11-28
+cinnabon-caramel-pecan-bon,draft,cinnabon,كراميل بيكان بون,Caramel Pecan Bon,,,desserts,1.500,,🥐,0,yes,regular,sweet,"breakfast,morning,afternoon,late",no,https://cinnabonkw.ordable.com/,2026-11-28
+cinnabon-chocobon,draft,cinnabon,شوكوبون,Chocobon,,,desserts,1.400,,🍫,0,yes,regular,sweet,"breakfast,morning,afternoon,late",no,https://cinnabonkw.ordable.com/,2026-11-28
+cinnabon-minibon,draft,cinnabon,ميني بون,Minibon,,,desserts,1.000,,🥐,0,yes,snack,"cheap,sweet","breakfast,morning,afternoon,late",no,https://cinnabonkw.ordable.com/,2026-11-28
+cinnabon-turtle-bon,draft,cinnabon,تيرتل بون,Turtle Bon,,,desserts,1.700,,🥐,0,yes,regular,sweet,"breakfast,morning,afternoon,late",no,https://cinnabonkw.ordable.com/,2026-11-28
+cinnabon-cinnabon-classic-4-pcs-hot,draft,cinnabon,سينابون كلاسيك ٤ حبات,Cinnabon Classic 4 Pcs Hot,,,desserts,4.600,,📦,0,yes,family,"starving,sweet","breakfast,morning,afternoon,late",no,https://cinnabonkw.ordable.com/,2026-11-28
+cinnabon-cinnabon-classic-6-pcs-hot,draft,cinnabon,سينابون كلاسيك ٦ حبات,Cinnabon Classic 6 Pcs Hot,,,desserts,7.000,,📦,0,yes,family,"starving,sweet","breakfast,morning,afternoon,late",no,https://cinnabonkw.ordable.com/,2026-11-28
+cinnabon-combo-bites-25-pcs,draft,cinnabon,كومبو بايتس ٢٥ حبة,Combo Bites 25 Pcs,,,desserts,5.500,,📦,0,yes,family,"starving,sweet","breakfast,morning,afternoon,late",no,https://cinnabonkw.ordable.com/,2026-11-28
+cinnabon-minibon-6pcs,draft,cinnabon,ميني بون ٦ حبات,Minibon 6Pcs,,,desserts,5.250,,📦,0,yes,family,"starving,sweet","breakfast,morning,afternoon,late",no,https://cinnabonkw.ordable.com/,2026-11-28
+cinnabon-cinnabon-roll-chillatta-large,draft,cinnabon,سينابون رول تشيلاتا كبير,Cinnabon Roll Chillatta Large,,,beverages,1.850,,🥤,0,yes,regular,,"breakfast,morning,afternoon,late",no,https://cinnabonkw.ordable.com/,2026-11-28
+cinnabon-cinnabon-roll-chillatta-small,draft,cinnabon,سينابون رول تشيلاتا صغير,Cinnabon Roll Chillatta Small,,,beverages,1.550,,🥤,0,yes,regular,,"breakfast,morning,afternoon,late",no,https://cinnabonkw.ordable.com/,2026-11-28
+cinnabon-blue-mojito,draft,cinnabon,بلو موهيتو,Blue Mojito,,,beverages,1.500,,🍹,0,yes,regular,,"breakfast,morning,afternoon,late",no,https://cinnabonkw.ordable.com/,2026-11-28
+crumbs-chocolate-date-cookies,draft,crumbs,كوكيز شوكولاتة بالتمر,Chocolate Date Cookies,,,desserts,10.000,,🍪,0,yes,family,"starving,sweet","afternoon,dinner,late",no,https://www.crumbskw.com/category/48-cookies-more,2026-11-28
+crumbs-crumbs-cookie-dough,draft,crumbs,عجينة كوكيز كرمز,Crumbs Cookie Dough,,,desserts,7.000,,🍪,0,yes,family,"starving,sweet","afternoon,dinner,late",no,https://www.crumbskw.com/category/48-cookies-more,2026-11-28
+crumbs-cinnamon-bread-pudding,draft,crumbs,بودنق خبز بالقرفة (٨ أشخاص),Cinnamon Bread Pudding,,,desserts,16.950,,🍮,0,yes,family,"starving,sweet","afternoon,dinner,late",no,https://www.crumbskw.com/category/39-desserts-and-pudding,2026-11-28
+crumbs-chocolate-bread-pudding,draft,crumbs,بودنق خبز بالشوكولاتة (٨–١٠ أشخاص),Chocolate Bread Pudding,,,desserts,18.950,,🍫,0,yes,family,"starving,sweet,delicious","afternoon,dinner,late",yes,https://www.crumbskw.com/category/39-desserts-and-pudding,2026-11-28
+crumbs-caramel-lava-chocolate-cake,draft,crumbs,كيكة شوكولاتة لافا بالكراميل,Caramel Lava Chocolate Cake,,,desserts,12.950,,🍫,0,yes,family,"starving,sweet","afternoon,dinner,late",no,https://www.crumbskw.com/category/39-desserts-and-pudding,2026-11-28
+crumbs-birthday-brownies,draft,crumbs,براونيز عيد ميلاد (٩ حبات),Birthday Brownies,,,desserts,11.250,,🎂,0,yes,family,"starving,sweet","afternoon,dinner,late",no,https://www.crumbskw.com/category/39-desserts-and-pudding,2026-11-28
+crumbs-mini-tower-1,draft,crumbs,ميني تاور ١ (٥ أشخاص),Mini Tower 1,,,desserts,15.950,,🎂,0,yes,family,"starving,sweet","afternoon,dinner,late",no,https://www.crumbskw.com/category/33-slice-of-cake-mini-tower,2026-11-28
+crumbs-piece-of-cake,draft,crumbs,قطعة كيك (٣–٤ أشخاص),Piece of Cake,,,desserts,9.950,,🍰,0,yes,family,"starving,sweet","afternoon,dinner,late",no,https://www.crumbskw.com/category/33-slice-of-cake-mini-tower,2026-11-28
+crumbs-assorted-cupcakes,draft,crumbs,كب كيك مشكل,Assorted Cupcakes,,,desserts,9.950,,🧁,0,yes,family,"starving,sweet","afternoon,dinner,late",no,https://www.crumbskw.com/category/24-pops-cupcakes,2026-11-28
+crumbs-love-pops-bouquet,draft,crumbs,باقة كيك بوبس (درزن),Love Pops Bouquet,,,desserts,11.950,,🍭,0,yes,family,"starving,sweet","afternoon,dinner,late",no,https://www.crumbskw.com/category/24-pops-cupcakes,2026-11-28

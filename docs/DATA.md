@@ -32,7 +32,8 @@ live automatically. To publish right away, go to **Actions → Deploy Akla to Gi
 8. Run the workflow: **Actions → Deploy Akla to GitHub Pages → Run workflow**.
 
 Only rows with `status` = **published** go live. Use `draft` while you work on a row and `hidden` to take one down.
-The example rows in the templates are `draft`, so they never appear.
+The templates already hold 25 real Kuwait restaurants and 388 menu items, all `draft`, so nothing appears until you
+review a row and switch it to `published`. Every meal row links to the restaurant's own official menu in `source_url`.
 
 ## 2. Filling the tabs
 
@@ -62,6 +63,10 @@ Listings only appear when the visitor has selected their country.
 `price` in the restaurant's currency (e.g. `2.750`; the older `price_kwd` column still works and means KWD), optional: `currency` (ISO code, default = the restaurant's), `description_ar/en`, `image_url`, `emoji`, `spicy` (0–3), `vegetarian`,
 `size` (`snack`/`regular`/`large`/`family`), `moods` (starving, delicious, cheap, healthy, spicy, comfort, sweet, new),
 `times` (breakfast, morning, lunch, afternoon, dinner, late), `editors_pick`.
+Provenance (strongly recommended, flagged in the build's problem list when missing): `source_url`, the restaurant's **own**
+website, ordering page or official post the price was read from (never a delivery app), and `checked_at` (`YYYY-MM-DD`),
+the day you checked it. Prices checked more than 60 days ago are flagged so you know to re-check them. The restaurant page
+shows "Prices from the official menu, checked …" with a link to the source.
 
 ### `offers`
 `id`, `status`, `restaurant_id`, `title_ar`/`title_en`, `type` (`percent`, `bogo`, `combo`, `family`, `free-delivery`, `fixed`),
