@@ -6,6 +6,9 @@ Akla is a playful food discovery, deals and decision-making web app for Kuwait.
 Arabic (RTL) by default, English one tap away. Built with **Next.js 16 + React 19 + TypeScript + Tailwind CSS 4**,
 exported as a static site so it runs free on **GitHub Pages**.
 
+- 🤝 **New to the project? Start with the handover → [HANDOVER.md](HANDOVER.md)**
+- 🏗️ Architecture → [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
+- 🛠️ Development guide → [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)
 - 🎨 Brand & identity → [docs/BRAND.md](docs/BRAND.md)
 - 🗺️ Phased roadmap → [docs/ROADMAP.md](docs/ROADMAP.md)
 - 🔌 Free data sources research → [docs/APIS.md](docs/APIS.md)
