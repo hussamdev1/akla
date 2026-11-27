@@ -39,6 +39,10 @@ jobs:
         env:
           # Served from https://<user>.github.io/<repo>/ — remove if you use a custom domain or a <user>.github.io repo
           NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
+      - name: Generate service worker
+        run: node scripts/build-sw.mjs
+        env:
+          NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
       - run: touch out/.nojekyll
       - uses: actions/upload-pages-artifact@v3
         with:

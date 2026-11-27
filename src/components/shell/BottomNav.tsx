@@ -7,6 +7,7 @@ import { Gamepad2, Home, LayoutGrid, MapPin, Tag } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { cx, Sheet } from "../ui";
 import { Lugma } from "../Logo";
+import { InstallApp } from "../pwa/InstallApp";
 
 export function BottomNav() {
   const { t } = useI18n();
@@ -69,6 +70,7 @@ export function BottomNav() {
         <Link href="/games/" onClick={() => setMore(false)} className="btn btn-lagoon mt-4 w-full">
           <Gamepad2 className="size-5" /> {t.home.play}
         </Link>
+        <InstallApp compact className="mt-2" />
       </Sheet>
     </>
   );

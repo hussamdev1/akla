@@ -7,6 +7,7 @@ import { localDateKey } from "@/lib/time";
 import { usePrefersReducedMotion } from "@/lib/hooks";
 import type { AchievementId } from "@/lib/store";
 import { SearchOverlay } from "./shell/SearchOverlay";
+import { PwaProvider } from "./pwa/PwaProvider";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const locale = useStore((s) => s.locale);
@@ -31,6 +32,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <MotionConfig reducedMotion={reduced ? "always" : "never"}>
       {children}
       <Toast />
+      <PwaProvider />
       <SearchOverlay />
     </MotionConfig>
   );

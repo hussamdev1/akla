@@ -296,16 +296,19 @@ export function Loader({ label }: { label?: string }) {
   );
 }
 
+let openSheets = 0; // sheets can stack (e.g. install help inside the More sheet); unlock scroll when the last closes
+
 export function Sheet({ open, onClose, children, title, wide }: { open: boolean; onClose: () => void; children: ReactNode; title?: string; wide?: boolean }) {
   const { t } = useI18n();
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     window.addEventListener("keydown", onKey);
+    openSheets++;
     document.body.style.overflow = "hidden";
     return () => {
       window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
+      if (--openSheets === 0) document.body.style.overflow = "";
     };
   }, [open, onClose]);
   const mounted = useMounted();

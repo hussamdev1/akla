@@ -50,6 +50,7 @@ export function MapView({
       map = L.map(el.current, { center: [c.lat, c.lng], zoom: z, zoomControl: i, scrollWheelZoom: false, dragging: i });
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 19,
+        crossOrigin: true, // CORS tiles can go in the service worker's small offline tile cache
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(map);
       setCtx({ L, map, layer: L.layerGroup().addTo(map) });

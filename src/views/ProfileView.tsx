@@ -6,6 +6,7 @@ import { Container, cx, PageHero, Toggle } from "@/components/ui";
 import { Lugma } from "@/components/Logo";
 import { LangToggle } from "@/components/shell/Header";
 import { LocationPill } from "@/components/shell/LocationPicker";
+import { InstallApp } from "@/components/pwa/InstallApp";
 
 export function AchievementBadge({ a, unlocked, progress }: { a: { id: AchievementId; emoji: string; color: string; goal: number }; unlocked: boolean; progress: number }) {
   const { t } = useI18n();
@@ -102,6 +103,7 @@ export function ProfileView() {
             </div>
           </div>
           <Toggle checked={state.sound} onChange={state.setSound} label={`🔊 ${t.profile.sound}`} />
+          <InstallApp />
           <button
             type="button"
             className="btn btn-light btn-sm w-full !text-chili"

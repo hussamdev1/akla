@@ -35,7 +35,7 @@ From [docs/ROADMAP.md](docs/ROADMAP.md):
 | 2 Location & personalisation | ✅ except Trending (🟡: editorial + your own activity; real trends need a backend) |
 | 2.5 Real data (OSM snapshot, Google Sheet CMS, 6-hourly rebuild) | ✅ done |
 | 3 Games & gamification | ✅ except Group Decision (🟡: pass-the-phone + share link; live multi-device voting is Phase 4) |
-| 4 Accounts, community, realtime (Supabase) · 5 Admin & restaurant portal · 6 Growth (PWA, SEO, Foursquare) · 7 Business | ⬜ planned |
+| 4 Accounts, community, realtime (Supabase) · 5 Admin & restaurant portal · 6 Growth (SEO, Foursquare; PWA ✅ done) · 7 Business | ⬜ planned |
 
 **Data right now:**
 - **1,628 real OpenStreetMap places** for Kuwait plus Saudi, UAE, Qatar, Bahrain and Oman snapshots in `public/data/places/<ISO2>.json` (CI refreshes each when older than 12 h); other countries load live from Overpass. See [ARCHITECTURE.md §7](docs/ARCHITECTURE.md#7-countries-time-and-currency).
@@ -129,6 +129,11 @@ Map tiles come from `tile.openstreetmap.org`. Details: [ARCHITECTURE.md §4](doc
   data snapshot" as planned, but the 6-hourly workflow already does this (Phase 2.5). The README's run commands use
   `powershell` code fences and `npm install`.
 - `npm ci` warns that `eslint@9` is no longer supported; harmless for now.
+- **PWA / service worker.** The site is installable and works offline ([DEVELOPMENT.md → PWA](docs/DEVELOPMENT.md#pwa-install--offline)).
+  `out/sw.js` is generated *after* `next build` (`postbuild`, and an explicit step in `deploy.yml`), so a bare
+  `npx next build` has no worker. Every deploy that changes code (including the 6-hourly rebuilds, because
+  `meta.json` timestamps are bundled) gets a new cache version and returning users see a "new version — refresh"
+  toast. Bump `SW_REVISION` in `scripts/build-sw.mjs` to force one.
 
 ## 7. Open decisions
 
