@@ -50,6 +50,7 @@ review a row and switch it to `published`. Every meal row links to the restauran
 | `price_level` | optional | 1–4 |
 | `delivery`, `dine_in`, `featured`, `is_new` | optional | `yes` / `no` |
 | `cover_image_url`, `emoji`, `brand_color` | optional | Use images you own or have permission to use. |
+| `logo_url`, `logo_bg` | optional | The restaurant's logo, shown in its tile instead of the emoji. Use a full image URL or a file in `public/logos/` written as `/logos/<id>.png`. `logo_bg` is the colour behind it (default white; use a dark colour for white logos). Take logos only from the restaurant's own website. |
 | `order_url` | optional | Link to the restaurant's own ordering page **or** its page on talabat / Deliveroo / Keeta / Cari. Shown as the **Order** button. |
 | `rating`, `rating_count`, `rating_source` | optional | A rating is shown **only** if `rating_source` says where it comes from (e.g. `Google Maps · Nov 2026`). |
 

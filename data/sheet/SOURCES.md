@@ -41,3 +41,14 @@ Pizza Hut (prices only after entering an address), Domino’s, Papa John’s, Ka
 Costa Coffee, % Arabica, Krispy Kreme, Gelatico (orders only via delivery apps), Ananas, IHOP, Texas Roadhouse, Proper Sliders, Shawarma Al Mousely,
 Al-Tayeb Grill, Zwara, Mlas Bo Khammas, Meem Cafe, Locarb, Zero Carb, Balanced Cafe, Chipotle, Meme’s Curry, Assaha.
 Also left out: Lenôtre café and Waraq Enab Factory. Their gathering trays and boxes have no stated portion size.
+
+## Logos and links
+Logos in `public/logos/` were downloaded on 2026-11-28 from each restaurant's own website or ordering site
+(site icon, header logo or the store's logo image) and resized to 256 px. KFC has no logo: kuwait.kfc.me only
+offers a "KFC Lite" app icon, so it keeps its emoji. Logos are the brands' trademarks, used only to identify
+each restaurant. Remove a file and its `logo_url` if a restaurant asks.
+
+Restaurant pages show **Order** (`order_url`), **Website** (`website`, hidden when it is the same site as Order)
+and **Instagram** (`instagram`). Instagram handles were added only where the restaurant's own site links to them.
+Thinnies, The Cheesecake Factory and Koobs have no ordering page of their own (Koobs orders through its app),
+so they have no Order button. No delivery-app links were added.

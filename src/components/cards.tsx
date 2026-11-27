@@ -9,7 +9,7 @@ import { restaurantById } from "@/data/restaurants";
 import { mealById } from "@/data/meals";
 import { areaOf } from "@/data/geo";
 import type { Category, Meal, Offer, Restaurant } from "@/lib/types";
-import { Countdown, cx, DemoBadge, DistanceTag, FavButton, FoodImage, OpenBadge, PriceLevel, RatingBadge, Tilt, TrustBadge } from "./ui";
+import { BrandMark, Countdown, cx, DemoBadge, DistanceTag, FavButton, FoodImage, OpenBadge, PriceLevel, RatingBadge, Tilt, TrustBadge } from "./ui";
 
 export function RestaurantCard({ r, km, offers = 0, featuredMeal, className }: { r: Restaurant; km?: number; offers?: number; featuredMeal?: Meal; className?: string }) {
   const { l, t } = useI18n();
@@ -17,8 +17,11 @@ export function RestaurantCard({ r, km, offers = 0, featuredMeal, className }: {
   return (
     <Tilt className={cx("h-full", className)} max={5}>
       <Link href={`/restaurants/${r.id}/`} className="sticker group flex h-full flex-col overflow-hidden transition-shadow hover:shadow-[6px_6px_0_#2B1B3D]">
-        <div className="relative h-40 overflow-hidden border-b-2 border-ink">
-          <FoodImage src={r.cover} emoji={r.emoji} alt={l(r.name)} className="size-full transition-transform duration-500 group-hover:scale-110" />
+        <div className="relative h-40 border-b-2 border-ink">
+          {/* only the photo clips, so the logo tile can overlap the card body */}
+          <div className="absolute inset-0 overflow-hidden">
+            <FoodImage src={r.cover} emoji={r.emoji} alt={l(r.name)} className="size-full transition-transform duration-500 group-hover:scale-110" />
+          </div>
           <div className="absolute inset-x-0 top-0 flex items-start justify-between p-2.5">
             <div className="flex flex-wrap gap-1">
               {r.isNew && <span className="rounded-full border-2 border-ink bg-lime px-2 py-0.5 text-xs font-extrabold">{t.common.newPlace}</span>}
@@ -30,9 +33,7 @@ export function RestaurantCard({ r, km, offers = 0, featuredMeal, className }: {
             </div>
             <FavButton kind="restaurants" id={r.id} size="sm" />
           </div>
-          <span className="absolute -bottom-0.5 start-3 grid size-12 translate-y-1/2 place-items-center rounded-2xl border-2 border-ink text-2xl shadow-[2px_2px_0_#2B1B3D]" style={{ background: r.brand }}>
-            {r.emoji}
-          </span>
+          <BrandMark r={r} className="absolute -bottom-0.5 start-3 z-10 size-12 translate-y-1/2 rounded-2xl border-2 border-ink text-2xl shadow-[2px_2px_0_#2B1B3D]" />
           <DemoBadge className="absolute bottom-2 end-2" source={r.source} />
         </div>
         <div className="flex flex-1 flex-col gap-2 p-4 pt-7">
@@ -155,9 +156,7 @@ export function OfferCard({ o, km, className, wide }: { o: Offer; km?: number; c
           </motion.div>
           <FavButton kind="offers" id={o.id} size="sm" className="absolute start-2 top-2" />
           <div className="absolute bottom-2 start-2 flex items-center gap-1.5">
-            <span className="grid size-9 place-items-center rounded-xl border-2 border-ink text-lg" style={{ background: r.brand }}>
-              {r.emoji}
-            </span>
+            <BrandMark r={r} className="size-9 rounded-xl border-2 border-ink text-lg" />
             <DemoBadge source={r.source} />
           </div>
         </div>

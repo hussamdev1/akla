@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
-import { Bike, Flag, Navigation, Phone, Share2, ShoppingBag, Store } from "lucide-react";
+import { AtSign, Bike, Flag, Globe, Navigation, Phone, Share2, ShoppingBag, Store } from "lucide-react";
 import { categoryById } from "@/data/categories";
 import { areaOf } from "@/data/geo";
 import { mealsByRestaurant } from "@/data/meals";
@@ -14,9 +14,18 @@ import { useStore } from "@/lib/store";
 import { directionsUrl } from "@/lib/geo";
 import { localParts } from "@/lib/time";
 import { MealCard, OfferCard, RestaurantCard } from "@/components/cards";
-import { Container, cx, DemoBadge, DistanceTag, FavButton, FoodImage, OpenBadge, PriceLevel, RatingBadge, Reveal, SectionHeader, Sheet } from "@/components/ui";
+import { BrandMark, Container, cx, DemoBadge, DistanceTag, FavButton, FoodImage, OpenBadge, PriceLevel, RatingBadge, Reveal, SectionHeader, Sheet } from "@/components/ui";
 
 const MapView = dynamic(() => import("@/components/MapView").then((m) => m.MapView), { ssr: false, loading: () => <div className="h-64 animate-pulse rounded-[1.25rem] bg-ink/10" /> });
+
+/** "www.bk.com.kw" from a URL, so the Website button hides when it's the same site as Order */
+const hostOf = (u?: string) => {
+  try {
+    return u ? new URL(u).hostname.replace(/^www\./, "") : "";
+  } catch {
+    return "";
+  }
+};
 
 export function RestaurantView({ id }: { id: string }) {
   const r = restaurantById(id)!;
@@ -68,8 +77,8 @@ export function RestaurantView({ id }: { id: string }) {
         <Container className="relative flex h-full items-end pb-6">
           <div className="flex w-full flex-wrap items-end justify-between gap-4">
             <div className="flex min-w-0 items-end gap-4">
-              <motion.div initial={{ scale: 0, rotate: -20 }} animate={{ scale: 1, rotate: 0 }} className="grid size-20 shrink-0 place-items-center rounded-3xl border-2 border-ink text-5xl shadow-[4px_4px_0_#2B1B3D] sm:size-24" style={{ background: r.brand }}>
-                {r.emoji}
+              <motion.div initial={{ scale: 0, rotate: -20 }} animate={{ scale: 1, rotate: 0 }} className="shrink-0">
+                <BrandMark r={r} className="size-20 rounded-3xl border-2 border-ink text-5xl shadow-[4px_4px_0_#2B1B3D] sm:size-24" />
               </motion.div>
               <div className="min-w-0 text-white">
                 <div className="mb-1 flex flex-wrap gap-1.5">
@@ -114,6 +123,16 @@ export function RestaurantView({ id }: { id: string }) {
           {r.orderUrl && (
             <a href={r.orderUrl} target="_blank" rel="noreferrer" className="btn btn-lime btn-sm">
               <ShoppingBag className="size-4" /> {t.common.order}
+            </a>
+          )}
+          {r.website && hostOf(r.website) !== hostOf(r.orderUrl) && (
+            <a href={r.website} target="_blank" rel="noreferrer" className="btn btn-light btn-sm">
+              <Globe className="size-4" /> {t.common.website}
+            </a>
+          )}
+          {r.instagram && (
+            <a href={`https://www.instagram.com/${r.instagram.replace(/^@/, "")}/`} target="_blank" rel="noreferrer" className="btn btn-light btn-sm" dir="ltr">
+              <AtSign className="size-4" /> {r.instagram.replace(/^@?/, "@")}
             </a>
           )}
           <Link href={`/picker/?mode=meal`} className="btn btn-lagoon btn-sm">🎡 {t.nav.picker}</Link>
