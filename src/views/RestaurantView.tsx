@@ -28,6 +28,8 @@ export function RestaurantView({ id }: { id: string }) {
   const showToast = useStore((s) => s.showToast);
   const [report, setReport] = useState(false);
   const meals = mealsByRestaurant(r.id);
+  // oldest price check on this menu, so the note never overstates freshness
+  const checked = meals.filter((m) => m.checkedAt).sort((x, y) => x.checkedAt!.localeCompare(y.checkedAt!))[0];
   const offers = active.filter((o) => o.restaurantId === r.id);
   const area = areaById(r.areaId)!;
   const today = now ? kuwaitParts(now).day : -1;
@@ -155,6 +157,17 @@ export function RestaurantView({ id }: { id: string }) {
                 </div>
               ))}
             </div>
+            {checked && (
+              <p className="mt-4 text-sm text-ink-soft" suppressHydrationWarning>
+                ✅ {t.restaurant.pricesChecked(date(checked.checkedAt!))}
+                {checked.sourceUrl && (
+                  <>
+                    {" · "}
+                    <a href={checked.sourceUrl} target="_blank" rel="noreferrer" className="font-semibold underline">{t.restaurant.officialMenu}</a>
+                  </>
+                )}
+              </p>
+            )}
           </section>
 
           <section>

@@ -176,6 +176,7 @@ const TIMES = new Set(["breakfast", "morning", "lunch", "afternoon", "dinner", "
 const SIZES = new Set(["snack", "regular", "large", "family"]);
 const OFFER_TYPES = new Set(["percent", "bogo", "combo", "family", "free-delivery", "fixed"]);
 const OFFER_TAGS = new Set(["lunch", "dinner", "exclusive", "limited", "weekend"]);
+const STALE_DAYS = 60; // meal prices older than this are flagged in the problem list
 
 const yes = (v) => /^(yes|y|true|1|نعم)$/i.test(v ?? "");
 const num = (v) => {
@@ -260,7 +261,11 @@ async function buildSheet() {
       size: SIZES.has(m.size) ? m.size : "regular",
       moods: list(m.moods, MOODS), times: list(m.times, TIMES).length ? list(m.times, TIMES) : ["lunch", "dinner"],
       editorsPick: yes(m.editors_pick),
+      // Provenance (optional columns): official page the price was read from, and when it was checked.
+      sourceUrl: m.source_url || undefined, checkedAt: /^\d{4}-\d{2}-\d{2}$/.test(m.checked_at ?? "") ? m.checked_at : undefined,
     });
+    if (!m.source_url) problems.push(`meals: row "${m.id}" has no source_url (link to the official menu the price came from)`);
+    else if (m.checked_at && Date.now() - Date.parse(m.checked_at) > STALE_DAYS * 864e5) problems.push(`meals: row "${m.id}" price was checked on ${m.checked_at}, over ${STALE_DAYS} days ago — re-check it`);
   }
   const mIds = new Set(meals.map((m) => m.id));
 

@@ -83,7 +83,7 @@ const en = {
   restaurant: {
     about: "About", hours: "Opening hours", location: "Location", menu: "Menu & featured meals", popular: "Popular dishes", offers: "Current promotions",
     similar: "Similar restaurants", reviews: "Ratings & reviews", reviewsSoon: "Community reviews arrive with accounts (Phase 4). Ratings shown are demo values.",
-    days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], closedDay: "Closed", contact: "Contact", noOffers: "No live offers right now.",
+    days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], closedDay: "Closed", contact: "Contact", noOffers: "No live offers right now.", pricesChecked: (d: string) => `Prices from the official menu, checked ${d}`, officialMenu: "Official menu",
   },
   places: {
     title: "Real places in Kuwait", subtitle: (n: number) => `${n.toLocaleString("en")} restaurants, cafés and fast-food spots from OpenStreetMap`,
@@ -242,7 +242,7 @@ const ar: Messages = {
   restaurant: {
     about: "عن المطعم", hours: "أوقات العمل", location: "الموقع", menu: "المنيو والأطباق المميزة", popular: "الأطباق المشهورة", offers: "العروض الحالية",
     similar: "مطاعم مشابهة", reviews: "التقييمات والمراجعات", reviewsSoon: "مراجعات المجتمع تجي مع الحسابات (المرحلة ٤). التقييمات المعروضة تجريبية.",
-    days: ["الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"], closedDay: "مسكّر", contact: "التواصل", noOffers: "ما في عروض شغّالة حالياً.",
+    days: ["الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"], closedDay: "مسكّر", contact: "التواصل", noOffers: "ما في عروض شغّالة حالياً.", pricesChecked: (d) => `الأسعار من المنيو الرسمي، تم التحقق ${d}`, officialMenu: "المنيو الرسمي",
   },
   places: {
     title: "أماكن حقيقية في الكويت", subtitle: (n) => `${n.toLocaleString("en")} مطعم وكافيه ووجبات سريعة من OpenStreetMap`,

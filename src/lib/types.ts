@@ -91,6 +91,8 @@ export type Meal = {
   moods: Mood[];
   times: MealTime[];
   editorsPick?: boolean;
+  sourceUrl?: string; // official page the price was read from
+  checkedAt?: string; // YYYY-MM-DD
 };
 
 export type OfferType = "percent" | "bogo" | "combo" | "family" | "free-delivery" | "fixed";
