@@ -59,6 +59,11 @@ Legend: ✅ done in this build · 🟡 partial · ⬜ planned
 - Analytics: popular restaurants/categories, picker selections, engagement funnels
 - Restaurant self‑service portal (claim listing, post offers, see insights)
 
+## Recipes ✅
+- ✅ `/recipes`: 93 recipes, 16 cuisines, search + filters (dish type, time, level, vegetarian), Arabic for every recipe
+- ✅ Recipe page: servings/amount scaler, ingredient checklist, numbered steps with timers, cook mode (one step at a time, screen kept on), favourites, share, source attribution
+- ⬜ Kuwaiti/Gulf recipes written or licensed by the team (no open source exists); TheMealDB supporter key for public use
+
 ## Phase 6 — Real data & growth ⬜
 - Foursquare (via serverless proxy) for ratings/photos; nightly GitHub Action to refresh OSM data snapshot
 - ✅ PWA: installable (manifest, icons, iOS meta, install button), offline shell + offline page, update toast

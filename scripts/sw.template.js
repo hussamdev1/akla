@@ -11,6 +11,8 @@
  *  - /data/*.json:   stale-while-revalidate (survives deploys; not versioned)
  *  - other same-origin files (icons, manifest…): stale-while-revalidate
  *  - OSM map tiles:  network-first with a small capped fallback cache (OSM tile policy: no bulk caching)
+ *  - recipe photos:  cache-first, capped (TheMealDB / Wikimedia, requested with CORS by FoodImage `cors`), so a
+ *                    recipe opened once still shows its photo offline
  */
 const VERSION = "__AKLA_VERSION__";
 const BASE = "__AKLA_BASE__"; // "" locally, "/akla" on GitHub Pages
@@ -21,9 +23,11 @@ const SHELL = `akla-shell-${VERSION}`;
 const PAGES = `akla-pages-${VERSION}`;
 const DATA = "akla-data";
 const TILES = "akla-tiles";
-const KEEP = [SHELL, PAGES, DATA, TILES];
+const IMAGES = "akla-images";
+const KEEP = [SHELL, PAGES, DATA, TILES, IMAGES];
 const OFFLINE_URL = `${BASE}/offline/`;
 const TILE_LIMIT = 60;
+const IMAGE_LIMIT = 150;
 const PAGE_TIMEOUT_MS = 4000;
 
 self.addEventListener("install", (event) => {
@@ -135,6 +139,25 @@ async function staleWhileRevalidate(event, cacheName, key) {
   return cached || (await network) || Response.error();
 }
 
+/** Keeps the newest `limit` entries (cache keys are in insertion order). */
+async function trim(cache, limit) {
+  const keys = await cache.keys();
+  await Promise.all(keys.slice(0, Math.max(0, keys.length - limit)).map((k) => cache.delete(k)));
+}
+
+async function image(event) {
+  const cache = await caches.open(IMAGES);
+  const cached = await cache.match(event.request);
+  if (cached) return cached;
+  const res = await fetch(event.request);
+  // CORS responses only: opaque ones would count against storage quota at a padded size.
+  if (res.ok && res.type === "cors") {
+    const copy = res.clone();
+    event.waitUntil(cache.put(event.request, copy).then(() => trim(cache, IMAGE_LIMIT)));
+  }
+  return res;
+}
+
 async function tile(event) {
   const cache = await caches.open(TILES);
   try {
@@ -177,4 +200,6 @@ self.addEventListener("fetch", (event) => {
   }
 
   if (/(^|\.)tile\.openstreetmap\.org$/.test(url.hostname)) return event.respondWith(tile(event));
+  const recipeImage = (url.hostname === "www.themealdb.com" && url.pathname.startsWith("/images/")) || /^(upload|thumb)\.wikimedia\.org$/.test(url.hostname);
+  if (recipeImage && req.mode === "cors") return event.respondWith(image(event));
 });

@@ -50,6 +50,8 @@ Every `src/app/**/page.tsx` is ~8 lines: export `metadata`, render a View. Examp
 | `/place/?id=n123` | `views/PlaceView.tsx` | OSM place page, id read from the query string |
 | `/nearby/` | `views/NearbyView.tsx` | map + list |
 | `/discover/` | `views/DiscoverView.tsx` | `?c=<category>` preselects a category; `#budget` anchors the budget planner |
+| `/recipes/` | `views/RecipesView.tsx` | browse by cuisine, search, filters; `?cuisine=`, `?course=`, `?q=` preselect |
+| `/recipes/[id]/` | `views/RecipeView.tsx` | 93 pre-rendered pages (`generateStaticParams`); the route passes the full recipe as props, see §4 *Recipes* |
 | `/favorites/`, `/trending/`, `/compare/`, `/profile/` | matching `*View.tsx` | |
 | `/games/`, `/games/{battle,mystery,challenges,group}/` | `views/games/*View.tsx` | Group shares its shortlist in the URL hash `#o=…` |
 
@@ -134,13 +136,32 @@ Flags: `--skip-osm`, `--force-osm` (`npm run data:refresh`). Env: `AKLA_SHEET_ID
 - OSM places are **not** bundled: `usePlaces()` in `src/lib/places.ts` fetches `${BASE_PATH}/data/places/<country>.json` once per
   visit, decodes each place (cuisine → `CategoryId` via regex table, nearest area, emoji, parsed hours).
 
+### Recipes — `scripts/build-recipes.mjs`
+
+Separate from the restaurant data because recipes change rarely and their Arabic is tied to the exact English text.
+
+- `data/recipes/sources.json` — the curated list (TheMealDB ids / Wikibooks page titles per cuisine, optional name/course overrides).
+- `node scripts/build-recipes.mjs --refresh` (`npm run recipes`) downloads them into `src/data/generated/recipes.json` (committed):
+  ingredients parsed into `{ q, q2, u, text }` so servings scale, steps split one per line, `minutes` = durations mentioned in the
+  steps (shown as time, "prep may add more"), `difficulty` 1–3 from the recipe's length (Wikibooks' own rating when present),
+  `veg` = no meat/fish word in the ingredients, `hash` of the English text. Pork/alcohol recipes are skipped.
+- Every run (also `prebuild` and a workflow step, without network) writes `src/data/generated/recipes-index.json`: the small list
+  (names incl. Arabic, cuisine, filters, search words) used by `/recipes`, Home, Discover, Favourites and the search overlay.
+  `--check` (`npm run recipes:check`) fails if any recipe lacks an up-to-date Arabic translation.
+- `src/data/recipes.ts` (full data) is imported **only by the route files**, so steps never enter shared client JS; each
+  `/recipes/<id>/` page carries just its own recipe. `src/data/recipeIndex.ts` is the client-safe index.
+- Arabic: `src/data/recipes-ar.json` (`{ id: { hash, name, ingredients[], steps[] } }`). `usableAr()` in `src/lib/recipes.ts` only
+  uses an entry whose hash and line counts match; otherwise the page shows English (`lang="en" dir="ltr"`) with a note.
+- UI strings: `src/lib/messages-recipes.ts`, merged into `messages.ts` as `t.recipes`.
+
 Trust model: demo = 🧪 badge, OSM = 🗺️ badge, community offers vs verified. See `DemoBadge` / `TrustBadge` in
 `components/ui.tsx` and the trust section of [BRAND.md](BRAND.md).
 
 ## 5. State — `src/lib/store.ts`
 
 One Zustand store, `useStore`, persisted to localStorage under `akla` (version 1). Holds: `locale`, `location`
-(area or GPS), `motion` and `sound` preferences, `favorites` per kind, `collections`, view/offer/category history,
+(area or GPS), `motion` and `sound` preferences, `favorites` per kind (restaurants, meals, offers, categories, recipes; `merge`
+fills kinds added later), `collections`, view/offer/category history,
 `spins`, `battlesWon`, `achievements` (id → unlock ISO time), `streak`, `challengesDone`. `toast` is transient
 (excluded by `partialize`).
 

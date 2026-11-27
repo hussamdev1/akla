@@ -20,6 +20,7 @@ first for the big picture.
 | `npm run lint` | ESLint 9 flat config (`eslint.config.mjs`: `next/core-web-vitals` + `next/typescript`). |
 | `npx tsc --noEmit` | Type-check (there is no `typecheck` script). |
 | `npm run build` | `prebuild` runs the data script, then `next build` → static site in `out/`, then `postbuild` writes `out/sw.js`. |
+| `npm run recipes` | Re-download the recipes in `data/recipes/sources.json` (TheMealDB + Wikibooks). `npm run recipes:check` reports Arabic coverage. |
 | `npm run icons` | Regenerate the PWA icons / favicon from the Lugma mark (`scripts/build-icons.mjs`, uses `sharp`). Commit the PNGs. |
 
 There is **no test suite** yet. "Done" today means: lint clean, `tsc` clean, `npm run build` succeeds, and the page
@@ -127,6 +128,19 @@ Moods, meal times, sizes, offer types and offer tags follow the same pattern (un
 5. Document it in the tab's table in [DATA.md](DATA.md), and add the header to the live Google Sheet.
 6. `npm run data -- --skip-osm` to regenerate, then build.
 
+### Add or update recipes
+
+1. Add an entry to `data/recipes/sources.json` under its cuisine: `{ "mealdb": "<id>" }` or
+   `{ "wikibooks": "Cookbook:<Exact Title>" }`, optionally `name`, `course`, `servings`. New cuisine → also add it to `CuisineId` and
+   `CUISINES` (name, flag, tint) in `src/lib/recipes.ts`.
+2. `npm run recipes` — downloads everything again (≈2 min; Wikibooks is called slowly on purpose) and prints which recipes have no
+   current Arabic.
+3. Translate each listed recipe into `src/data/recipes-ar.json`: copy the recipe's `hash`, then `name`, `ingredients` (one per
+   ingredient line, same order, **without** the amount/unit — the app prints those) and `steps` (same count). Latin digits.
+   Re-run `node scripts/build-recipes.mjs` until it says `Arabic: n/n`.
+4. Own recipes (e.g. Kuwaiti dishes written by the team) would need a third source kind in `build-recipes.mjs` reading a local file
+   with the same normalised shape, plus a `source` line for the attribution.
+
 ## Previewing a production build
 
 `out/` is plain static files. With no base path, any static server works, e.g. `npx serve out`. To mimic GitHub
@@ -147,10 +161,12 @@ If you run `npx next build` directly (as CI does), follow it with `node scripts/
 | Offline page | `/offline/` (`src/app/offline/page.tsx`, `src/views/OfflineView.tsx`), served by the worker for uncached pages. |
 
 **Caching.** Install precaches the shell pages listed in `SHELL_PAGES` in `build-sw.mjs` (home, offline, picker,
-offers, nearby, favorites, profile, restaurants, discover, games) with their RSC `.txt` payloads, every hashed file in
+offers, nearby, favorites, profile, restaurants, discover, games, recipes) with their RSC `.txt` payloads, every hashed file in
 `/_next/static/{chunks,media}`, icons and manifest (~2.8 MB), plus the places data (`/data/places.json`, or
 `/data/places/KW.json` in the per-country layout; see `DATA_CANDIDATES`). Other `/data/*` files are cached as they
-are used; live Overpass/Nominatim requests are never cached. At runtime: pages are
+are used; live Overpass/Nominatim requests are never cached. Recipe pages are cached when visited (network-first like every page) and recipe
+photos — requested with CORS via `FoodImage cors` — go into a capped `akla-images` cache (150), so an opened recipe works offline
+with its photo. At runtime: pages are
 network-first (4 s timeout when a cached copy exists) → cache → `/offline/`; RSC payloads network-first; `/_next/static`
 cache-first (content-hashed); `/data/*` stale-while-revalidate; OSM tiles network-first with a 60-tile fallback cache
 (MapView sets `crossOrigin` so tiles are CORS, not opaque). Favourites, history and settings live in localStorage, so

@@ -138,7 +138,7 @@ export type Offer = {
   image?: string;
 };
 
-export type FavKind = "restaurants" | "meals" | "offers" | "categories";
+export type FavKind = "restaurants" | "meals" | "offers" | "categories" | "recipes";
 
 export type Collection = {
   id: string;

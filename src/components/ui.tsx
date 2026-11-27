@@ -110,7 +110,8 @@ export function Tilt({ children, className, max = 8 }: { children: ReactNode; cl
 
 /* ---------- Media ---------- */
 
-export function FoodImage({ src, emoji, alt, size = "medium", className, color = "#FFE3C9" }: { src?: string; emoji: string; alt: string; size?: "small" | "medium" | "full"; className?: string; color?: string }) {
+/** `cors`: request the image with CORS so the service worker can keep it for offline use (only for hosts that allow it). */
+export function FoodImage({ src, emoji, alt, size = "medium", className, color = "#FFE3C9", cors, eager }: { src?: string; emoji: string; alt: string; size?: "small" | "medium" | "large" | "full"; className?: string; color?: string; cors?: boolean; eager?: boolean }) {
   const [failed, setFailed] = useState(false);
   const url = sized(src, size);
   if (!url || failed) {
@@ -122,7 +123,7 @@ export function FoodImage({ src, emoji, alt, size = "medium", className, color =
     );
   }
   // eslint-disable-next-line @next/next/no-img-element
-  return <img src={url} alt={alt} loading="lazy" decoding="async" onError={() => setFailed(true)} className={cx("object-cover", className)} />;
+  return <img src={url} alt={alt} loading={eager ? "eager" : "lazy"} decoding="async" crossOrigin={cors ? "anonymous" : undefined} onError={() => setFailed(true)} className={cx("object-cover", className)} />;
 }
 
 /** Restaurant logo tile: the brand's logo when the sheet has one, otherwise its emoji on the brand colour. */

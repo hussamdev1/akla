@@ -32,10 +32,11 @@ export function Header() {
   const { t } = useI18n();
   const path = usePathname();
   const [more, setMore] = useState(false);
-  const favCount = useStore((s) => s.favorites.restaurants.length + s.favorites.meals.length + s.favorites.offers.length);
+  const favCount = useStore((s) => s.favorites.restaurants.length + s.favorites.meals.length + s.favorites.offers.length + s.favorites.recipes.length);
 
   const nav = [
     { href: "/discover/", label: t.nav.discover },
+    { href: "/recipes/", label: t.recipes.nav },
     { href: "/restaurants/", label: t.nav.restaurants },
     { href: "/offers/", label: t.nav.offers },
     { href: "/nearby/", label: t.nav.nearby },

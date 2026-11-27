@@ -25,6 +25,7 @@ export function BottomNav() {
   const all = [
     { href: "/", label: t.nav.home, e: "🏠" },
     { href: "/discover/", label: t.nav.discover, e: "🧭" },
+    { href: "/recipes/", label: t.recipes.nav, e: "👩‍🍳" },
     { href: "/restaurants/", label: t.nav.restaurants, e: "🍽️" },
     { href: "/offers/", label: t.nav.offers, e: "🏷️" },
     { href: "/nearby/", label: t.nav.nearby, e: "📍" },

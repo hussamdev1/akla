@@ -19,6 +19,7 @@ import { haversineKm, locationPoint } from "@/lib/geo";
 import { Container, Countdown, DemoBadge, FoodImage, Loader, Reveal, SectionHeader, Tilt } from "@/components/ui";
 import { Lugma } from "@/components/Logo";
 import { LocationPill, useLocationLabel } from "@/components/shell/LocationPicker";
+import { CookAtHome } from "@/components/recipes";
 import { MiniWheel } from "@/components/Wheel";
 
 const FLOATERS = [
@@ -209,6 +210,13 @@ export function HomeView() {
           </div>
         </Container>
       </section>
+
+      {/* ================= RECIPES ================= */}
+      <Container className="py-12">
+        <Reveal>
+          <CookAtHome />
+        </Reveal>
+      </Container>
 
       {/* ================= MOOD ================= */}
       {HAS_MEALS && <MoodSection />}

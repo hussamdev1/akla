@@ -12,6 +12,7 @@ import { mealTimeAt } from "@/lib/time";
 import type { CategoryId, Meal, MealSize, MealTime, Mood } from "@/lib/types";
 import { CategoryCard, MealCard } from "@/components/cards";
 import { Container, cx, EmptyState, PageHero, Reveal, SectionHeader } from "@/components/ui";
+import { CookAtHome } from "@/components/recipes";
 import { QueryParam } from "@/components/QueryParam";
 
 const TIMES: { id: MealTime; e: string }[] = [
@@ -92,6 +93,7 @@ export function DiscoverView() {
         <PageHero title={t.discover.title} subtitle={t.discover.subtitle} emoji="🧭" color="#9BE15D" />
         <Container className="py-10">
           <LiveSoon />
+          <CookAtHome className="mt-12" />
         </Container>
       </>
     );
@@ -147,6 +149,7 @@ export function DiscoverView() {
             <EmptyState title={t.common.noResults} action={<button className="btn btn-primary" onClick={() => { setCat(null); setTime("all"); setMood(null); }}>{t.common.reset}</button>} />
           )}
         </section>
+        <CookAtHome category={cat} className="mt-12" />
       </Container>
 
       {/* Budget planner */}
