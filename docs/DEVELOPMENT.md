@@ -148,7 +148,9 @@ If you run `npx next build` directly (as CI does), follow it with `node scripts/
 
 **Caching.** Install precaches the shell pages listed in `SHELL_PAGES` in `build-sw.mjs` (home, offline, picker,
 offers, nearby, favorites, profile, restaurants, discover, games) with their RSC `.txt` payloads, every hashed file in
-`/_next/static/{chunks,media}`, icons and manifest (~2.8 MB), plus `/data/places.json`. At runtime: pages are
+`/_next/static/{chunks,media}`, icons and manifest (~2.8 MB), plus the places data (`/data/places.json`, or
+`/data/places/KW.json` in the per-country layout; see `DATA_CANDIDATES`). Other `/data/*` files are cached as they
+are used; live Overpass/Nominatim requests are never cached. At runtime: pages are
 network-first (4 s timeout when a cached copy exists) → cache → `/offline/`; RSC payloads network-first; `/_next/static`
 cache-first (content-hashed); `/data/*` stale-while-revalidate; OSM tiles network-first with a 60-tile fallback cache
 (MapView sets `crossOrigin` so tiles are CORS, not opaque). Favourites, history and settings live in localStorage, so

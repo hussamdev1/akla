@@ -19,7 +19,9 @@ const BASE = (process.env.NEXT_PUBLIC_BASE_PATH || "").replace(/\/$/, "");
 // Pages available offline from the first visit (manifest shortcuts + the ones that work on local data).
 const SHELL_PAGES = ["/", "/offline/", "/picker/", "/offers/", "/nearby/", "/favorites/", "/profile/", "/restaurants/", "/discover/", "/games/"];
 const STATIC_FILES = ["/manifest.webmanifest", "/favicon.ico", "/icon.svg", "/apple-icon.png", "/icons/icon-192.png", "/icons/icon-512.png", "/icons/maskable-192.png", "/icons/maskable-512.png"];
-const DATA_FILES = ["/data/places.json"];
+// Places data to have offline from the first visit: the single snapshot, or (per-country layout) the default country.
+// Other data files are cached at runtime (stale-while-revalidate); live Overpass/Nominatim calls are never cached.
+const DATA_CANDIDATES = ["/data/places.json", "/data/places/KW.json"];
 
 if (!existsSync(OUT)) {
   console.error("[sw] out/ not found — run `next build` first.");
@@ -48,6 +50,8 @@ for (const page of SHELL_PAGES) {
   for (const f of await readdir(dir)) if (f.endsWith(".txt")) rsc.push(path.posix.join(page, f));
 }
 
+const DATA_FILES = DATA_CANDIDATES.filter((f) => existsSync(path.join(OUT, f))).slice(0, 1);
+if (!DATA_FILES.length) console.warn(`[sw] none of ${DATA_CANDIDATES.join(", ")} in out/ — no places data precached`);
 const files = [...STATIC_FILES, ...DATA_FILES];
 for (const f of files) if (!existsSync(path.join(OUT, f))) throw new Error(`[sw] ${f} missing from out/`);
 
