@@ -113,7 +113,7 @@ export function HomeView() {
               }}
             >
               <LocationPill dark className="shrink-0" />
-              <label className="relative flex-1">
+              <label className="relative min-w-0 flex-1">
                 <span className="sr-only">{t.nav.search}</span>
                 <Search className="absolute start-2 top-1/2 size-5 -translate-y-1/2 text-ink-soft" />
                 <input name="q" placeholder={t.header.searchPlaceholder} className="w-full bg-transparent py-2 ps-9 pe-2 font-medium outline-none" />

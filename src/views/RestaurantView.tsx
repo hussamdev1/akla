@@ -65,11 +65,11 @@ export function RestaurantView({ id }: { id: string }) {
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/30 to-transparent" />
         <Container className="relative flex h-full items-end pb-6">
           <div className="flex w-full flex-wrap items-end justify-between gap-4">
-            <div className="flex items-end gap-4">
+            <div className="flex min-w-0 items-end gap-4">
               <motion.div initial={{ scale: 0, rotate: -20 }} animate={{ scale: 1, rotate: 0 }} className="grid size-20 shrink-0 place-items-center rounded-3xl border-2 border-ink text-5xl shadow-[4px_4px_0_#2B1B3D] sm:size-24" style={{ background: r.brand }}>
                 {r.emoji}
               </motion.div>
-              <div className="text-white">
+              <div className="min-w-0 text-white">
                 <div className="mb-1 flex flex-wrap gap-1.5">
                   <DemoBadge source={r.source} />
                   {r.isNew && <span className="rounded-full border-2 border-ink bg-lime px-2 py-0.5 text-xs font-extrabold text-ink">{t.common.newPlace}</span>}
@@ -118,7 +118,7 @@ export function RestaurantView({ id }: { id: string }) {
         </div>
       </Container>
 
-      <Container className="grid gap-10 py-10 lg:grid-cols-[1fr_22rem]">
+      <Container className="grid gap-10 py-10 grid-cols-[minmax(0,1fr)] lg:grid-cols-[minmax(0,1fr)_22rem]">
         <div className="space-y-12">
           <Reveal>
             <h2 className="mb-2 font-display text-3xl font-bold">{t.restaurant.about}</h2>

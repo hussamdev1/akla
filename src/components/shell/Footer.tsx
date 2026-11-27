@@ -11,7 +11,7 @@ export function Footer() {
     ["/favorites/", t.nav.favorites], ["/profile/", t.nav.profile],
   ];
   return (
-    <footer className="relative mt-16 border-t-2 border-ink bg-ink pb-28 text-white lg:pb-0">
+    <footer className="relative mt-16 border-t-2 border-ink bg-ink pb-[calc(7rem+env(safe-area-inset-bottom))] text-white lg:pb-[env(safe-area-inset-bottom)]">
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 md:grid-cols-3">
         <div className="space-y-3">
           <div className="inline-block rounded-2xl bg-rice px-3 py-2 text-ink">

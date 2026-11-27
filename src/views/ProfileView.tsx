@@ -42,7 +42,7 @@ export function ProfileView() {
   return (
     <>
       <PageHero title={t.profile.title} subtitle={t.profile.local} emoji="🏅" color="#FF8FAB" />
-      <Container className="grid gap-8 py-10 lg:grid-cols-[1fr_22rem]">
+      <Container className="grid gap-8 py-10 grid-cols-[minmax(0,1fr)] lg:grid-cols-[minmax(0,1fr)_22rem]">
         <div className="space-y-10">
           <section className="sticker flex flex-wrap items-center gap-6 p-6">
             <motion.div animate={{ rotate: [0, -6, 6, 0] }} transition={{ repeat: Infinity, duration: 3 }}>

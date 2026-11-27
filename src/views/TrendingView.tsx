@@ -46,7 +46,7 @@ export function TrendingView() {
           </div>
         </section>
 
-        <section className="grid gap-8 lg:grid-cols-2">
+        <section className="grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-2">
           <div>
             <SectionHeader title={t.trending.topRated} emoji="⭐" />
             <ol className="space-y-3">
@@ -54,7 +54,7 @@ export function TrendingView() {
                 <motion.li key={r.id} initial={{ x: -30, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}>
                   <Link href={`/restaurants/${r.id}/`} className="sticker flex items-center gap-4 p-3 hover:shadow-[6px_6px_0_#2B1B3D]">
                     <span className="font-display text-4xl font-extrabold text-brand" style={{ WebkitTextStroke: "1.5px #2B1B3D" }}>#{i + 1}</span>
-                    <FoodImage src={r.cover} emoji={r.emoji} alt="" size="small" className="size-14 rounded-xl border-2 border-ink" />
+                    <FoodImage src={r.cover} emoji={r.emoji} alt="" size="small" className="size-14 shrink-0 rounded-xl border-2 border-ink" />
                     <div className="min-w-0 flex-1">
                       <div className="truncate font-bold">{l(r.name)}</div>
                       <div className="text-sm text-ink-soft">{r.categories.map((c) => categoryById(c).emoji).join(" ")}</div>

@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   applicationName: "Akla",
 };
 
-export const viewport: Viewport = { themeColor: "#E63462", width: "device-width", initialScale: 1 };
+export const viewport: Viewport = { themeColor: "#E63462", width: "device-width", initialScale: 1, viewportFit: "cover" };
 
 // Runs before paint: apply saved language direction + motion preference to avoid a layout flash.
 const boot = `try{var s=(JSON.parse(localStorage.getItem('akla')||'{}').state)||{};var l=s.locale||'ar';var d=document.documentElement;d.lang=l;d.dir=l==='ar'?'rtl':'ltr';if(s.motion&&s.motion!=='system')d.dataset.motion=s.motion;}catch(e){}`;

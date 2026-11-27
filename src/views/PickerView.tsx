@@ -288,7 +288,7 @@ export function PickerView() {
           </button>
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-[1fr_22rem]">
+        <div className="grid gap-8 grid-cols-[minmax(0,1fr)] lg:grid-cols-[minmax(0,1fr)_22rem]">
           <div>
             <h2 className="mb-2 font-bold">{t.picker.mode}</h2>
             <div className="scroll-row !pb-3">
@@ -324,7 +324,7 @@ export function PickerView() {
                       transition={{ repeat: Infinity, duration: 1.6 }}
                       disabled={spinning}
                       onClick={() => wheel.current?.spin()}
-                      className="btn btn-primary px-8 py-4 font-display text-2xl"
+                      className="btn btn-primary max-w-full whitespace-normal px-6 py-4 text-center font-display text-xl sm:px-8 sm:text-2xl"
                     >
                       {spinning ? t.picker.spinning : t.picker.spin}
                     </motion.button>

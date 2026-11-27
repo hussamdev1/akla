@@ -62,6 +62,11 @@
     color: var(--color-ink);
     font-family: var(--font-sans);
     font-feature-settings: "tnum" 0;
+    /* Long restaurant / meal names wrap instead of pushing the layout sideways */
+    overflow-wrap: break-word;
+    /* viewport-fit=cover: keep content clear of the notch in landscape */
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
   }
   h1, h2, h3, h4, .font-display {
     font-family: var(--font-display);
@@ -112,6 +117,8 @@
   .btn-sun { background: var(--color-sun); color: var(--color-ink); }
   .btn-sm { padding: 0.4rem 0.9rem; font-size: 0.875rem; box-shadow: var(--shadow-sticker-sm); }
   .btn-sm:hover { box-shadow: var(--shadow-sticker); }
+  /* Full-width buttons may wrap on narrow phones rather than overflow */
+  .btn.w-full { white-space: normal; text-align: center; }
 
   .chip {
     display: inline-flex;
@@ -131,6 +138,9 @@
     background: var(--color-ink);
     color: white;
   }
+  /* Invisible 44px+ touch area around small icon buttons (visual size unchanged) */
+  .hit { position: relative; }
+  .hit::after { content: ""; position: absolute; inset: -6px; border-radius: 999px; }
   .input {
     width: 100%;
     border: 2px solid var(--color-ink);

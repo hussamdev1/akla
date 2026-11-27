@@ -83,7 +83,7 @@ export function CompareView() {
           <table className="w-full min-w-[36rem] border-collapse">
             <thead>
               <tr>
-                <th className="w-40" />
+                <th className="w-28 sm:w-40" />
                 <AnimatePresence>
                   {rows.map((r) => (
                     <motion.th key={r.m.id} initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className={cx("relative p-3 align-top", best?.m.id === r.m.id && "bg-lime/15")}>

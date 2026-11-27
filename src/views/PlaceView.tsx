@@ -81,7 +81,7 @@ export function PlaceView() {
             </Container>
           </section>
 
-          <Container className="grid gap-8 py-8 lg:grid-cols-[1fr_22rem]">
+          <Container className="grid gap-8 py-8 grid-cols-[minmax(0,1fr)] lg:grid-cols-[minmax(0,1fr)_22rem]">
             <div className="space-y-6">
               <MapView center={{ lat: p.lat, lng: p.lng }} zoom={16} markers={[{ id: p.id, lat: p.lat, lng: p.lng, emoji: p.emoji, color: "#FFD23F", label: l(p.name) }]} className="h-72" />
               <div className="sticker space-y-2 p-5">

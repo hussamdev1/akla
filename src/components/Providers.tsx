@@ -56,7 +56,7 @@ function Toast() {
   }
 
   return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-24 z-[100] flex justify-center px-4 lg:bottom-8" aria-live="polite">
+    <div className="pointer-events-none fixed inset-x-0 bottom-[calc(6rem+env(safe-area-inset-bottom))] z-[100] flex justify-center px-4 lg:bottom-8" aria-live="polite">
       <AnimatePresence>
         {toast && (
           <motion.div

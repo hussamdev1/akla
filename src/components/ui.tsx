@@ -49,8 +49,8 @@ export function PageHero({ title, subtitle, emoji, color = "#FFD23F", children }
 export function SectionHeader({ title, subtitle, href, action, emoji }: { title: string; subtitle?: string; href?: string; action?: string; emoji?: string }) {
   const { t } = useI18n();
   return (
-    <div className="mb-5 flex items-end justify-between gap-4">
-      <div>
+    <div className="mb-5 flex flex-wrap items-end justify-between gap-x-4 gap-y-3">
+      <div className="min-w-48 flex-1">
         <h2 className="font-display text-3xl font-extrabold leading-tight sm:text-4xl">
           {emoji && <span className="me-2 inline-block animate-wiggle">{emoji}</span>}
           {title}
@@ -234,7 +234,7 @@ export function FavButton({ kind, id, className, size = "md" }: { kind: FavKind;
         e.stopPropagation();
         if (toggle(kind, id)) sfx.pop();
       }}
-      className={cx("grid place-items-center rounded-full border-2 border-ink bg-white shadow-[2px_2px_0_#2B1B3D] transition-colors", size === "sm" ? "size-8" : "size-10", fav && "bg-chili", className)}
+      className={cx("hit grid place-items-center rounded-full border-2 border-ink bg-white shadow-[2px_2px_0_#2B1B3D] transition-colors", size === "sm" ? "size-8" : "size-10", fav && "bg-chili", className)}
     >
       <motion.span key={String(fav)} initial={{ scale: 0.4 }} animate={{ scale: 1 }}>
         <Heart className={cx(size === "sm" ? "size-4" : "size-5", fav ? "fill-white text-white" : "text-ink")} />
@@ -320,11 +320,11 @@ export function Sheet({ open, onClose, children, title, wide }: { open: boolean;
           >
             <div className="sticky top-0 z-10 flex items-center justify-between gap-3 border-b-2 border-ink bg-rice/95 px-5 py-3 backdrop-blur">
               <h2 className="font-display text-xl font-bold">{title}</h2>
-              <button onClick={onClose} className="grid size-9 place-items-center rounded-full border-2 border-ink bg-white" aria-label={t.common.close}>
+              <button onClick={onClose} className="hit grid size-9 shrink-0 place-items-center rounded-full border-2 border-ink bg-white" aria-label={t.common.close}>
                 <X className="size-4" />
               </button>
             </div>
-            <div className="p-5">{children}</div>
+            <div className="p-4 pb-[max(1.25rem,env(safe-area-inset-bottom))] sm:p-5">{children}</div>
           </motion.div>
         </div>
       )}
@@ -342,7 +342,7 @@ export function Toggle({ checked, onChange, label }: { checked: boolean; onChang
         aria-checked={checked}
         aria-label={label}
         onClick={() => onChange(!checked)}
-        className={cx("relative h-7 w-12 shrink-0 rounded-full border-2 border-ink transition-colors", checked ? "bg-lime" : "bg-white")}
+        className={cx("hit h-7 w-12 shrink-0 rounded-full border-2 border-ink transition-colors", checked ? "bg-lime" : "bg-white")}
       >
         <motion.span layout className={cx("absolute top-0.5 size-5 rounded-full border-2 border-ink bg-white", checked ? "end-0.5" : "start-0.5")} />
       </button>
