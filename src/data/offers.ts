@@ -1,5 +1,5 @@
 import type { Offer, OfferTag, OfferType, L } from "@/lib/types";
-import { kuwaitDayStart } from "@/lib/time";
+import { localDayStart } from "@/lib/time";
 import { GENERATED_AT, SHEET, SHOW_DEMO } from "./source";
 
 /**
@@ -48,8 +48,7 @@ const atOffset = (dayStart: number, [d, hm]: [number, string]) => {
   return new Date(dayStart + d * 864e5 + (h * 60 + m) * 6e4).toISOString();
 };
 
-/** Build concrete offers anchored to the given moment's Kuwait day. */
-/** Real offers from the Google Sheet have fixed dates (Kuwait time) and are filtered by the clock like everything else. */
+/** Real offers from the Google Sheet have fixed dates (in the restaurant's time zone) and are filtered by the clock like everything else. */
 const SHEET_OFFERS = SHEET.offers as unknown as Offer[];
 
 export function buildOffers(now: Date): Offer[] {
@@ -57,12 +56,12 @@ export function buildOffers(now: Date): Offer[] {
 }
 
 function buildDemoOffers(now: Date): Offer[] {
-  const day = kuwaitDayStart(now);
+  const day = localDayStart(now, "Asia/Kuwait"); // demo restaurants are in Kuwait
   return SPECS.map((s) => ({
     id: s.id, restaurantId: s.r, mealId: s.meal, title: s.title, description: s.desc, type: s.type,
     originalPrice: s.orig, finalPrice: s.final, percent: s.pct,
     startsAt: atOffset(day, s.starts), expiresAt: atOffset(day, s.ends), addedAt: atOffset(day, [s.added, "09:00"]),
-    verified: s.verified, source: s.verified ? "demo" : "community", terms: s.terms ?? T, tags: s.tags, editorsPick: s.pick,
+    currency: "KWD", verified: s.verified, source: s.verified ? "demo" : "community", terms: s.terms ?? T, tags: s.tags, editorsPick: s.pick,
   }));
 }
 

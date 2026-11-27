@@ -9,7 +9,7 @@ import { useStore } from "@/lib/store";
 import { SHOW_DEMO } from "@/data/source";
 import { Logo } from "../Logo";
 import { cx } from "../ui";
-import { LocationPill } from "./LocationPicker";
+import { LocationPill, RegionHint } from "./LocationPicker";
 
 export const openSearch = () => window.dispatchEvent(new Event("akla:search"));
 
@@ -114,6 +114,7 @@ export function Header() {
       <div className="flex justify-center pb-2 sm:hidden">
         <LocationPill />
       </div>
+      <RegionHint />
     </header>
   );
 }

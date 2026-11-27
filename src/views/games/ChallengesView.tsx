@@ -7,18 +7,19 @@ import { useI18n } from "@/lib/i18n";
 import { useNow } from "@/lib/hooks";
 import { useStore } from "@/lib/store";
 import { celebrate, sfx } from "@/lib/fx";
-import { kuwaitDateKey, kuwaitDayStart, seeded } from "@/lib/time";
+import { localDateKey, localDayStart, seeded } from "@/lib/time";
 import type { L } from "@/lib/types";
 import { Container, Countdown, cx, PageHero, SectionHeader } from "@/components/ui";
 
 const NONE: string[] = [];
 
+/** `{n}` in a text is a KWD budget preset, shown in the selected currency. */
 type Challenge = { id: string; e: string; text: L; href: string; xp: number; color: string };
 
 export const CHALLENGES: Challenge[] = [
   { id: "new-rest", e: "🧭", text: { en: "Try a restaurant you have never visited", ar: "جرّب مطعم عمرك ما رحته" }, href: "/restaurants/", xp: 30, color: "#FFE3C9" },
   { id: "new-cuisine", e: "🌍", text: { en: "Discover a cuisine you rarely eat", ar: "اكتشف مطبخ نادراً تاكل منه" }, href: "/discover/", xp: 25, color: "#DDF1FF" },
-  { id: "under-2", e: "🪙", text: { en: "Find a meal under 2 KWD", ar: "لقّ وجبة بأقل من ٢ د.ك" }, href: "/discover/#budget", xp: 15, color: "#D9FBEF" },
+  { id: "under-2", e: "🪙", text: { en: "Find a meal under {2}", ar: "لقّ وجبة بأقل من {2}" }, href: "/discover/#budget", xp: 15, color: "#D9FBEF" },
   { id: "top-burger", e: "🍔", text: { en: "Try the highest-rated burger nearby", ar: "جرّب أعلى برجر تقييماً قريب منك" }, href: "/discover/?c=burgers", xp: 25, color: "#FFF0D6" },
   { id: "big-discount", e: "💥", text: { en: "Find a restaurant with a discount of 30% or more", ar: "لقّ مطعم عليه خصم ٣٠٪ أو أكثر" }, href: "/offers/", xp: 20, color: "#FFD9DC" },
   { id: "cheap-burger-5", e: "📍", text: { en: "Find the cheapest burger within 5 km", ar: "لقّ أرخص برجر ضمن ٥ كم" }, href: "/nearby/", xp: 20, color: "#FFE3C9" },
@@ -26,7 +27,7 @@ export const CHALLENGES: Challenge[] = [
   { id: "outside-usual", e: "🎢", text: { en: "Order something outside your usual cuisine", ar: "اطلب شي برّا مطبخك المعتاد" }, href: "/picker/?mode=category", xp: 30, color: "#F3E8FF" },
   { id: "spin-surprise", e: "🎡", text: { en: "Spin the wheel in “Surprise me” mode and go with it", ar: "لِف العجلة بوضع «فاجئني» والتزم بالنتيجة" }, href: "/picker/?mode=anything", xp: 20, color: "#FFF7CC" },
   { id: "battle", e: "⚔️", text: { en: "Crown a Food Battle champion", ar: "توّج بطل في معركة الأكل" }, href: "/games/battle/", xp: 15, color: "#FFE1E1" },
-  { id: "healthy-lunch", e: "🥗", text: { en: "Pick a healthy lunch under 3 KWD", ar: "اختار غدا صحي بأقل من ٣ د.ك" }, href: "/discover/?c=healthy", xp: 20, color: "#E6F9D5" },
+  { id: "healthy-lunch", e: "🥗", text: { en: "Pick a healthy lunch under {3}", ar: "اختار غدا صحي بأقل من {3}" }, href: "/discover/?c=healthy", xp: 20, color: "#E6F9D5" },
   { id: "collection", e: "📚", text: { en: "Create a collection and save 3 favourites", ar: "سوّ مجموعة واحفظ فيها ٣ مفضلات" }, href: "/favorites/", xp: 15, color: "#E0F2FE" },
   { id: "breakfast-out", e: "🍳", text: { en: "Have breakfast out before 9am", ar: "افطر برّا البيت قبل ٩ الصبح" }, href: "/discover/?c=breakfast", xp: 25, color: "#FFF7CC" },
   { id: "spicy", e: "🌶️", text: { en: "Survive a level-3 spicy dish", ar: "تحدّى طبق حار من المستوى ٣" }, href: "/discover/", xp: 30, color: "#FFD9DC" },
@@ -43,9 +44,10 @@ function pick(key: string, n: number) {
 }
 
 export function ChallengesView() {
-  const { t, l } = useI18n();
+  const { t, l: lRaw, price, amt } = useI18n();
+  const l = (x: L) => lRaw(x).replace(/\{(\d+(?:\.\d+)?)\}/g, (_, n: string) => price(amt(Number(n))));
   const now = useNow(60_000);
-  const key = now ? kuwaitDateKey(now) : "";
+  const key = now ? localDateKey(now) : "";
   const doneRaw = useStore((s) => s.challengesDone[key]);
   const done = doneRaw ?? NONE;
   const toggle = useStore((s) => s.toggleChallenge);
@@ -53,7 +55,7 @@ export function ChallengesView() {
   const [random, setRandom] = useState<Challenge | null>(null);
 
   const daily = useMemo(() => (key ? pick(key, 3) : []), [key]);
-  const nextReset = now ? new Date(kuwaitDayStart(now) + 864e5).toISOString() : null;
+  const nextReset = now ? new Date(localDayStart(now) + 864e5).toISOString() : null;
   const totalXp = Object.values(allDone).flat().reduce((s, id) => s + (CHALLENGES.find((c) => c.id === id)?.xp ?? 0), 0);
 
   const roll = () => {

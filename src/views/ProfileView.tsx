@@ -5,6 +5,7 @@ import { ACHIEVEMENTS, achievementProgress, useStore, type AchievementId } from 
 import { Container, cx, PageHero, Toggle } from "@/components/ui";
 import { Lugma } from "@/components/Logo";
 import { LangToggle } from "@/components/shell/Header";
+import { LocationPill } from "@/components/shell/LocationPicker";
 
 export function AchievementBadge({ a, unlocked, progress }: { a: { id: AchievementId; emoji: string; color: string; goal: number }; unlocked: boolean; progress: number }) {
   const { t } = useI18n();
@@ -86,6 +87,9 @@ export function ProfileView() {
           <h2 className="font-display text-2xl font-bold">⚙️ {t.profile.settings}</h2>
           <div className="flex items-center justify-between font-semibold">
             {t.profile.language} <LangToggle />
+          </div>
+          <div className="flex items-center justify-between gap-3 font-semibold">
+            {t.region.country} <LocationPill />
           </div>
           <div>
             <p className="mb-2 font-semibold">{t.profile.motion}</p>

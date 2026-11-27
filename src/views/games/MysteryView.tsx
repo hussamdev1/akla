@@ -3,20 +3,20 @@ import Link from "next/link";
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { CATEGORIES } from "@/data/categories";
-import { MEALS } from "@/data/meals";
 import { restaurantById } from "@/data/restaurants";
 import { useI18n } from "@/lib/i18n";
-import { useOffers } from "@/lib/hooks";
+import { useLive, useMeals, useOffers } from "@/lib/hooks";
 import { celebrate, sfx } from "@/lib/fx";
 import type { CategoryId, Meal } from "@/lib/types";
 import { Container, EmptyState, FavButton, FoodImage, PageHero, RatingBadge } from "@/components/ui";
 import { LiveSoon } from "@/components/LiveSoon";
-import { HAS_MEALS } from "@/data/live";
 
 const BUDGETS = [1, 2, 3, 5, 10];
 
 export function MysteryView() {
-  const { t, l, price } = useI18n();
+  const MEALS = useMeals();
+  const { hasMeals: HAS_MEALS } = useLive();
+  const { t, l, price, amt } = useI18n();
   const { active } = useOffers();
   const [budget, setBudget] = useState(3);
   const [cat, setCat] = useState<CategoryId | "">("");
@@ -28,7 +28,7 @@ export function MysteryView() {
   const finalPrice = (m: Meal) => offerFor(m.id)?.finalPrice ?? m.price;
 
   const wrap = () => {
-    const pool = MEALS.filter((m) => finalPrice(m) <= budget && (!cat || m.category === cat));
+    const pool = MEALS.filter((m) => finalPrice(m) <= amt(budget) && (!cat || m.category === cat));
     if (!pool.length) return setStage("empty");
     setMeal(pool[Math.floor(Math.random() * pool.length)]);
     setShake(0);
@@ -69,7 +69,7 @@ export function MysteryView() {
                 <div className="flex flex-wrap gap-2">
                   {BUDGETS.map((b) => (
                     <button key={b} type="button" className="chip !px-4 !py-2" aria-pressed={budget === b} onClick={() => setBudget(b)}>
-                      ≤ {price(b)}
+                      ≤ {price(amt(b))}
                     </button>
                   ))}
                 </div>

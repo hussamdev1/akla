@@ -1,7 +1,9 @@
 "use client";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { DEFAULT_AREA_ID } from "@/data/geo";
+import { DEFAULT_AREA, DEFAULT_AREA_ID } from "@/data/geo";
+import { locationPoint } from "./geo";
+import { activeRegion, DEFAULT_COUNTRY, defaultCity, isCountry, isFeatured, setActiveRegion, speaksArabic, type ActiveRegion } from "./region";
 import { restaurantById } from "@/data/restaurants";
 import { mealById } from "@/data/meals";
 import type { Collection, FavKind, Locale, UserLocation } from "./types";
@@ -23,7 +25,13 @@ export type SpinEntry = { at: string; label: string; emoji: string; href?: strin
 
 type State = {
   locale: Locale;
+  /** true once the user picked a language themselves; until then the language follows the country */
+  langChosen: boolean;
+  /** ISO 3166-1 alpha-2 of the selected country */
+  country: string;
   location: UserLocation;
+  /** device-time-zone country suggestion: shown once, then "done" */
+  regionHint: "pending" | "done";
   motion: "system" | "reduced" | "full";
   sound: boolean;
   favorites: Record<FavKind, string[]>;
@@ -39,11 +47,16 @@ type State = {
   challengesDone: Record<string, string[]>;
   // transient
   toast: { id: number; text: string; emoji?: string } | null;
+  /** derived from country + location: time zone and currency (not persisted) */
+  region: ActiveRegion;
 };
 
 type Actions = {
   setLocale: (l: Locale) => void;
   setLocation: (l: UserLocation) => void;
+  /** Switch country; without a location, jumps to its default area / city. */
+  setCountry: (country: string, location?: UserLocation) => void;
+  dismissRegionHint: () => void;
   setMotion: (m: State["motion"]) => void;
   setSound: (s: boolean) => void;
   toggleFav: (kind: FavKind, id: string) => boolean;
@@ -62,9 +75,14 @@ type Actions = {
   resetAll: () => void;
 };
 
-const initial: Omit<State, "toast"> = {
+type Persisted = Omit<State, "toast" | "region">;
+
+const initial: Persisted = {
   locale: "ar",
+  langChosen: false,
+  country: DEFAULT_COUNTRY,
   location: { kind: "area", areaId: DEFAULT_AREA_ID },
+  regionHint: "pending",
   motion: "system",
   sound: true,
   favorites: { restaurants: [], meals: [], offers: [], categories: [] },
@@ -81,7 +99,7 @@ const initial: Omit<State, "toast"> = {
 };
 
 /** Progress toward each achievement, derived from state. */
-export function achievementProgress(s: Omit<State, "toast">): Record<AchievementId, number> {
+export function achievementProgress(s: Persisted): Record<AchievementId, number> {
   const viewed = Object.keys(s.views);
   const burgerViews = viewed.filter((id) => restaurantById(id)?.categories.includes("burgers")).length;
   const pizzaSaved =
@@ -103,6 +121,18 @@ export function achievementProgress(s: Omit<State, "toast">): Record<Achievement
 
 let toastSeq = 0;
 
+/** Default location of a country: its curated default area, else its capital / largest city. */
+export function defaultLocation(country: string): UserLocation {
+  if (isFeatured(country) && DEFAULT_AREA[country]) return { kind: "area", areaId: DEFAULT_AREA[country] };
+  return { kind: "city", country, ...defaultCity(country) };
+}
+
+/** Recompute the active region (time zone, currency) and mirror it for the pure helpers. */
+const regionFor = (country: string, location: UserLocation) => {
+  setActiveRegion(country, locationPoint(location, country));
+  return activeRegion();
+};
+
 export const useStore = create<State & Actions>()(
   persist(
     (set, get) => {
@@ -121,8 +151,23 @@ export const useStore = create<State & Actions>()(
       return {
         ...initial,
         toast: null,
-        setLocale: (locale) => set({ locale }),
-        setLocation: (location) => set({ location }),
+        region: regionFor(initial.country, initial.location),
+        setLocale: (locale) => set({ locale, langChosen: true }),
+        setLocation: (location) => set({ location, region: regionFor(get().country, location) }),
+        setCountry: (country, location) => {
+          if (!isCountry(country)) return;
+          const loc = location ?? defaultLocation(country);
+          const s = get();
+          set({
+            country,
+            location: loc,
+            region: regionFor(country, loc),
+            regionHint: "done",
+            // Until the user picks a language, it follows the country (Arabic in Arabic-speaking countries).
+            ...(s.langChosen ? {} : { locale: speaksArabic(country) ? "ar" : "en" }),
+          });
+        },
+        dismissRegionHint: () => set({ regionHint: "done" }),
         setMotion: (motion) => set({ motion }),
         setSound: (sound) => set({ sound }),
         toggleFav: (kind, id) => {
@@ -179,15 +224,30 @@ export const useStore = create<State & Actions>()(
         },
         showToast: (text, emoji) => set({ toast: { id: ++toastSeq, text, emoji } }),
         clearToast: () => set({ toast: null }),
-        resetAll: () => set({ ...initial, locale: get().locale }),
+        resetAll: () => {
+          const { locale, langChosen, country, location, regionHint } = get();
+          set({ ...initial, locale, langChosen, country, location, regionHint });
+        },
       };
     },
     {
       name: "akla",
-      version: 1,
+      version: 2,
       skipHydration: true,
-      partialize: ({ toast: _t, ...rest }) => {
+      // v1 (Kuwait-only) settings: keep everything, add the country. The locale was the user's own choice.
+      migrate: (persisted, version) => {
+        const p = (persisted ?? {}) as Partial<Persisted>;
+        if (version < 2) return { ...p, country: DEFAULT_COUNTRY, langChosen: p.locale === "en", regionHint: "done" } as Persisted;
+        return p as Persisted;
+      },
+      merge: (persisted, current) => {
+        const s = { ...current, ...(persisted as Partial<Persisted>) };
+        if (!isCountry(s.country)) s.country = DEFAULT_COUNTRY;
+        return { ...s, region: regionFor(s.country, s.location) };
+      },
+      partialize: ({ toast: _t, region: _r, ...rest }) => {
         void _t;
+        void _r;
         return Object.fromEntries(Object.entries(rest).filter(([, v]) => typeof v !== "function"));
       },
     },

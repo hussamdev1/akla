@@ -12,7 +12,7 @@
 | **Why the name** | Short, Arabic-native, easy to say in both languages, and it *is* the thing people are deciding on. |
 | **Promise** | Make deciding what to eat the most fun part of the day. |
 | **Short line** | *Decide less. Eat better.* — *فكّر أقل.. واستمتع أكثر* |
-| **Market** | Kuwait first (KWD, 6 governorates, Arabic‑first), built to expand across the GCC |
+| **Market** | Kuwait first (KWD, 6 governorates, Arabic‑first); the whole GCC featured; usable in any country (local currency, time, language) |
 | **Personality** | Playful · warm · confident · a little cheeky · always honest |
 | **Not** | A corporate directory, a delivery app clone, a coupon spam site |
 

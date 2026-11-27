@@ -2,7 +2,7 @@
 
 > **شنو ناكل اليوم؟ خلّها علينا.** — *What are we eating today? Leave it to us.*
 
-Akla is a playful food discovery, deals and decision-making web app for Kuwait.
+Akla is a playful food discovery, deals and decision-making web app — Kuwait first, usable in any country.
 Arabic (RTL) by default, English one tap away. Built with **Next.js 16 + React 19 + TypeScript + Tailwind CSS 4**,
 exported as a static site so it runs free on **GitHub Pages**.
 

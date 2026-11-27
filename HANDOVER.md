@@ -15,7 +15,7 @@ detailed docs instead of repeating them. Snapshot written **2026-11-28**.
 
 ## 1. What Akla is
 
-A playful, **Arabic-first (RTL)** food discovery and "what do we eat?" web app for **Kuwait**, with an English toggle.
+A playful, **Arabic-first (RTL)** food discovery and "what do we eat?" web app, **Kuwait first and now any country** (GCC snapshots, live OpenStreetMap elsewhere), with an English toggle.
 Food roulette, offers marketplace, restaurant directory, nearby map, meal discovery and budget planner, mini-games
 (battle, mystery meal, daily challenges, group decision), favourites, compare, achievements.
 
@@ -38,7 +38,7 @@ From [docs/ROADMAP.md](docs/ROADMAP.md):
 | 4 Accounts, community, realtime (Supabase) · 5 Admin & restaurant portal · 6 Growth (PWA, SEO, Foursquare) · 7 Business | ⬜ planned |
 
 **Data right now:**
-- **1,628 real OpenStreetMap places** in `public/data/places.json` (snapshot from 2026-11-26; CI refreshes it on every deploy).
+- **1,628 real OpenStreetMap places** for Kuwait plus Saudi, UAE, Qatar, Bahrain and Oman snapshots in `public/data/places/<ISO2>.json` (CI refreshes each when older than 12 h); other countries load live from Overpass. See [ARCHITECTURE.md §7](docs/ARCHITECTURE.md#7-countries-time-and-currency).
 - **0 published Google Sheet rows.** `gh variable list -R hussamdev1/akla` showed **no repository variables**, so
   `AKLA_SHEET_ID` appears unset and builds read the local templates in `data/sheet/*.csv` (all rows `draft`).
 - **Live data only** (`AKLA_SHOW_DEMO` defaults to `never`): the site shows the real OpenStreetMap places. Because the
@@ -91,20 +91,20 @@ All are optional; there are no secrets.
 
 Everything is assembled **at build time** by `scripts/build-data.mjs`; the browser only gets static files.
 
-1. **OpenStreetMap** via the public Overpass API → `public/data/places.json`, fetched by the browser at runtime.
+1. **OpenStreetMap** via the public Overpass API → `public/data/places/<ISO2>.json`, fetched by the browser at runtime (live Overpass queries outside the GCC).
 2. **Google Sheet** (tabs `restaurants`, `meals`, `offers`) or the local CSV templates → `src/data/generated/sheet.json`,
    bundled into the pages. Only `status = published` rows are used.
 3. **Demo data** hard-coded in `src/data/restaurants.ts`, `meals.ts`, `offers.ts`, included when `SHOW_DEMO`
    (`src/data/source.ts`).
 
-Static reference data: 23 categories (`src/data/categories.ts`), Kuwait governorates and areas (`src/data/geo.ts`).
+Static reference data: 23 categories (`src/data/categories.ts`), GCC areas incl. Kuwait governorates (`src/data/geo.ts`), country data (`src/data/generated/countries.json`).
 Food photos are hot-linked stock images from TheMealDB (`src/lib/img.ts`), not photos of the actual restaurants.
 Map tiles come from `tile.openstreetmap.org`. Details: [ARCHITECTURE.md §4](docs/ARCHITECTURE.md#4-data-pipeline) and [DATA.md](docs/DATA.md).
 
 ## 6. Known issues and gotchas
 
 - **Local builds rewrite committed files.** `npm run build` runs the data script first; `meta.json` timestamps
-  always change, and if the OSM snapshot is over 12 h old it re-downloads `places.json` from Overpass. Revert with
+  always change, and if the OSM snapshot is over 12 h old it re-downloads the stale country snapshots from Overpass. Revert with
   `git checkout -- public/data src/data/generated` unless you mean to commit a data refresh.
 - **New sheet restaurants need a rebuild to get a page.** `/restaurants/[id]/` is pre-rendered from the list at build
   time (`dynamicParams = false`). With no restaurants at all it emits a placeholder `/restaurants/_/` that 404s

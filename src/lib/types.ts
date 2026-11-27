@@ -1,8 +1,6 @@
 export type Locale = "ar" | "en";
 export type L = { ar: string; en: string };
 
-export type GovernorateId = "capital" | "hawalli" | "farwaniya" | "mubarak" | "ahmadi" | "jahra";
-
 export type CategoryId =
   | "burgers" | "pizza" | "fried-chicken" | "grilled" | "bbq" | "sandwiches" | "shawarma"
   | "arabic" | "indian" | "italian" | "asian" | "japanese" | "sushi" | "seafood" | "mexican"
@@ -15,10 +13,14 @@ export type MealTime = "breakfast" | "morning" | "lunch" | "afternoon" | "dinner
 
 export type MealSize = "snack" | "regular" | "large" | "family";
 
+/** A curated area / city of a featured country (src/data/geo.ts). */
 export type Area = {
   id: string;
   name: L;
-  governorate: GovernorateId;
+  /** ISO 3166-1 alpha-2 */
+  country: string;
+  /** optional grouping, e.g. a Kuwait governorate */
+  region?: string;
   lat: number;
   lng: number;
 };
@@ -32,7 +34,7 @@ export type Category = {
   image?: string;
 };
 
-/** Opening hours in Kuwait local time, "HH:MM". close < open means it closes after midnight. */
+/** Opening hours in the place's local time, "HH:MM". close < open means it closes after midnight. */
 export type DayHours = { open: string; close: string } | "closed";
 export type WeeklyHours = {
   default: DayHours;
@@ -51,7 +53,16 @@ export type Restaurant = {
   tagline: L;
   description: L;
   categories: CategoryId[];
-  areaId: string;
+  /** ISO 3166-1 alpha-2; listings only show in their own country */
+  country: string;
+  /** ISO 4217 currency of its menu and offers */
+  currency: string;
+  /** IANA time zone its opening hours and offer dates are in */
+  timeZone: string;
+  /** curated area (featured countries), undefined elsewhere */
+  areaId?: string;
+  /** city name when there's no curated area */
+  city?: string;
   lat: number;
   lng: number;
   priceLevel: 1 | 2 | 3 | 4;
@@ -82,7 +93,8 @@ export type Meal = {
   name: L;
   description: L;
   category: CategoryId;
-  price: number; // KWD
+  price: number; // in `currency`
+  currency: string;
   image?: string;
   emoji: string;
   spicy: 0 | 1 | 2 | 3;
@@ -105,6 +117,7 @@ export type Offer = {
   type: OfferType;
   originalPrice?: number;
   finalPrice?: number;
+  currency?: string;
   percent?: number;
   /** ISO timestamps (computed for demo data) */
   startsAt: string;
@@ -131,4 +144,6 @@ export type Collection = {
 
 export type UserLocation =
   | { kind: "area"; areaId: string }
+  /** a city found by search, or a country's default city */
+  | { kind: "city"; country: string; name: L; lat: number; lng: number }
   | { kind: "gps"; lat: number; lng: number };

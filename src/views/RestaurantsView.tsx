@@ -3,11 +3,9 @@ import { useCallback, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Search, SlidersHorizontal } from "lucide-react";
 import { CATEGORIES } from "@/data/categories";
-import { GOVERNORATES, areaById } from "@/data/geo";
-import { MEALS } from "@/data/meals";
-import { RESTAURANTS } from "@/data/restaurants";
+import { areaById, regionsIn } from "@/data/geo";
 import { useI18n } from "@/lib/i18n";
-import { useDistances, useNow, useOffers } from "@/lib/hooks";
+import { useCountry, useDistances, useLive, useMeals, useNow, useOffers, useRestaurants } from "@/lib/hooks";
 import { norm } from "@/lib/search";
 import { openState } from "@/lib/time";
 import type { CategoryId } from "@/lib/types";
@@ -15,11 +13,15 @@ import { RestaurantCard } from "@/components/cards";
 import { Container, cx, EmptyState, PageHero, Sheet, Toggle } from "@/components/ui";
 import { QueryParam } from "@/components/QueryParam";
 import { RealPlacesDirectory } from "@/components/RealPlacesDirectory";
-import { SHOW_DEMO, DATA_META } from "@/data/source";
+import { SHOW_DEMO } from "@/data/source";
 
 type Sort = "recommended" | "rating" | "distance" | "price";
 
 export function RestaurantsView() {
+  const RESTAURANTS = useRestaurants();
+  const MEALS = useMeals();
+  const { osmCount } = useLive();
+  const regions = regionsIn(useCountry());
   const { t, l } = useI18n();
   const dist = useDistances();
   const { active } = useOffers();
@@ -35,8 +37,9 @@ export function RestaurantsView() {
   const [delivery, setDelivery] = useState(false);
   const [dineIn, setDineIn] = useState(false);
   const [sort, setSort] = useState<Sort>("recommended");
-  const [tab, setTab] = useState<"listings" | "all">(RESTAURANTS.length ? "listings" : "all");
-  const onTab = useCallback((v: string | null) => v === "all" && setTab("all"), []);
+  const [tabState, setTab] = useState<"listings" | "all">(RESTAURANTS.length ? "listings" : "all");
+  const tab = RESTAURANTS.length ? tabState : "all";
+  const onTab = useCallback((v: string | null) => v === "all" && setTab("all"), [setTab]);
   const [sheet, setSheet] = useState(false);
 
   const offerCount = useMemo(() => {
@@ -54,11 +57,11 @@ export function RestaurantsView() {
         if (!hay.includes(nq)) return false;
       }
       if (cats.length && !r.categories.some((c) => cats.includes(c))) return false;
-      if (gov && areaById(r.areaId)?.governorate !== gov) return false;
+      if (gov && (!r.areaId || areaById(r.areaId)?.region !== gov)) return false;
       if (minRating && (r.rating ?? 0) < minRating) return false;
       if (price.length && !price.includes(r.priceLevel)) return false;
       if (maxKm < 60 && dist[r.id] > maxKm) return false;
-      if (openNow && (!now || openState(r.hours, now).status !== "open")) return false;
+      if (openNow && (!now || openState(r.hours, now, r.timeZone).status !== "open")) return false;
       if (withOffers && !offerCount[r.id]) return false;
       if (delivery && !r.delivery) return false;
       if (dineIn && !r.dineIn) return false;
@@ -75,7 +78,7 @@ export function RestaurantsView() {
       price: (a, b) => a.priceLevel - b.priceLevel,
     };
     return out.sort(cmp[sort]);
-  }, [q, cats, gov, minRating, price, maxKm, openNow, withOffers, delivery, dineIn, sort, dist, now, offerCount]);
+  }, [q, cats, gov, minRating, price, maxKm, openNow, withOffers, delivery, dineIn, sort, dist, now, offerCount, RESTAURANTS, MEALS]);
 
   const filters = (
     <div className="space-y-5">
@@ -89,13 +92,15 @@ export function RestaurantsView() {
           ))}
         </div>
       </div>
-      <label className="block text-sm font-bold">
-        {t.offersPage.filterArea}
-        <select className="input mt-1" value={gov} onChange={(e) => setGov(e.target.value)}>
-          <option value="">{t.common.all}</option>
-          {GOVERNORATES.map((g) => <option key={g.id} value={g.id}>{l(g.name)}</option>)}
-        </select>
-      </label>
+      {regions.length > 0 && (
+        <label className="block text-sm font-bold">
+          {t.offersPage.filterArea}
+          <select className="input mt-1" value={gov} onChange={(e) => setGov(e.target.value)}>
+            <option value="">{t.common.all}</option>
+            {regions.map((g) => <option key={g.id} value={g.id}>{l(g.name)}</option>)}
+          </select>
+        </label>
+      )}
       <div>
         <h3 className="mb-2 font-bold">{t.restaurantsPage.minRating}</h3>
         <div className="flex flex-wrap gap-1.5">
@@ -136,7 +141,7 @@ export function RestaurantsView() {
         <div className="mb-4 flex flex-wrap gap-2" role="tablist">
           {(["listings", "all"] as const).map((k) => (
             <button key={k} type="button" role="tab" aria-selected={tab === k} onClick={() => setTab(k)} className={cx("btn btn-sm", tab === k ? "btn-primary" : "btn-light")}>
-              {k === "listings" ? `🍽️ ${t.places.tabListings}${SHOW_DEMO ? ` (${t.common.demo})` : ""}` : `🗺️ ${t.places.tabAll(DATA_META.osm?.count ?? 0)}`}
+              {k === "listings" ? `🍽️ ${t.places.tabListings}${SHOW_DEMO ? ` (${t.common.demo})` : ""}` : `🗺️ ${t.places.tabAll(osmCount)}`}
             </button>
           ))}
         </div>

@@ -4,12 +4,11 @@ import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowLeft, Dices, Search, Sparkles } from "lucide-react";
 import { CATEGORIES } from "@/data/categories";
-import { MEALS, mealById } from "@/data/meals";
-import { RESTAURANTS, restaurantById } from "@/data/restaurants";
+import { mealById } from "@/data/meals";
+import { restaurantById } from "@/data/restaurants";
 import { useI18n } from "@/lib/i18n";
 import { SHOW_DEMO } from "@/data/source";
-import { HAS_MEALS, OSM_COUNT } from "@/data/live";
-import { useDistances, useNow, useOffers } from "@/lib/hooks";
+import { useDistances, useLive, useMeals, useNow, useOffers, useRestaurants } from "@/lib/hooks";
 import { useStore } from "@/lib/store";
 import { mealTimeAt } from "@/lib/time";
 import { recommend } from "@/lib/recommend";
@@ -46,6 +45,10 @@ const MOODS: { id: Mood; e: string; c: string }[] = [
 ];
 
 export function HomeView() {
+  const RESTAURANTS = useRestaurants();
+  const MEALS = useMeals();
+  const { hasMeals: HAS_MEALS, osmCount: OSM_COUNT } = useLive();
+  const HERO_MEALS = useMemo(() => heroMeals(MEALS), [MEALS]);
   const { t, l, locale } = useI18n();
   const { active } = useOffers();
   const now = useNow(60_000);
@@ -59,7 +62,7 @@ export function HomeView() {
     return map;
   }, [active]);
 
-  const nearest = useMemo(() => [...RESTAURANTS].sort((a, b) => dist[a.id] - dist[b.id]).slice(0, 8), [dist]);
+  const nearest = useMemo(() => [...RESTAURANTS].sort((a, b) => dist[a.id] - dist[b.id]).slice(0, 8), [dist, RESTAURANTS]);
   const bestOffers = useMemo(() => [...active].sort((a, b) => (b.percent ?? 0) - (a.percent ?? 0)).slice(0, 6), [active]);
 
   return (
@@ -138,7 +141,7 @@ export function HomeView() {
             </motion.div>
 
             <div className="mt-6 flex flex-wrap gap-2 text-sm font-bold">
-              {!RESTAURANTS.length && OSM_COUNT > 0 && (
+              {!RESTAURANTS.length && !!OSM_COUNT && (
                 <span className="rounded-full border-2 border-ink bg-[#D9FBEF] px-3 py-1">🗺️ {t.places.count(OSM_COUNT)}</span>
               )}
               {[
@@ -316,20 +319,21 @@ function HeroCategory({ c, className, delay }: { c: (typeof CATEGORIES)[number];
 }
 
 /** Up to three photogenic meals for the hero collage (prefers the curated trio, falls back to any meal with a photo). */
-const HERO_MEALS = (() => {
-  const preferred = ["bv-smash", "sr-platter", "sd-kunafa"].map((id) => mealById(id)).filter(Boolean) as Meal[];
+function heroMeals(MEALS: Meal[]) {
+  const preferred = ["bv-smash", "sr-platter", "sd-kunafa"].map((id) => mealById(id)).filter((m): m is Meal => !!m && MEALS.includes(m));
   const rest = MEALS.filter((m) => m.image && !preferred.includes(m)).sort((a, b) => Number(!!b.editorsPick) - Number(!!a.editorsPick));
   return [...preferred, ...rest].slice(0, 3);
-})();
+}
 
 function RealNearRow() {
   const { t } = useI18n();
   const { status, places } = usePlaces();
   const loc = useStore((s) => s.location);
+  const country = useStore((s) => s.country);
   const near = useMemo(() => {
-    const me = locationPoint(loc);
+    const me = locationPoint(loc, country);
     return places.map((p) => ({ p, d: haversineKm(me, p) })).sort((a, b) => a.d - b.d).slice(0, 10);
-  }, [places, loc]);
+  }, [places, loc, country]);
   if (status === "error" || (status === "ready" && !near.length)) return null;
   return (
     <section className="border-y-2 border-ink bg-lagoon/10 py-12">
@@ -354,6 +358,8 @@ function RealNearRow() {
 }
 
 function Highlights({ time }: { time?: ReturnType<typeof mealTimeAt> }) {
+  const RESTAURANTS = useRestaurants();
+  const MEALS = useMeals();
   const { t, l, price } = useI18n();
   const { active } = useOffers();
   const items = useMemo(() => {
@@ -385,7 +391,7 @@ function Highlights({ time }: { time?: ReturnType<typeof mealTimeAt> }) {
       list.push({ key: "promo", label: t.offerTags.exclusive, color: "#E9B5FF", title: l(promo.title), sub: l(r.name), img: r.cover, emoji: r.emoji, href: `/restaurants/${r.id}/#offers`, countdown: promo.expiresAt });
     }
     return list;
-  }, [active, l, price, t, time]);
+  }, [active, l, price, t, time, MEALS, RESTAURANTS]);
 
   return (
     <div className="scroll-row">
@@ -492,6 +498,7 @@ function MoodSection() {
 }
 
 function GamesTeaser() {
+  const { hasMeals: HAS_MEALS } = useLive();
   const { t } = useI18n();
   const games = [
     ...(HAS_MEALS

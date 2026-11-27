@@ -8,7 +8,7 @@ const en = {
     challenges: "Challenges", profile: "My Profile", more: "More", search: "Search", spin: "Spin",
   },
   common: {
-    kwd: "KWD", seeAll: "See all", viewRestaurant: "View restaurant", viewOffer: "View offer", directions: "Directions",
+    seeAll: "See all", viewRestaurant: "View restaurant", viewOffer: "View offer", directions: "Directions",
     order: "Order", call: "Call", save: "Save", saved: "Saved", close: "Close", back: "Back", clear: "Clear",
     apply: "Apply", reset: "Reset", all: "All", any: "Any", km: "km", min: "min", from: "from",
     delivery: "Delivery", dineIn: "Dine-in", open: "Open now", closed: "Closed", closesAt: (t: string) => `Closes ${t}`,
@@ -26,7 +26,7 @@ const en = {
   header: { location: "Location", searchPlaceholder: "Search burgers, sushi, restaurants…", language: "العربية" },
   demoBanner: "Demo mode: sample restaurants & offers are shown until real listings are added. Real places from OpenStreetMap are under Restaurants & Nearby.",
   hero: {
-    kicker: "Kuwait's food decision buddy",
+    kicker: "Your food decision buddy",
     title: "What Are We Eating Today?",
     subtitle: "Discover amazing food, explore the best offers, and let us help you decide what to eat.",
     find: "Find My Meal", spin: "Spin the Food Wheel", searchCta: "Search",
@@ -56,7 +56,7 @@ const en = {
   offerTags: { lunch: "Lunch", dinner: "Dinner", exclusive: "Exclusive", limited: "Limited time", weekend: "Weekend" } satisfies Record<OfferTag, string>,
   picker: {
     title: "Food Roulette", subtitle: "Can't decide? Let the wheel choose.", spin: "SPIN THE FOOD WHEEL!", spinning: "Spinning…",
-    mode: "What should the wheel pick?", customize: "Customize", budget: "Budget (KWD)", min: "Min", max: "Max",
+    mode: "What should the wheel pick?", customize: "Customize", budget: (cur: string) => `Budget (${cur})`, min: "Min", max: "Max",
     include: "Only these categories", exclude: "Anything but…", restaurants: "Preferred restaurants", maxDistance: "Max distance",
     service: "Service", both: "Either", onlyOffers: "Only items with live offers", vegOnly: "Vegetarian only",
     spice: "Spice", noSpice: "No spice", mild: "Some heat", hot: "Bring the fire", hunger: "Hunger meter",
@@ -73,7 +73,7 @@ const en = {
     sorts: { discount: "Highest discount", price: "Lowest final price", closest: "Closest", rating: "Highest rated", popular: "Editor's picks", recent: "Recently added", ending: "Ending soon" },
     filterCuisine: "Cuisine", filterArea: "Area", filterRestaurant: "Restaurant", maxBudget: "Max price", verifiedOnly: "Verified only",
     terms: "Terms & conditions", expires: "Expires", upcoming: "Starts soon", expired: "Recently expired (not available)",
-    categories: { best: "Best discounts", bogo: "Buy 1 Get 1", u2: "Under 2 KWD", u3: "Under 3 KWD", u5: "Under 5 KWD", family: "Family meals", burger: "Burger deals", pizza: "Pizza deals", chicken: "Chicken deals", lunch: "Lunch specials", dinner: "Dinner specials", delivery: "Free delivery", exclusive: "Exclusive" },
+    categories: { best: "Best discounts", bogo: "Buy 1 Get 1", under: (p: string) => `Under ${p}`, family: "Family meals", burger: "Burger deals", pizza: "Pizza deals", chicken: "Chicken deals", lunch: "Lunch specials", dinner: "Dinner specials", delivery: "Free delivery", exclusive: "Exclusive" },
     submit: "Saw a deal? Submit it", submitNote: "Community submissions appear with a “Community” badge until our team verifies them.",
   },
   restaurantsPage: {
@@ -87,9 +87,9 @@ const en = {
   },
   places: {
     soonTitle: "Real menus and offers are coming", soonBody: "Akla only shows live data. Restaurants are being added one by one — until then, browse the real places around you.",
-    soonCta: (n: number) => `Browse ${n.toLocaleString("en")} real places`, count: (n: number) => `${n.toLocaleString("en")} real places`,
-    title: "Real places in Kuwait", subtitle: (n: number) => `${n.toLocaleString("en")} restaurants, cafés and fast-food spots from OpenStreetMap`,
-    tabListings: "Akla listings", tabAll: (n: number) => `All real places (${n.toLocaleString("en")})`, loadMore: "Show more",
+    soonCta: (n?: number) => (n ? `Browse ${n.toLocaleString("en")} real places` : "Browse real places"), count: (n: number) => `${n.toLocaleString("en")} real places`,
+    title: (c: string) => `Real places in ${c}`, subtitle: (n: number) => `${n.toLocaleString("en")} restaurants, cafés and fast-food spots from OpenStreetMap`,
+    tabListings: "Akla listings", tabAll: (n?: number) => (n ? `All real places (${n.toLocaleString("en")})` : "All real places"), loadMore: "Show more",
     badge: "OpenStreetMap", noRating: "Real place from OpenStreetMap — no ratings, prices or offers yet.", hoursRaw: "Hours as published",
     editOsm: "Fix this on OpenStreetMap", ownerCta: "Own this place? Ask Akla to add your menu and offers.", website: "Website", instagram: "Instagram",
     cuisine: "Cuisine", unknownCuisine: "Cuisine not listed", nearReal: "Real places near you", nearRealSub: "From OpenStreetMap — open map data",
@@ -142,6 +142,14 @@ const en = {
     reset: "Reset all my data", resetConfirm: "This clears favorites, collections, achievements and history on this device. Continue?",
     local: "Everything is stored only on this device until accounts launch.",
   },
+  region: {
+    country: "Country", change: "Change", pickCountry: "Pick a country", searchCountry: "Search countries…", featured: "Gulf countries",
+    all: "All countries", city: "City", searchCity: "Search a city or neighbourhood…", search: "Search", searching: "Searching…",
+    noResults: "No places found. Try another spelling.", searchError: "Search is busy right now. Try again in a few seconds.",
+    myLocation: "My location", hint: (c: string) => `Looks like you're in ${c}. Switch Akla to ${c}?`, switchTo: "Switch", stay: "Not now",
+    live: "Live from OpenStreetMap", liveNote: "Places here load live from OpenStreetMap within a few km of your location.",
+    retry: "Try again", searchCredit: "Search: © OpenStreetMap contributors (Nominatim)",
+  },
   achievements: {
     first: ["First Food Discovery", "Viewed your first restaurant"], burger: ["Burger Explorer", "Viewed 3 burger spots"],
     pizza: ["Pizza Lover", "Saved a pizza"], discount: ["Discount Hunter", "Opened 5 offers"], adventurer: ["Food Adventurer", "Spun the wheel 10 times"],
@@ -151,7 +159,7 @@ const en = {
   },
   search: { title: "Search Akla", recent: "Try", places: "Real places", restaurants: "Restaurants", meals: "Meals", categories: "Categories", none: "No matches. Try “burger” or “كنافة”." },
   footer: {
-    about: "Akla helps Kuwait decide what to eat — with discovery, deals and games.",
+    about: "Akla helps you decide what to eat — with discovery, deals and games, wherever you are.",
     data: "Data & trust", credits: "Food photos: TheMealDB. Maps: © OpenStreetMap contributors.",
     demo: "Restaurants, menus, prices, ratings and offers shown with a Demo badge are fictional sample data.",
     made: "Made with appetite in Kuwait 🇰🇼",
@@ -169,7 +177,7 @@ const ar: Messages = {
     challenges: "التحديات", profile: "ملفي", more: "المزيد", search: "بحث", spin: "لِف",
   },
   common: {
-    kwd: "د.ك", seeAll: "عرض الكل", viewRestaurant: "عرض المطعم", viewOffer: "عرض العرض", directions: "الاتجاهات",
+    seeAll: "عرض الكل", viewRestaurant: "عرض المطعم", viewOffer: "عرض العرض", directions: "الاتجاهات",
     order: "اطلب", call: "اتصال", save: "حفظ", saved: "محفوظ", close: "إغلاق", back: "رجوع", clear: "مسح",
     apply: "تطبيق", reset: "إعادة ضبط", all: "الكل", any: "أي", km: "كم", min: "دقيقة", from: "من",
     delivery: "توصيل", dineIn: "داخل المطعم", open: "مفتوح الحين", closed: "مسكّر", closesAt: (t) => `يسكّر ${t}`,
@@ -187,7 +195,7 @@ const ar: Messages = {
   header: { location: "الموقع", searchPlaceholder: "دوّر برجر، سوشي، مطاعم…", language: "English" },
   demoBanner: "وضع تجريبي: نعرض مطاعم وعروض تجريبية لين تنضاف القوائم الحقيقية. الأماكن الحقيقية من OpenStreetMap موجودة في المطاعم والقريب مني.",
   hero: {
-    kicker: "رفيقك في قرار الأكل بالكويت",
+    kicker: "رفيقك في قرار الأكل",
     title: "شنو ناكل اليوم؟",
     subtitle: "اكتشف أكل يجنن، شوف أحلى العروض، وخلّنا نساعدك تقرر شنو تاكل.",
     find: "لقّ لي وجبة", spin: "لِف عجلة الأكل", searchCta: "بحث",
@@ -217,7 +225,7 @@ const ar: Messages = {
   offerTags: { lunch: "غدا", dinner: "عشا", exclusive: "حصري", limited: "لفترة محدودة", weekend: "ويكند" },
   picker: {
     title: "عجلة الأكل", subtitle: "محتار؟ خلّ العجلة تختار عنك.", spin: "لِف عجلة الأكل!", spinning: "قاعدة تلف…",
-    mode: "شنو تبي العجلة تختار؟", customize: "خصّص", budget: "الميزانية (د.ك)", min: "أقل", max: "أعلى",
+    mode: "شنو تبي العجلة تختار؟", customize: "خصّص", budget: (cur) => `الميزانية (${cur})`, min: "أقل", max: "أعلى",
     include: "بس هالأصناف", exclude: "أي شي إلا…", restaurants: "مطاعم مفضّلة", maxDistance: "أقصى مسافة",
     service: "الخدمة", both: "أي وحدة", onlyOffers: "بس الأصناف اللي عليها عروض", vegOnly: "نباتي فقط",
     spice: "الحرارة", noSpice: "بدون حار", mild: "حار خفيف", hot: "ولّعها", hunger: "مقياس الجوع",
@@ -234,7 +242,7 @@ const ar: Messages = {
     sorts: { discount: "أعلى خصم", price: "أقل سعر نهائي", closest: "الأقرب", rating: "الأعلى تقييماً", popular: "اختيارات المحرر", recent: "المضاف حديثاً", ending: "ينتهي قريباً" },
     filterCuisine: "المطبخ", filterArea: "المنطقة", filterRestaurant: "المطعم", maxBudget: "أعلى سعر", verifiedOnly: "الموثّقة فقط",
     terms: "الشروط والأحكام", expires: "ينتهي", upcoming: "يبدأ قريباً", expired: "انتهت مؤخراً (غير متاحة)",
-    categories: { best: "أعلى الخصومات", bogo: "١+١ مجاناً", u2: "أقل من ٢ د.ك", u3: "أقل من ٣ د.ك", u5: "أقل من ٥ د.ك", family: "وجبات عائلية", burger: "عروض البرجر", pizza: "عروض البيتزا", chicken: "عروض الدجاج", lunch: "عروض الغدا", dinner: "عروض العشا", delivery: "توصيل مجاني", exclusive: "حصري" },
+    categories: { best: "أعلى الخصومات", bogo: "١+١ مجاناً", under: (p) => `أقل من ${p}`, family: "وجبات عائلية", burger: "عروض البرجر", pizza: "عروض البيتزا", chicken: "عروض الدجاج", lunch: "عروض الغدا", dinner: "عروض العشا", delivery: "توصيل مجاني", exclusive: "حصري" },
     submit: "شفت عرض؟ أرسله لنا", submitNote: "العروض المرسلة من المستخدمين تظهر بعلامة «من المجتمع» لين يوثقها فريقنا.",
   },
   restaurantsPage: {
@@ -248,9 +256,9 @@ const ar: Messages = {
   },
   places: {
     soonTitle: "المنيو والعروض الحقيقية جاية قريب", soonBody: "أكلة تعرض بس بيانات حقيقية. قاعدين نضيف المطاعم وحدة وحدة — لين ذاك الوقت تصفّح الأماكن الحقيقية اللي حولك.",
-    soonCta: (n: number) => `تصفّح ${n.toLocaleString("en")} مكان حقيقي`, count: (n: number) => `${n.toLocaleString("en")} مكان حقيقي`,
-    title: "أماكن حقيقية في الكويت", subtitle: (n) => `${n.toLocaleString("en")} مطعم وكافيه ووجبات سريعة من OpenStreetMap`,
-    tabListings: "قوائم أكلة", tabAll: (n) => `كل الأماكن الحقيقية (${n.toLocaleString("en")})`, loadMore: "عرض المزيد",
+    soonCta: (n) => (n ? `تصفّح ${n.toLocaleString("en")} مكان حقيقي` : "تصفّح الأماكن الحقيقية"), count: (n: number) => `${n.toLocaleString("en")} مكان حقيقي`,
+    title: (c) => `أماكن حقيقية في ${c}`, subtitle: (n) => `${n.toLocaleString("en")} مطعم وكافيه ووجبات سريعة من OpenStreetMap`,
+    tabListings: "قوائم أكلة", tabAll: (n) => (n ? `كل الأماكن الحقيقية (${n.toLocaleString("en")})` : "كل الأماكن الحقيقية"), loadMore: "عرض المزيد",
     badge: "OpenStreetMap", noRating: "مكان حقيقي من OpenStreetMap — ما في تقييمات أو أسعار أو عروض للحين.", hoursRaw: "الأوقات كما هي منشورة",
     editOsm: "صحّح المعلومة على OpenStreetMap", ownerCta: "صاحب المكان؟ تواصل مع أكلة لإضافة المنيو والعروض.", website: "الموقع", instagram: "إنستغرام",
     cuisine: "المطبخ", unknownCuisine: "المطبخ غير محدد", nearReal: "أماكن حقيقية قريبة منك", nearRealSub: "من OpenStreetMap — بيانات خرائط مفتوحة",
@@ -303,6 +311,14 @@ const ar: Messages = {
     reset: "امسح كل بياناتي", resetConfirm: "بينمسح المفضلة والمجموعات والإنجازات والسجل من هالجهاز. متأكد؟",
     local: "كل شي محفوظ على هالجهاز بس لين ما تنطلق الحسابات.",
   },
+  region: {
+    country: "الدولة", change: "غيّر", pickCountry: "اختار دولة", searchCountry: "دوّر دولة…", featured: "دول الخليج",
+    all: "كل الدول", city: "المدينة", searchCity: "دوّر مدينة أو منطقة…", search: "دوّر", searching: "قاعد ندوّر…",
+    noResults: "ما لقينا شي. جرّب كتابة ثانية.", searchError: "البحث مشغول الحين. جرّب بعد ثواني.",
+    myLocation: "موقعي الحالي", hint: (c) => `شكلك في ${c}. تبي تحوّل أكلة إلى ${c}؟`, switchTo: "حوّل", stay: "مو الحين",
+    live: "مباشر من OpenStreetMap", liveNote: "الأماكن هني تنحمّل مباشرة من OpenStreetMap ضمن كم كيلو من موقعك.",
+    retry: "جرّب مرة ثانية", searchCredit: "البحث: © مساهمو OpenStreetMap (Nominatim)",
+  },
   achievements: {
     first: ["أول اكتشاف", "شفت أول مطعم"], burger: ["مستكشف البرجر", "شفت ٣ مطاعم برجر"],
     pizza: ["عاشق البيتزا", "حفظت بيتزا"], discount: ["صياد الخصومات", "فتحت ٥ عروض"], adventurer: ["مغامر الأكل", "لفّيت العجلة ١٠ مرات"],
@@ -312,7 +328,7 @@ const ar: Messages = {
   },
   search: { title: "دوّر في أكلة", recent: "جرّب", places: "أماكن حقيقية", restaurants: "مطاعم", meals: "وجبات", categories: "أصناف", none: "ما لقينا شي. جرّب «برجر» أو «kunafa»." },
   footer: {
-    about: "أكلة يساعد الكويت تقرر شنو تاكل — باكتشاف وعروض وألعاب.",
+    about: "أكلة يساعدك تقرر شنو تاكل — باكتشاف وعروض وألعاب، وين ما كنت.",
     data: "البيانات والثقة", credits: "صور الأكل: TheMealDB. الخرائط: © مساهمو OpenStreetMap.",
     demo: "المطاعم والمنيو والأسعار والتقييمات والعروض اللي عليها علامة «تجريبي» بيانات خيالية للعرض.",
     made: "انصنع بنفس مفتوحة في الكويت 🇰🇼",

@@ -1,17 +1,18 @@
 "use client";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { motion } from "motion/react";
 import { AtSign, ExternalLink, Flag, Globe, Navigation, Phone } from "lucide-react";
 import { categoryById } from "@/data/categories";
-import { areaById } from "@/data/geo";
+import { areaOf } from "@/data/geo";
+import { countryName } from "@/lib/region";
 import { useI18n } from "@/lib/i18n";
 import { useNow } from "@/lib/hooks";
 import { useStore } from "@/lib/store";
 import { directionsUrl, haversineKm, locationPoint } from "@/lib/geo";
-import { kuwaitParts } from "@/lib/time";
-import { osmUrl, usePlaces } from "@/lib/places";
+import { localParts } from "@/lib/time";
+import { loadPlaceById, osmUrl, usePlaces, type Place } from "@/lib/places";
 import { PlaceCard } from "@/components/cards";
 import { Container, cx, DemoBadge, DistanceTag, EmptyState, Loader, OpenBadge, SectionHeader } from "@/components/ui";
 import { QueryParam } from "@/components/QueryParam";
@@ -19,16 +20,29 @@ import { QueryParam } from "@/components/QueryParam";
 const MapView = dynamic(() => import("@/components/MapView").then((m) => m.MapView), { ssr: false, loading: () => <div className="h-72 animate-pulse rounded-[1.25rem] bg-ink/10" /> });
 
 export function PlaceView() {
-  const { t, l, clock, date } = useI18n();
+  const { t, l, clock, date, locale } = useI18n();
   const [id, setId] = useState<string | null>(null);
   const onId = useCallback((v: string | null) => setId(v), []);
   const { status, places, fetchedAt } = usePlaces();
   const loc = useStore((s) => s.location);
-  const me = useMemo(() => locationPoint(loc), [loc]);
+  const country = useStore((s) => s.country);
+  const me = useMemo(() => locationPoint(loc, country), [loc, country]);
   const now = useNow(60_000);
-  const today = now ? kuwaitParts(now).day : -1;
+  const today = now ? localParts(now).day : -1;
 
-  const p = places.find((x) => x.id === id);
+  const found = places.find((x) => x.id === id);
+  // Not in the loaded snapshot / live area (e.g. a shared link from another city): look the place up by id.
+  const [byId, setById] = useState<{ id: string; p?: Place } | null>(null);
+  useEffect(() => {
+    if (status === "loading" || !id || found) return;
+    let alive = true;
+    void loadPlaceById(id, country).then((x) => alive && setById({ id, p: x }));
+    return () => {
+      alive = false;
+    };
+  }, [status, id, found, country]);
+  const p = found ?? (byId?.id === id ? byId.p : undefined);
+  const lookingUp = !found && !!id && status !== "loading" && byId?.id !== id;
   const nearby = useMemo(
     () =>
       p
@@ -44,11 +58,11 @@ export function PlaceView() {
   return (
     <>
       <QueryParam name="id" onValue={onId} />
-      {status === "loading" || (status === "ready" && id === null) ? (
+      {status === "loading" || lookingUp || (status === "ready" && id === null) ? (
         <Loader label={t.places.loading} />
       ) : !p ? (
         <div className="px-4 py-20">
-          <EmptyState title={t.places.notFound} action={<Link href="/restaurants/?tab=all" className="btn btn-primary">{t.places.title}</Link>} />
+          <EmptyState title={t.places.notFound} action={<Link href="/restaurants/?tab=all" className="btn btn-primary">{t.places.title(countryName(country, locale))}</Link>} />
         </div>
       ) : (
         <>
@@ -70,7 +84,7 @@ export function PlaceView() {
               <div className="mt-4 flex flex-wrap items-center gap-3">
                 <OpenBadge hours={p.hours} />
                 <DistanceTag km={haversineKm(me, p)} />
-                <span className="text-sm font-semibold">📍 {l(areaById(p.areaId)!.name)}</span>
+                {areaOf(p) && <span className="text-sm font-semibold">📍 {l(areaOf(p)!.name)}</span>}
               </div>
               <div className="mt-4 flex flex-wrap gap-2">
                 <a href={directionsUrl(p.lat, p.lng)} target="_blank" rel="noreferrer" className="btn btn-primary btn-sm"><Navigation className="size-4" /> {t.common.directions}</a>

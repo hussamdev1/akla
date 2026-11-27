@@ -1,4 +1,5 @@
 import { areaById, DEFAULT_AREA_ID } from "@/data/geo";
+import { defaultCity } from "./region";
 import type { UserLocation } from "./types";
 
 export function haversineKm(a: { lat: number; lng: number }, b: { lat: number; lng: number }) {
@@ -9,10 +10,17 @@ export function haversineKm(a: { lat: number; lng: number }, b: { lat: number; l
   return 2 * R * Math.asin(Math.sqrt(s));
 }
 
-export function locationPoint(loc: UserLocation) {
-  if (loc.kind === "gps") return { lat: loc.lat, lng: loc.lng };
-  const a = areaById(loc.areaId) ?? areaById(DEFAULT_AREA_ID)!;
-  return { lat: a.lat, lng: a.lng };
+/** Coordinates of the user's chosen location (falls back to the country's default city, then Salmiya). */
+export function locationPoint(loc: UserLocation, country?: string) {
+  if (loc.kind === "gps" || loc.kind === "city") return { lat: loc.lat, lng: loc.lng };
+  const a = areaById(loc.areaId);
+  if (a) return { lat: a.lat, lng: a.lng };
+  if (country) {
+    const c = defaultCity(country);
+    return { lat: c.lat, lng: c.lng };
+  }
+  const k = areaById(DEFAULT_AREA_ID)!;
+  return { lat: k.lat, lng: k.lng };
 }
 
 export const directionsUrl = (lat: number, lng: number) =>

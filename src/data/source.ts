@@ -10,7 +10,7 @@ import sheet from "./generated/sheet.json";
 export const DATA_META = meta as {
   generatedAt: string;
   showDemo: "auto" | "always" | "never";
-  osm?: { count: number; fetchedAt: string | null; osmBase?: string | null };
+  osm?: { count: number; fetchedAt: string | null; osmBase?: string | null; countries?: Record<string, { count: number; fetchedAt: string | null; osmBase?: string | null }> };
   sheet?: { source: string; fetchedAt: string; restaurants: number; meals: number; offers: number; problems?: number; error?: string };
 };
 

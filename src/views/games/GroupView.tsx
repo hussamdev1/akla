@@ -1,9 +1,8 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useMeals, useRestaurants } from "@/lib/hooks";
 import { AnimatePresence, motion } from "motion/react";
 import { Plus, Share2, ThumbsUp, Trash2, X } from "lucide-react";
-import { MEALS } from "@/data/meals";
-import { RESTAURANTS } from "@/data/restaurants";
 import { useI18n } from "@/lib/i18n";
 import { useStore } from "@/lib/store";
 import { norm } from "@/lib/search";
@@ -24,6 +23,8 @@ const decode = (s: string): Option[] => {
 };
 
 export function GroupView() {
+  const RESTAURANTS = useRestaurants();
+  const MEALS = useMeals();
   const { t, l } = useI18n();
   const showToast = useStore((s) => s.showToast);
   const [people, setPeople] = useState<string[]>([]);
@@ -48,7 +49,7 @@ export function GroupView() {
     const rs = RESTAURANTS.filter((r) => norm(r.name.ar + " " + r.name.en).includes(nq)).map((r) => ({ id: r.id, label: l(r.name), emoji: r.emoji }));
     const ms = MEALS.filter((m) => norm(m.name.ar + " " + m.name.en).includes(nq)).map((m) => ({ id: m.id, label: l(m.name), emoji: m.emoji }));
     return [...rs, ...ms].slice(0, 6);
-  }, [q, l]);
+  }, [q, l, MEALS, RESTAURANTS]);
 
   const addOption = (o: Option) => {
     if (options.some((x) => x.label === o.label) || options.length >= 12) return;

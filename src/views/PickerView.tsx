@@ -4,14 +4,13 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { Bike, Heart, MapPin, Navigation, RotateCcw, ShoppingBag, SlidersHorizontal, Store, Volume2, VolumeX } from "lucide-react";
 import { CATEGORIES } from "@/data/categories";
-import { MEALS, mealsByRestaurant } from "@/data/meals";
-import { HAS_MEALS } from "@/data/live";
-import { RESTAURANTS, restaurantById } from "@/data/restaurants";
-import { areaById } from "@/data/geo";
+import { mealsByRestaurant } from "@/data/meals";
+import { restaurantById } from "@/data/restaurants";
+import { areaOf } from "@/data/geo";
 import { useI18n } from "@/lib/i18n";
 import { usePlaces, type Place } from "@/lib/places";
 import { haversineKm, locationPoint } from "@/lib/geo";
-import { useDistances, useOffers } from "@/lib/hooks";
+import { useDistances, useLive, useMeals, useOffers, useRestaurants } from "@/lib/hooks";
 import { useStore } from "@/lib/store";
 import { celebrate } from "@/lib/fx";
 import { directionsUrl } from "@/lib/geo";
@@ -25,8 +24,6 @@ const MODES: { id: Mode; e: string }[] = [
   { id: "anything", e: "🎁" }, { id: "meal", e: "🍽️" }, { id: "category", e: "🗂️" }, { id: "restaurant", e: "🏪" },
   { id: "offer", e: "🏷️" }, { id: "cheapest", e: "🪙" }, { id: "rated", e: "⭐" }, { id: "near", e: "📍" },
 ];
-/** Without menus only the real-places mode (OpenStreetMap) has anything to spin. */
-const AVAILABLE_MODES = HAS_MEALS ? MODES : MODES.filter((m) => m.id === "near");
 const SIZES: (MealSize | "any")[] = ["any", "snack", "regular", "large", "family"];
 
 type Filters = {
@@ -54,9 +51,22 @@ function shuffle<T>(arr: T[], seed: number) {
 }
 
 export function PickerView() {
-  const { t, l } = useI18n();
-  const [mode, setMode] = useState<Mode>(AVAILABLE_MODES[0].id);
-  const [f, setF] = useState<Filters>(DEFAULT);
+  const RESTAURANTS = useRestaurants();
+  const MEALS = useMeals();
+  const { hasMeals: HAS_MEALS } = useLive();
+  // Without menus only the real-places mode (OpenStreetMap) has anything to spin.
+  const AVAILABLE_MODES = HAS_MEALS ? MODES : MODES.filter((m) => m.id === "near");
+  const { t, l, amt, cur, region } = useI18n();
+  const [modeState, setMode] = useState<Mode>("anything");
+  const mode = AVAILABLE_MODES.some((x) => x.id === modeState) ? modeState : AVAILABLE_MODES[0].id;
+  // Price filters are in the selected currency; the default max is the KWD 20 preset scaled (see scaleBudget).
+  const defaults = useMemo<Filters>(() => ({ ...DEFAULT, max: amt(20) }), [amt]);
+  const [f, setF] = useState<Filters>(defaults);
+  const [fCur, setFCur] = useState(region.currency);
+  if (fCur !== region.currency) {
+    setFCur(region.currency);
+    setF(defaults);
+  }
   const [showFilters, setShowFilters] = useState(false);
   const [seed, setSeed] = useState(1);
   const [result, setResult] = useState<Pick | null>(null);
@@ -75,7 +85,7 @@ export function PickerView() {
   useEffect(() => {
     const m = new URLSearchParams(window.location.search).get("mode") as Mode | null;
     // eslint-disable-next-line react-hooks/set-state-in-effect -- browser-only value read after hydration (static export)
-    if (m && AVAILABLE_MODES.some((x) => x.id === m)) setMode(m);
+    if (m && MODES.some((x) => x.id === m)) setMode(m);
   }, []);
 
   const offerByMeal = useMemo(() => Object.fromEntries(active.filter((o) => o.mealId).map((o) => [o.mealId!, o])), [active]);
@@ -173,24 +183,24 @@ export function PickerView() {
   const toggleIn = (key: "include" | "exclude" | "restaurants", id: string) =>
     setF((s) => ({ ...s, [key]: (s[key] as string[]).includes(id) ? (s[key] as string[]).filter((x) => x !== id) : [...(s[key] as string[]), id] }));
 
-  const filterCount = (Object.keys(DEFAULT) as (keyof Filters)[]).filter((k) => JSON.stringify(f[k]) !== JSON.stringify(DEFAULT[k])).length;
+  const filterCount = (Object.keys(defaults) as (keyof Filters)[]).filter((k) => JSON.stringify(f[k]) !== JSON.stringify(defaults[k])).length;
 
   const filtersPanel = (
     <div className="space-y-5">
       <div className={HAS_MEALS ? undefined : "hidden"}>
-        <h3 className="mb-2 font-bold">{t.picker.budget}</h3>
+        <h3 className="mb-2 font-bold">{t.picker.budget(cur)}</h3>
         <div className="flex items-center gap-2">
           <label className="flex-1 text-sm">
             {t.picker.min}
-            <input type="number" min={0} step={0.25} value={f.min} onChange={(e) => setF({ ...f, min: Number(e.target.value) })} className="input mt-1" />
+            <input type="number" min={0} step={amt(0.25)} value={f.min} onChange={(e) => setF({ ...f, min: Number(e.target.value) })} className="input mt-1" />
           </label>
           <label className="flex-1 text-sm">
             {t.picker.max}
-            <input type="number" min={0} step={0.25} value={f.max} onChange={(e) => setF({ ...f, max: Number(e.target.value) })} className="input mt-1" />
+            <input type="number" min={0} step={amt(0.25)} value={f.max} onChange={(e) => setF({ ...f, max: Number(e.target.value) })} className="input mt-1" />
           </label>
         </div>
         <div className="mt-2 flex flex-wrap gap-1.5">
-          {[1, 2, 3, 5, 10].map((v) => (
+          {[1, 2, 3, 5, 10].map(amt).map((v) => (
             <button key={v} type="button" className="chip !px-2.5 !py-1 !text-xs" aria-pressed={f.max === v && f.min === 0} onClick={() => setF({ ...f, min: 0, max: v })}>
               ≤ {v}
             </button>
@@ -268,7 +278,7 @@ export function PickerView() {
         <Toggle checked={f.onlyOffers} onChange={(v) => setF({ ...f, onlyOffers: v })} label={`🏷️ ${t.picker.onlyOffers}`} />
         <Toggle checked={f.veg} onChange={(v) => setF({ ...f, veg: v })} label={`🌱 ${t.picker.vegOnly}`} />
       </div>
-      <button type="button" className="btn btn-light w-full" onClick={() => setF(DEFAULT)}>
+      <button type="button" className="btn btn-light w-full" onClick={() => setF(defaults)}>
         <RotateCcw className="size-4" /> {t.common.reset}
       </button>
     </div>
@@ -341,7 +351,7 @@ export function PickerView() {
                   </div>
                 </>
               ) : (
-                <EmptyState title={t.picker.empty} action={<button className="btn btn-primary" onClick={() => setF(DEFAULT)}>{t.common.reset}</button>} />
+                <EmptyState title={t.picker.empty} action={<button className="btn btn-primary" onClick={() => setF(defaults)}>{t.common.reset}</button>} />
               )}
             </div>
 
@@ -391,6 +401,7 @@ export function PickerView() {
 }
 
 function ResultSheet({ pick, onClose, onAgain, dist, offersByRestaurant, offerByMeal }: { pick: Pick | null; onClose: () => void; onAgain: () => void; dist: Record<string, number>; offersByRestaurant: (rid: string) => Offer[]; offerByMeal: Record<string, Offer> }) {
+  const MEALS = useMeals();
   const { t, l, price } = useI18n();
   const showToast = useStore((s) => s.showToast);
   if (!pick) return <Sheet open={false} onClose={onClose}>{null}</Sheet>;
@@ -460,7 +471,7 @@ function ResultSheet({ pick, onClose, onAgain, dist, offersByRestaurant, offerBy
   const r = pick.kind === "restaurant" ? pick.restaurant : restaurantById(pick.kind === "offer" ? pick.offer.restaurantId : pick.meal.restaurantId)!;
   const offer = pick.kind === "offer" ? pick.offer : pick.kind === "meal" ? pick.offer : meal ? offerByMeal[meal.id] : undefined;
   const rOffers = offersByRestaurant(r.id);
-  const area = areaById(r.areaId);
+  const area = areaOf(r);
   const title = pick.kind === "restaurant" ? l(r.name) : meal ? l(meal.name) : l(pick.kind === "offer" ? pick.offer.title : r.name);
 
   return (
@@ -502,7 +513,7 @@ function ResultSheet({ pick, onClose, onAgain, dist, offersByRestaurant, offerBy
             <DistanceTag km={dist[r.id]} />
             {area && <span className="inline-flex items-center gap-1 text-sm"><MapPin className="size-3.5" />{l(area.name)}</span>}
           </div>
-          <OpenBadge hours={r.hours} />
+          <OpenBadge hours={r.hours} tz={r.timeZone} />
           <div className="flex gap-3 text-sm font-semibold text-ink-soft">
             {r.delivery && <span className="inline-flex items-center gap-1"><Bike className="size-4" />{t.common.delivery}</span>}
             {r.dineIn && <span className="inline-flex items-center gap-1"><Store className="size-4" />{t.common.dineIn}</span>}

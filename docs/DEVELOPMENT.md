@@ -24,7 +24,7 @@ first for the big picture.
 There is **no test suite** yet. "Done" today means: lint clean, `tsc` clean, `npm run build` succeeds, and the page
 works in both languages at phone and desktop width.
 
-**Generated files are committed** (`public/data/places.json`, `src/data/generated/meta.json`, `sheet.json`).
+**Generated files are committed** (`public/data/places/*.json`, `src/data/generated/countries.json`, `src/data/generated/meta.json`, `sheet.json`).
 `npm run data` / `npm run build` rewrite them (at least the timestamps in `meta.json`). Don't commit that churn with
 unrelated work: `git checkout -- public/data src/data/generated` before committing, unless refreshing data is the point.
 
@@ -46,7 +46,7 @@ unrelated work: `git checkout -- public/data src/data/generated` before committi
 - **Honesty rules are product rules.** Never invent ratings, popularity or open/closed state: unknown hours stay
   unknown (`openingHours.ts`), partner ratings need a `ratingSource`, demo content carries `DemoBadge`, expired offers
   never appear as active. See [BRAND.md](BRAND.md) §8.
-- **Kuwait time only** via `src/lib/time.ts`; never `new Date().getHours()` for business logic.
+- **Local time via `src/lib/time.ts`** (selected city's zone, or a listing's `timeZone`); never `new Date().getHours()` for business logic. Prices through `useI18n().price`, never hard-coded "KWD".
 - **Hydration-safe time and storage.** Use `useNow()` / `useMounted()` (`src/lib/hooks.ts`) for anything that depends
   on the clock or the browser; render a neutral state until they are set.
 - **Respect motion & sound preferences.** Use `motion/react` (wrapped in `MotionConfig` by `Providers`) and

@@ -3,11 +3,11 @@ import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Send, SlidersHorizontal } from "lucide-react";
 import { CATEGORIES } from "@/data/categories";
-import { AREAS } from "@/data/geo";
+import { areasIn } from "@/data/geo";
 import { mealById } from "@/data/meals";
-import { RESTAURANTS, restaurantById } from "@/data/restaurants";
+import { restaurantById } from "@/data/restaurants";
 import { useI18n } from "@/lib/i18n";
-import { useDistances, useOffers } from "@/lib/hooks";
+import { useCountry, useDistances, useOffers, useRestaurants } from "@/lib/hooks";
 import { useStore } from "@/lib/store";
 import type { Offer, OfferType } from "@/lib/types";
 import { OfferCard } from "@/components/cards";
@@ -18,7 +18,8 @@ type Cat = "all" | "best" | "bogo" | "u2" | "u3" | "u5" | "family" | "burger" | 
 const CAT_EMOJI: Record<Cat, string> = { all: "✨", best: "💥", bogo: "🎁", u2: "🪙", u3: "💵", u5: "💰", family: "👨‍👩‍👧", burger: "🍔", pizza: "🍕", chicken: "🍗", lunch: "🍱", dinner: "🌙", delivery: "🛵", exclusive: "💎" };
 type Sort = "discount" | "price" | "closest" | "rating" | "popular" | "recent" | "ending";
 
-function matches(o: Offer, c: Cat) {
+/** `amt` turns a KWD budget preset into the selected currency (see scaleBudget). */
+function matches(o: Offer, c: Cat, amt: (kwd: number) => number) {
   const r = restaurantById(o.restaurantId)!;
   const m = o.mealId ? mealById(o.mealId) : undefined;
   const p = o.finalPrice;
@@ -26,9 +27,9 @@ function matches(o: Offer, c: Cat) {
     case "all": return true;
     case "best": return (o.percent ?? 0) >= 30;
     case "bogo": return o.type === "bogo";
-    case "u2": return p !== undefined && p < 2;
-    case "u3": return p !== undefined && p < 3;
-    case "u5": return p !== undefined && p < 5;
+    case "u2": return p !== undefined && p < amt(2);
+    case "u3": return p !== undefined && p < amt(3);
+    case "u5": return p !== undefined && p < amt(5);
     case "family": return o.type === "family" || m?.size === "family";
     case "burger": return r.categories.includes("burgers");
     case "pizza": return r.categories.includes("pizza");
@@ -41,7 +42,9 @@ function matches(o: Offer, c: Cat) {
 }
 
 export function OffersView() {
-  const { t, l } = useI18n();
+  const RESTAURANTS = useRestaurants();
+  const country = useCountry();
+  const { t, l, price, amt } = useI18n();
   const { active, upcoming, expired } = useOffers();
   const dist = useDistances();
   const [cat, setCat] = useState<Cat>("all");
@@ -58,13 +61,13 @@ export function OffersView() {
   const list = useMemo(() => {
     const out = active.filter((o) => {
       const r = restaurantById(o.restaurantId)!;
-      if (!matches(o, cat)) return false;
+      if (!matches(o, cat, amt)) return false;
       if (cuisine && !r.categories.includes(cuisine as never)) return false;
       if (area && r.areaId !== area) return false;
       if (rest && r.id !== rest) return false;
       if (type && o.type !== type) return false;
       if (verifiedOnly && !o.verified) return false;
-      if (o.finalPrice !== undefined && o.finalPrice > maxPrice) return false;
+      if (maxPrice < 20 && o.finalPrice !== undefined && o.finalPrice > amt(maxPrice)) return false;
       return true;
     });
     const rating = (o: Offer) => restaurantById(o.restaurantId)!.rating ?? 0;
@@ -78,7 +81,7 @@ export function OffersView() {
       ending: (a, b) => +new Date(a.expiresAt) - +new Date(b.expiresAt),
     };
     return out.sort(cmp[sort]);
-  }, [active, cat, cuisine, area, rest, type, verifiedOnly, maxPrice, sort, dist]);
+  }, [active, cat, cuisine, area, rest, type, verifiedOnly, maxPrice, sort, dist, amt]);
 
   const advCount = [cuisine, area, rest, type, verifiedOnly, maxPrice < 20].filter(Boolean).length;
   const filters = (
@@ -94,7 +97,7 @@ export function OffersView() {
         {t.offersPage.filterArea}
         <select className="input mt-1" value={area} onChange={(e) => setArea(e.target.value)}>
           <option value="">{t.common.all}</option>
-          {AREAS.map((a) => <option key={a.id} value={a.id}>{l(a.name)}</option>)}
+          {areasIn(country).map((a) => <option key={a.id} value={a.id}>{l(a.name)}</option>)}
         </select>
       </label>
       <label className="text-sm font-bold">
@@ -112,7 +115,7 @@ export function OffersView() {
         </select>
       </label>
       <label className="text-sm font-bold">
-        {t.offersPage.maxBudget}: <span className="text-chili">{maxPrice >= 20 ? t.common.any : `${maxPrice} ${t.common.kwd}`}</span>
+        {t.offersPage.maxBudget}: <span className="text-chili">{maxPrice >= 20 ? t.common.any : price(amt(maxPrice))}</span>
         <input type="range" min={0.5} max={20} step={0.5} value={maxPrice} onChange={(e) => setMaxPrice(Number(e.target.value))} className="mt-2 w-full accent-chili" />
       </label>
       <div className="rounded-2xl border-2 border-ink bg-white p-3">
@@ -140,7 +143,7 @@ export function OffersView() {
         <div className="scroll-row !pb-1">
           {(Object.keys(CAT_EMOJI) as Cat[]).map((c) => (
             <motion.button key={c} type="button" whileTap={{ scale: 0.92 }} className="chip !py-2" aria-pressed={cat === c} onClick={() => setCat(c)}>
-              {CAT_EMOJI[c]} {c === "all" ? t.common.all : t.offersPage.categories[c]}
+              {CAT_EMOJI[c]} {c === "all" ? t.common.all : c === "u2" || c === "u3" || c === "u5" ? t.offersPage.categories.under(price(amt(Number(c[1])))) : t.offersPage.categories[c]}
             </motion.button>
           ))}
         </div>
@@ -230,6 +233,7 @@ export function OffersView() {
 }
 
 function SubmitOffer({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const RESTAURANTS = useRestaurants();
   const { t, l } = useI18n();
   const showToast = useStore((s) => s.showToast);
   return (

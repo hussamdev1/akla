@@ -5,14 +5,14 @@ import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { Bike, Flag, Navigation, Phone, Share2, ShoppingBag, Store } from "lucide-react";
 import { categoryById } from "@/data/categories";
-import { areaById } from "@/data/geo";
+import { areaOf } from "@/data/geo";
 import { mealsByRestaurant } from "@/data/meals";
 import { RESTAURANTS, restaurantById } from "@/data/restaurants";
 import { useI18n } from "@/lib/i18n";
 import { useDistances, useNow, useOffers } from "@/lib/hooks";
 import { useStore } from "@/lib/store";
 import { directionsUrl } from "@/lib/geo";
-import { kuwaitParts } from "@/lib/time";
+import { localParts } from "@/lib/time";
 import { MealCard, OfferCard, RestaurantCard } from "@/components/cards";
 import { Container, cx, DemoBadge, DistanceTag, FavButton, FoodImage, OpenBadge, PriceLevel, RatingBadge, Reveal, SectionHeader, Sheet } from "@/components/ui";
 
@@ -29,14 +29,14 @@ export function RestaurantView({ id }: { id: string }) {
   const [report, setReport] = useState(false);
   const meals = mealsByRestaurant(r.id);
   const offers = active.filter((o) => o.restaurantId === r.id);
-  const area = areaById(r.areaId)!;
-  const today = now ? kuwaitParts(now).day : -1;
+  const area = areaOf(r);
+  const today = now ? localParts(now).day : -1;
 
   useEffect(() => {
     trackView(r.id);
   }, [r.id, trackView]);
 
-  const similar = RESTAURANTS.filter((x) => x.id !== r.id)
+  const similar = RESTAURANTS.filter((x) => x.id !== r.id && x.country === r.country)
     .map((x) => ({ x, s: x.categories.filter((c) => r.categories.includes(c)).length * 3 - Math.abs(x.priceLevel - r.priceLevel) }))
     .sort((a, b) => b.s - a.s)
     .slice(0, 4)
@@ -93,9 +93,9 @@ export function RestaurantView({ id }: { id: string }) {
         <div className="sticker relative z-10 -mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 p-4">
           <RatingBadge rating={r.rating} count={r.ratingCount} />
           <PriceLevel level={r.priceLevel} />
-          <OpenBadge hours={r.hours} />
+          <OpenBadge hours={r.hours} tz={r.timeZone} />
           <DistanceTag km={dist[r.id]} />
-          <span className="text-sm font-semibold">📍 {l(area.name)}</span>
+          {area && <span className="text-sm font-semibold">📍 {l(area.name)}</span>}
           {r.delivery && <span className="inline-flex items-center gap-1 text-sm font-semibold"><Bike className="size-4" /> {t.common.delivery}</span>}
           {r.dineIn && <span className="inline-flex items-center gap-1 text-sm font-semibold"><Store className="size-4" /> {t.common.dineIn}</span>}
           <span className="ms-auto text-xs text-ink-soft" suppressHydrationWarning>{t.common.updated(date(r.updatedAt))}</span>
@@ -191,7 +191,7 @@ export function RestaurantView({ id }: { id: string }) {
           <div className="sticker p-3">
             <h2 className="mb-3 px-2 font-display text-xl font-bold">📍 {t.restaurant.location}</h2>
             <MapView center={{ lat: r.lat, lng: r.lng }} zoom={14} markers={[{ id: r.id, lat: r.lat, lng: r.lng, emoji: r.emoji, color: r.brand, label: l(r.name) }]} className="h-64" />
-            <p className="px-2 pt-2 text-xs text-ink-soft">{l(area.name)} · {t.common.demoData}</p>
+            <p className="px-2 pt-2 text-xs text-ink-soft">{area ? `${l(area.name)} · ` : ""}{t.common.demoData}</p>
           </div>
           {r.phone && (
             <div className="sticker p-5">

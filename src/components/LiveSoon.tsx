@@ -1,12 +1,13 @@
 "use client";
 import Link from "next/link";
-import { OSM_COUNT } from "@/data/live";
+import { useLive } from "@/lib/hooks";
 import { useI18n } from "@/lib/i18n";
 import { EmptyState } from "./ui";
 
 /** Shown where a feature needs real menus / offers that haven't been added yet. Points to the real places instead. */
 export function LiveSoon({ className }: { className?: string }) {
   const { t } = useI18n();
+  const { osmCount } = useLive();
   return (
     <div className={className}>
       <EmptyState
@@ -14,7 +15,7 @@ export function LiveSoon({ className }: { className?: string }) {
         body={t.places.soonBody}
         action={
           <Link href="/restaurants/?tab=all" className="btn btn-primary w-full">
-            🗺️ {t.places.soonCta(OSM_COUNT)}
+            🗺️ {t.places.soonCta(osmCount)}
           </Link>
         }
       />

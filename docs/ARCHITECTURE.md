@@ -24,7 +24,7 @@ There is **no backend, no API route, no database, no auth**. Everything runs in 
 ```
 scripts/build-data.mjs    build-time data builder (OSM + Google Sheet → JSON)
 data/sheet/*.csv          Google Sheet templates; also the local fallback data source
-public/data/places.json   OSM snapshot (generated, committed, fetched at runtime)
+public/data/places/*.json OSM snapshot per featured country, e.g. KW.json (generated, committed, fetched at runtime)
 src/
   app/                    routes — thin server components: metadata + render one View
   views/                  one client component per page ("use client"), incl. views/games/*
@@ -66,7 +66,7 @@ The site is plain files on GitHub Pages, so:
   slash (`/restaurants/`, `/games/challenges/`; see `components/shell/Header.tsx`).
 - **`basePath`** — set from `NEXT_PUBLIC_BASE_PATH` (the workflow uses `/<repo-name>`; empty locally). `next/link` and
   assets get it automatically, but **raw `fetch` / URLs don't**: prefix them with `BASE_PATH` from `src/lib/img.ts`
-  (as `src/lib/places.ts` does for `/data/places.json`).
+  (as `src/lib/places.ts` does for `/data/places/<ISO2>.json`).
 - **`images: { unoptimized: true }`** — no image optimisation server. Food photos are TheMealDB URLs built by `mdb()` /
   `sized()` in `src/lib/img.ts` and rendered via `FoodImage` in `components/ui.tsx`.
 - **Dynamic segments need `generateStaticParams`**. `src/app/restaurants/[id]/page.tsx` sets `dynamicParams = false`
@@ -89,11 +89,11 @@ The site is plain files on GitHub Pages, so:
 
 ```mermaid
 flowchart LR
-  OSM[(Overpass API<br/>OpenStreetMap)] -->|POST query, Kuwait food amenities| B
+  OSM[(Overpass API<br/>OpenStreetMap)] -->|POST query per featured country| B
   GS[(Google Sheet<br/>tabs: restaurants, meals, offers)] -->|gviz CSV export, if AKLA_SHEET_ID| B
   CSV[data/sheet/*.csv] -->|fallback when no AKLA_SHEET_ID| B
   B[scripts/build-data.mjs]
-  B --> P[public/data/places.json]
+  B --> P[public/data/places/ISO2.json]
   B --> S[src/data/generated/sheet.json]
   B --> M[src/data/generated/meta.json<br/>showDemo, counts, timestamps]
   S --> SRC[src/data/source.ts<br/>SHEET, SHOW_DEMO]
@@ -110,13 +110,13 @@ Runs as `npm run data`, as the `prebuild` hook of `npm run build`, and as its ow
 Flags: `--skip-osm`, `--force-osm` (`npm run data:refresh`). Env: `AKLA_SHEET_ID`, `AKLA_SHOW_DEMO`, `AKLA_SHEET_DIR`
 (overrides `data/sheet/`), `CI`.
 
-1. **OSM** — one Overpass query for named `amenity=restaurant|fast_food|cafe|ice_cream|food_court` in Kuwait, tried
+1. **OSM** — one Overpass query per featured country (`AKLA_COUNTRIES`, default `KW,SA,AE,QA,BH,OM`) for named `amenity=restaurant|fast_food|cafe|ice_cream|food_court`, tried
    against two mirrors. Elements are compacted to short keys (`i` id, `n` name, `y`/`x` lat/lng, `t` kind, `c` cuisine,
-   `h` hours, `p` phone, `w` website, …) and written to `public/data/places.json`.
+   `h` hours, `p` phone, `w` website, …) and written to `public/data/places/<ISO2>.json`.
    - Re-fetched when `CI` is set, when `--force-osm` is passed, or when the snapshot is missing or older than 12 h.
    - If Overpass fails or returns fewer than 50 places, the previous snapshot is kept.
 2. **Sheet** — reads the three tabs from Google (`/gviz/tq?tqx=out:csv`) or from the local CSVs. Keeps only
-   `status = published` rows, validates them (category ids, restaurant references, Kuwait-time dates parsed as UTC+3),
+   `status = published` rows, validates them (category ids, restaurant references, dates parsed in the restaurant's time zone, `country`/`currency`/`timezone` defaulting to Kuwait),
    fills missing location/hours/phone/website from the referenced `osm_id`, and writes `sheet.json`.
    Invalid rows are skipped with a `[data] ⚠` warning. On a sheet download error in CI, the previous `sheet.json` is kept.
 3. **Meta** — writes `meta.json` with `generatedAt`, `showDemo` (`auto`/`always`/`never`), OSM and sheet stats.
@@ -131,7 +131,7 @@ Flags: `--skip-osm`, `--force-osm` (`npm run data:refresh`). Env: `AKLA_SHEET_ID
   dropped unless `ratingSource` is set.
 - Demo offers are defined relative to "today" (`[dayOffset, "HH:MM"]`) and materialised against the Kuwait day of the
   current time, so they always look fresh.
-- OSM places are **not** bundled: `usePlaces()` in `src/lib/places.ts` fetches `${BASE_PATH}/data/places.json` once per
+- OSM places are **not** bundled: `usePlaces()` in `src/lib/places.ts` fetches `${BASE_PATH}/data/places/<country>.json` once per
   visit, decodes each place (cuisine → `CategoryId` via regex table, nearest area, emoji, parsed hours).
 
 Trust model: demo = 🧪 badge, OSM = 🗺️ badge, community offers vs verified. See `DemoBadge` / `TrustBadge` in
@@ -160,19 +160,37 @@ One Zustand store, `useStore`, persisted to localStorage under `akla` (version 1
   compile until translated.
 - `src/lib/i18n.ts` — `useI18n()` returns `{ locale, t, l, dir, price, km, clock, date }`. `t` is the message tree;
   `l(x)` picks the locale from an `L = { ar, en }` object (used for all content data). Formatters: prices always 3
-  decimals (`KWD 2.750` / `2.750 د.ك`), dates in `Asia/Kuwait` with Latin digits.
+  decimals for KWD (`KWD 2.750` / `2.750 د.ك`), other currencies via `Intl.NumberFormat` in the selected country's currency; dates in the selected city's time zone with Latin digits.
 - Direction: `<html dir>` is `rtl` for Arabic. It is set before paint by the `boot` script and kept in sync by
   `Providers`. Tailwind has a custom `rtl:` variant (`globals.css`), and layouts use logical utilities
   (`start-*`, `end-*`, `text-start`) so they flip automatically.
 - Routes are not localised (no `/ar`, `/en`); language is a client preference.
 
-## 7. Time — Kuwait everywhere
+## 7. Countries, time and currency
 
-Kuwait is UTC+3 with no DST, so `src/lib/time.ts` adds a fixed offset instead of using `Intl` time-zone math:
-`kuwaitParts`, `kuwaitDayStart`, `kuwaitDateKey` (streaks/daily challenges), `openState(hours, now)` (handles
-after-midnight closing from the previous day, "closing soon" within 45 min), `mealTimeAt` (breakfast/morning/lunch/
-afternoon/dinner/late), `countdownParts`, and `seeded()` — a deterministic PRNG so "daily" content is the same for
-everyone on the same day.
+The user picks a **country** (ISO code, `country` in the store) and a location in it (curated area, searched city, or
+GPS). Kuwait is the default, and settings saved before multi-country support (store v1) migrate to Kuwait.
+
+- `src/data/generated/countries.json` (from `scripts/gen-countries.mjs`, IANA `zone.tab`): currency and time zones,
+  each with a reference city, for 245 countries. Names come from `Intl.DisplayNames`. `src/lib/region.ts` wraps it:
+  `defaultCity`, `timeZoneAt` (nearest zone city, exact for single-zone countries), `countryFromDeviceTz`,
+  `speaksArabic` (the language follows the country until the user picks one), and `scaleBudget` (KWD budget presets
+  → friendly local amounts).
+- The store derives `region` = `{ country, timeZone, currency }` on every country/location change and mirrors it in
+  `activeRegion()`, so pure helpers default to it. `useI18n()` exposes `region`, `price(n, currency?)`, `cur`, `amt`.
+- **Featured countries** (`FEATURED_COUNTRIES` in `src/data/geo.ts`: the GCC six) have curated areas and a build-time
+  OSM snapshot. **Everywhere else**, `usePlaces()` queries Overpass live: around the location, 2.5 km (8 km if
+  < 25 hits), max 400 results, one request at a time, a second mirror, cached in localStorage per ~1 km cell for 24 h.
+  City search and GPS → country use Nominatim (`src/lib/geocode.ts`): on submit only, ≥ 1.1 s apart, cached.
+- Listings (sheet/demo restaurants, meals, offers) carry `country`, `currency`, `timeZone`; views read them through
+  `useRestaurants()`, `useMeals()`, `useOffers()`, `useLive()` (`src/lib/hooks.ts`), which only return the selected
+  country's. Countries with none get the "coming soon" cards and OSM places.
+
+`src/lib/time.ts` works in any IANA zone with `Intl` (DST-safe): `localParts`, `localDayStart`, `localDateKey`
+(streaks/daily challenges), `openState(hours, now, tz?)` (handles after-midnight closing from the previous day,
+"closing soon" within 45 min), `mealTimeAt`, `countdownParts`, and `seeded()` — a deterministic PRNG so "daily"
+content is the same for everyone on the same day. Listed restaurants use their own `timeZone`; OSM places the
+selected city's.
 
 `src/lib/openingHours.ts` parses the OSM `opening_hours` subset (`24/7`, `Mo-Su 10:00-23:00`, `Sa-Th …; Fr …`,
 `Fr off`). Anything ambiguous returns `undefined`, shown as "hours not available" — the app never guesses.

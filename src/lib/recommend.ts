@@ -1,5 +1,6 @@
 import { MEALS } from "@/data/meals";
 import { restaurantById } from "@/data/restaurants";
+import { activeRegion, scaleBudget } from "./region";
 import type { Meal, MealTime, Mood, Offer } from "./types";
 
 export type RecoInput = {
@@ -12,6 +13,8 @@ export type RecoInput = {
   distances?: Record<string, number>;
   activeOffers?: Offer[];
   random?: () => number;
+  /** only meals of restaurants in this country (defaults to the selected one) */
+  country?: string;
 };
 
 /**
@@ -21,12 +24,14 @@ export type RecoInput = {
 export function recommend(input: RecoInput, limit = 8): Meal[] {
   const rnd = input.random ?? Math.random;
   const offerMeals = new Set((input.activeOffers ?? []).map((o) => o.mealId).filter(Boolean));
-  const scored = MEALS.filter((m) => input.maxPrice === undefined || m.price <= input.maxPrice).map((m) => {
+  const country = input.country ?? activeRegion().country;
+  const pool = MEALS.filter((m) => restaurantById(m.restaurantId)?.country === country);
+  const scored = pool.filter((m) => input.maxPrice === undefined || m.price <= input.maxPrice).map((m) => {
     const r = restaurantById(m.restaurantId)!;
     let s = 0;
     if (input.mood && input.mood !== "surprise") {
       if (m.moods.includes(input.mood)) s += 6;
-      if (input.mood === "cheap") s += Math.max(0, 3 - m.price);
+      if (input.mood === "cheap") s += Math.max(0, 3 - m.price / scaleBudget(1, m.currency));
       if (input.mood === "starving" && (m.size === "large" || m.size === "family")) s += 2;
       if (input.mood === "spicy") s += m.spicy;
       if (input.mood === "new" && !input.viewed?.[r.id]) s += 3;

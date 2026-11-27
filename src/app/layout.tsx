@@ -11,7 +11,7 @@ const rubik = Rubik({ subsets: ["arabic", "latin"], weight: ["400", "500", "600"
 
 export const metadata: Metadata = {
   title: { default: "Akla · أكلة — شنو ناكل اليوم؟", template: "%s · Akla" },
-  description: "Discover food, deals and fun ways to decide what to eat in Kuwait. اكتشف الأكل والعروض وقرر شنو تاكل اليوم.",
+  description: "Discover food, deals and fun ways to decide what to eat — in Kuwait, the Gulf and anywhere in the world. اكتشف الأكل والعروض وقرر شنو تاكل اليوم.",
   applicationName: "Akla",
 };
 

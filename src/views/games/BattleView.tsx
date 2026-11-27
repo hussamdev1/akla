@@ -1,8 +1,8 @@
 "use client";
 import Link from "next/link";
+import { useLive, useMeals } from "@/lib/hooks";
 import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { MEALS } from "@/data/meals";
 import { restaurantById } from "@/data/restaurants";
 import { categoryById } from "@/data/categories";
 import { useI18n } from "@/lib/i18n";
@@ -11,9 +11,8 @@ import { celebrate, sfx } from "@/lib/fx";
 import type { Meal } from "@/lib/types";
 import { Container, FavButton, FoodImage, PageHero } from "@/components/ui";
 import { LiveSoon } from "@/components/LiveSoon";
-import { HAS_MEALS } from "@/data/live";
 
-function drawEight(): Meal[] {
+function drawEight(MEALS: Meal[]): Meal[] {
   const byCat = new Map<string, Meal[]>();
   for (const m of [...MEALS].sort(() => Math.random() - 0.5)) {
     if (!byCat.has(m.category)) byCat.set(m.category, []);
@@ -27,6 +26,8 @@ function drawEight(): Meal[] {
 }
 
 export function BattleView() {
+  const MEALS = useMeals();
+  const { hasMeals: HAS_MEALS } = useLive();
   const { t, l, price } = useI18n();
   const winBattle = useStore((s) => s.winBattle);
   const [round, setRound] = useState<Meal[]>([]);
@@ -38,7 +39,7 @@ export function BattleView() {
   const [history, setHistory] = useState<Meal[][]>([]);
 
   const start = useCallback(() => {
-    const eight = drawEight();
+    const eight = drawEight(MEALS);
     setRound(eight);
     setHistory([eight]);
     setNext([]);
@@ -46,7 +47,7 @@ export function BattleView() {
     setStage(0);
     setChampion(null);
     setPicked(null);
-  }, []);
+  }, [MEALS]);
 
   // eslint-disable-next-line react-hooks/set-state-in-effect -- browser-only value read after hydration (static export)
   useEffect(start, [start]);

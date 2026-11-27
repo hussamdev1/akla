@@ -7,13 +7,13 @@ import { useStore } from "@/lib/store";
 import { categoryById } from "@/data/categories";
 import { restaurantById } from "@/data/restaurants";
 import { mealById } from "@/data/meals";
-import { areaById } from "@/data/geo";
+import { areaOf } from "@/data/geo";
 import type { Category, Meal, Offer, Restaurant } from "@/lib/types";
 import { Countdown, cx, DemoBadge, DistanceTag, FavButton, FoodImage, OpenBadge, PriceLevel, RatingBadge, Tilt, TrustBadge } from "./ui";
 
 export function RestaurantCard({ r, km, offers = 0, featuredMeal, className }: { r: Restaurant; km?: number; offers?: number; featuredMeal?: Meal; className?: string }) {
   const { l, t } = useI18n();
-  const area = areaById(r.areaId);
+  const area = areaOf(r);
   return (
     <Tilt className={cx("h-full", className)} max={5}>
       <Link href={`/restaurants/${r.id}/`} className="sticker group flex h-full flex-col overflow-hidden transition-shadow hover:shadow-[6px_6px_0_#2B1B3D]">
@@ -46,7 +46,7 @@ export function RestaurantCard({ r, km, offers = 0, featuredMeal, className }: {
             <DistanceTag km={km} />
             {area && <span className="text-xs text-ink-soft">{l(area.name)}</span>}
           </div>
-          <OpenBadge hours={r.hours} />
+          <OpenBadge hours={r.hours} tz={r.timeZone} />
           {featuredMeal && (
             <p className="line-clamp-1 text-sm">
               <span className="me-1">{featuredMeal.emoji}</span>
@@ -133,7 +133,7 @@ export function OfferCard({ o, km, className, wide }: { o: Offer; km?: number; c
   const trackOffer = useStore((s) => s.trackOffer);
   const r = restaurantById(o.restaurantId)!;
   const meal = o.mealId ? mealById(o.mealId) : undefined;
-  const area = areaById(r.areaId);
+  const area = areaOf(r);
   const big = o.type === "bogo" ? "1+1" : o.type === "free-delivery" ? "🛵" : o.percent ? `-${o.percent}%` : "★";
   return (
     <Tilt className={cx("h-full", className)} max={4}>

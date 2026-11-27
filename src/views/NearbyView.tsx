@@ -5,10 +5,8 @@ import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Crosshair, ExternalLink, Globe, List, Map as MapIcon, Navigation, Phone, X } from "lucide-react";
 import { CATEGORIES } from "@/data/categories";
-import { MEALS } from "@/data/meals";
-import { RESTAURANTS } from "@/data/restaurants";
 import { useI18n } from "@/lib/i18n";
-import { useDistances, useNow, useOffers } from "@/lib/hooks";
+import { useDistances, useLive, useMeals, useNow, useOffers, useRestaurants } from "@/lib/hooks";
 import { useStore } from "@/lib/store";
 import { directionsUrl, haversineKm, locationPoint } from "@/lib/geo";
 import { openState } from "@/lib/time";
@@ -16,19 +14,21 @@ import { osmUrl, usePlaces } from "@/lib/places";
 import type { CategoryId } from "@/lib/types";
 import { OfferCard, RestaurantCard } from "@/components/cards";
 import { Container, cx, DemoBadge, DistanceTag, EmptyState, FavButton, FoodImage, Loader, OpenBadge, RatingBadge, SectionHeader, Toggle } from "@/components/ui";
-import { LocationPill } from "@/components/shell/LocationPicker";
+import { applyGpsFix, LocationPill } from "@/components/shell/LocationPicker";
 import type { MapMarker } from "@/components/MapView";
-import { HAS_LISTINGS } from "@/data/live";
 
 const MapView = dynamic(() => import("@/components/MapView").then((m) => m.MapView), { ssr: false, loading: () => <div className="h-full min-h-[24rem] animate-pulse rounded-[1.25rem] bg-ink/10" /> });
 
 const RADII = [1.5, 3, 5, 10, 20, 60];
 
 export function NearbyView() {
+  const RESTAURANTS = useRestaurants();
+  const MEALS = useMeals();
+  const { hasListings: HAS_LISTINGS } = useLive();
   const { t, l, km: fkm } = useI18n();
   const loc = useStore((s) => s.location);
-  const setLocation = useStore((s) => s.setLocation);
-  const point = useMemo(() => locationPoint(loc), [loc]);
+  const country = useStore((s) => s.country);
+  const point = useMemo(() => locationPoint(loc, country), [loc, country]);
   const dist = useDistances();
   const { active } = useOffers();
   const now = useNow(60_000);
@@ -55,11 +55,11 @@ export function NearbyView() {
         if (radius < 60 && dist[r.id] > radius) return false;
         if (cuisine && !r.categories.includes(cuisine)) return false;
         if (price.length && !price.includes(r.priceLevel)) return false;
-        if (openNow && (!now || openState(r.hours, now).status !== "open")) return false;
+        if (openNow && (!now || openState(r.hours, now, r.timeZone).status !== "open")) return false;
         if (dealsOnly && !offerCount[r.id]) return false;
         return true;
       }).sort((a, b) => dist[a.id] - dist[b.id]),
-    [radius, cuisine, price, openNow, dealsOnly, dist, now, offerCount],
+    [radius, cuisine, price, openNow, dealsOnly, dist, now, offerCount, RESTAURANTS],
   );
 
   // Real places come from the OpenStreetMap snapshot built with the site (instant, no slow live query).
@@ -89,7 +89,7 @@ export function NearbyView() {
   const gps = () => {
     setGpsErr("");
     navigator.geolocation?.getCurrentPosition(
-      (p) => setLocation({ kind: "gps", lat: p.coords.latitude, lng: p.coords.longitude }),
+      (p) => void applyGpsFix(p.coords.latitude, p.coords.longitude),
       () => setGpsErr(t.nearby.gpsDenied),
       { timeout: 10000 },
     );
@@ -111,7 +111,7 @@ export function NearbyView() {
             <div className="flex flex-wrap items-center gap-x-2 text-xs">
               <RatingBadge rating={r.rating} compact /> <DistanceTag km={dist[r.id]} />
             </div>
-            <OpenBadge hours={r.hours} />
+            <OpenBadge hours={r.hours} tz={r.timeZone} />
           </div>
         </button>
       ))}
@@ -189,10 +189,16 @@ export function NearbyView() {
         {showOsm && (
           <div className="mb-4 rounded-2xl border-2 border-lagoon bg-lagoon/10 p-3 text-sm font-semibold">
             {osmState === "loading" && <Loader label={t.nearby.osmLoading} />}
-            {osmState === "error" && <span className="text-red-700">{t.nearby.osmError}</span>}
+            {osmState === "error" && (
+              <span className="flex flex-wrap items-center gap-2 text-red-700">
+                {t.nearby.osmError}
+                <button type="button" className="btn btn-light btn-sm" onClick={placesState.retry}>{t.region.retry}</button>
+              </span>
+            )}
             {osmState === "done" && (
               <span>
                 ✅ {t.nearby.osmCount(osmAll.length)} · {t.nearby.osmNote}
+                {placesState.live && ` ${t.region.liveNote}${placesState.radiusKm ? ` (≤ ${placesState.radiusKm} ${t.common.km})` : ""}`}
               </span>
             )}
           </div>
@@ -213,7 +219,7 @@ export function NearbyView() {
                       <div className="min-w-0 flex-1 space-y-1 pe-6">
                         <div className="flex items-center gap-1.5"><b className="truncate">{l(selDemo.name)}</b><DemoBadge source={selDemo.source} /></div>
                         <div className="flex flex-wrap gap-2 text-xs"><RatingBadge rating={selDemo.rating} compact /><DistanceTag km={dist[selDemo.id]} /></div>
-                        <OpenBadge hours={selDemo.hours} />
+                        <OpenBadge hours={selDemo.hours} tz={selDemo.timeZone} />
                         <div className="flex flex-wrap gap-2 pt-1">
                           <Link href={`/restaurants/${selDemo.id}/`} className="btn btn-primary btn-sm">{t.common.viewRestaurant}</Link>
                           <a href={directionsUrl(selDemo.lat, selDemo.lng)} target="_blank" rel="noreferrer" className="btn btn-light btn-sm" aria-label={t.common.directions}><Navigation className="size-4" /></a>

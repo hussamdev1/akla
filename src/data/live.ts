@@ -2,8 +2,9 @@ import { MEALS } from "./meals";
 import { RESTAURANTS } from "./restaurants";
 import { DATA_META } from "./source";
 
-/** What real (or, with AKLA_SHOW_DEMO, demo) content this build has. Pages hide sections that would be empty. */
+/** What real (or, with AKLA_SHOW_DEMO, demo) content this build has, in any country. Per-country: useLive() in lib/hooks. */
 export const HAS_LISTINGS = RESTAURANTS.length > 0;
 export const HAS_MEALS = MEALS.length > 0;
-/** Number of real places in the OpenStreetMap snapshot. */
-export const OSM_COUNT = DATA_META.osm?.count ?? 0;
+/** Places in a featured country's OpenStreetMap snapshot (undefined for live-only countries). */
+export const osmCountFor = (country: string): number | undefined =>
+  DATA_META.osm?.countries?.[country]?.count ?? (country === "KW" && !DATA_META.osm?.countries ? DATA_META.osm?.count : undefined);

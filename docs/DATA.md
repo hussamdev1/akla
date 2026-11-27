@@ -5,7 +5,7 @@ static files: no server and no API keys in the browser.
 
 | Source | What it gives | Badge in the app | Where it shows |
 |---|---|---|---|
-| **OpenStreetMap** (automatic) | ~1,600 real restaurants, cafés and fast-food places in Kuwait: names, location, cuisine, opening hours, phone, website | 🗺️ OpenStreetMap | Restaurants → *All real places*, Nearby map, Food Picker *Real restaurant near me*, Home *Real places near you*, search, `/place` pages |
+| **OpenStreetMap** (automatic) | Real restaurants, cafés and fast-food places — a build-time snapshot for Kuwait, Saudi Arabia, UAE, Qatar, Bahrain and Oman (`public/data/places/<ISO2>.json`), loaded live around the user everywhere else: names, location, cuisine, opening hours, phone, website | 🗺️ OpenStreetMap | Restaurants → *All real places*, Nearby map, Food Picker *Real restaurant near me*, Home *Real places near you*, search, `/place` pages |
 | **Your Google Sheet** (you manage it) | Restaurants you list, with menus, prices, photos, offers, delivery-app links | none (real listing) | Everywhere: home, picker, offers, restaurant pages, games |
 | **Demo data** (built-in) | Fictional sample content | 🧪 Demo | Only while your sheet has **no** published restaurants |
 
@@ -52,15 +52,20 @@ The example rows in the templates are `draft`, so they never appear.
 | `order_url` | optional | Link to the restaurant's own ordering page **or** its page on talabat / Deliveroo / Keeta / Cari. Shown as the **Order** button. |
 | `rating`, `rating_count`, `rating_source` | optional | A rating is shown **only** if `rating_source` says where it comes from (e.g. `Google Maps · Nov 2026`). |
 
+**Other countries (optional columns, add them at the end of the tab):** `country` (2-letter ISO code, default `KW`),
+`city` (shown where there's no curated area), `timezone` (IANA name such as `Asia/Riyadh`; default: worked out from
+the country and location), `currency` (ISO 4217, default: the country's currency). Existing Kuwait rows need no change.
+Listings only appear when the visitor has selected their country.
+
 ### `meals`
 `id`, `status`, `restaurant_id` (must match a published restaurant), `name_ar`/`name_en`, `category` (one id from the list above),
-`price_kwd` (e.g. `2.750`), optional: `description_ar/en`, `image_url`, `emoji`, `spicy` (0–3), `vegetarian`,
+`price` in the restaurant's currency (e.g. `2.750`; the older `price_kwd` column still works and means KWD), optional: `currency` (ISO code, default = the restaurant's), `description_ar/en`, `image_url`, `emoji`, `spicy` (0–3), `vegetarian`,
 `size` (`snack`/`regular`/`large`/`family`), `moods` (starving, delicious, cheap, healthy, spicy, comfort, sweet, new),
 `times` (breakfast, morning, lunch, afternoon, dinner, late), `editors_pick`.
 
 ### `offers`
 `id`, `status`, `restaurant_id`, `title_ar`/`title_en`, `type` (`percent`, `bogo`, `combo`, `family`, `free-delivery`, `fixed`),
-`starts_at` and `expires_at` in **Kuwait time** as `YYYY-MM-DD HH:MM`. Optional: `meal_id`, prices (`original_price`, `final_price`, `percent`),
+`starts_at` and `expires_at` in the **restaurant's local time** (Kuwait time for Kuwait rows) as `YYYY-MM-DD HH:MM`; prices are in the restaurant's currency. Optional: `meal_id`, prices (`original_price`, `final_price`, `percent`),
 `verified` (`yes` only if you checked it with the restaurant or its official account), `source_url` (link to the official post),
 `terms_ar/en`, `tags` (lunch, dinner, exclusive, limited, weekend).
 

@@ -1,14 +1,45 @@
 {
- "generatedAt": "2026-11-26T10:49:36.350Z",
+ "generatedAt": "2026-11-27T22:43:47.422Z",
  "showDemo": "never",
  "osm": {
-  "count": 1628,
-  "fetchedAt": "2026-11-26T10:39:24.158Z",
-  "osmBase": "2026-11-26T10:37:56Z"
+  "count": 20215,
+  "fetchedAt": "2026-11-27T22:27:23.018Z",
+  "countries": {
+   "KW": {
+    "count": 1628,
+    "fetchedAt": "2026-11-27T22:27:23.018Z",
+    "osmBase": "2026-11-27T22:26:20Z"
+   },
+   "SA": {
+    "count": 5164,
+    "fetchedAt": "2026-11-27T22:28:20.000Z",
+    "osmBase": "2026-11-27T22:26:20Z"
+   },
+   "AE": {
+    "count": 8542,
+    "fetchedAt": "2026-11-27T22:29:16.651Z",
+    "osmBase": "2026-11-27T22:27:19Z"
+   },
+   "QA": {
+    "count": 1203,
+    "fetchedAt": "2026-11-27T22:29:52.459Z",
+    "osmBase": "2026-11-27T22:28:20Z"
+   },
+   "BH": {
+    "count": 1617,
+    "fetchedAt": "2026-11-27T22:30:37.183Z",
+    "osmBase": "2026-11-27T22:29:25Z"
+   },
+   "OM": {
+    "count": 2061,
+    "fetchedAt": "2026-11-27T22:31:38.806Z",
+    "osmBase": "2026-11-27T22:30:24Z"
+   }
+  }
  },
  "sheet": {
   "source": "local-csv",
-  "fetchedAt": "2026-11-26T10:49:36.348Z",
+  "fetchedAt": "2026-11-27T22:43:47.421Z",
   "restaurants": 0,
   "meals": 0,
   "offers": 0,

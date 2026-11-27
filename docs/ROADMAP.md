@@ -37,6 +37,9 @@ Legend: ✅ done in this build · 🟡 partial · ⬜ planned
 - ✅ Build-time OpenStreetMap snapshot of all Kuwait food places (directory tab, place pages, nearby, picker, search)
 - ✅ Google Sheet CMS for listings, menus and offers (published/draft rows, auto-expiry, verified vs community)
 - ✅ Scheduled rebuild every 6 hours; demo data auto-hides once real listings exist
+- ✅ **Any country:** country/city picker (GPS auto-detect, device-time-zone hint), GCC snapshots + live Overpass
+  elsewhere, local currency / time zone / language default, sheet `country`/`currency`/`timezone` columns
+- ⬜ Curated areas and featured snapshots beyond the GCC (e.g. Egypt, Jordan); per-country routes for SEO
 
 ## Phase 3 — Games & gamification ✅/🟡
 - ✅ Food Battle (8‑meal bracket), Mystery Meal (gift reveal), Daily Challenges, Random Challenge generator

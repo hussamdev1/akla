@@ -4,18 +4,18 @@ import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Plus, Trophy, X } from "lucide-react";
 import { CATEGORIES } from "@/data/categories";
-import { MEALS } from "@/data/meals";
 import { restaurantById } from "@/data/restaurants";
 import { useI18n } from "@/lib/i18n";
-import { useDistances, useOffers } from "@/lib/hooks";
+import { useDistances, useLive, useMeals, useOffers } from "@/lib/hooks";
 import type { CategoryId, MealSize } from "@/lib/types";
 import { Container, cx, FoodImage, PageHero, RatingBadge } from "@/components/ui";
 import { LiveSoon } from "@/components/LiveSoon";
-import { HAS_MEALS } from "@/data/live";
 
 const SERVES: Record<MealSize, number> = { snack: 0.5, regular: 1, large: 1.5, family: 4 };
 
 export function CompareView() {
+  const MEALS = useMeals();
+  const { hasMeals: HAS_MEALS } = useLive();
   const { t, l, price, km } = useI18n();
   const dist = useDistances();
   const { active } = useOffers();

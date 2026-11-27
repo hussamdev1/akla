@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { AnimatePresence, MotionConfig, motion } from "motion/react";
 import { useStore } from "@/lib/store";
 import { useI18n } from "@/lib/i18n";
-import { kuwaitDateKey } from "@/lib/time";
+import { localDateKey } from "@/lib/time";
 import { usePrefersReducedMotion } from "@/lib/hooks";
 import type { AchievementId } from "@/lib/store";
 import { SearchOverlay } from "./shell/SearchOverlay";
@@ -15,7 +15,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     void Promise.resolve(useStore.persist.rehydrate()).then(() => {
-      useStore.getState().touchStreak(kuwaitDateKey(new Date()));
+      useStore.getState().touchStreak(localDateKey(new Date()));
     });
   }, []);
 

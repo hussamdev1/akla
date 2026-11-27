@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "motion/react";
 import { BadgeCheck, Clock, FlaskConical, Heart, MapPin, Star, Users, X } from "lucide-react";
@@ -8,7 +9,7 @@ import { useFav, useStore } from "@/lib/store";
 import { countdownParts, openState } from "@/lib/time";
 import { sized } from "@/lib/img";
 import { sfx } from "@/lib/fx";
-import { useNow } from "@/lib/hooks";
+import { useMounted, useNow } from "@/lib/hooks";
 import type { FavKind, WeeklyHours } from "@/lib/types";
 import { Lugma } from "./Logo";
 
@@ -180,11 +181,12 @@ export function PriceLevel({ level }: { level: 1 | 2 | 3 | 4 }) {
   );
 }
 
-export function OpenBadge({ hours }: { hours?: WeeklyHours }) {
+/** Open / closed now. `tz` is the place's time zone (defaults to the selected city's). */
+export function OpenBadge({ hours, tz }: { hours?: WeeklyHours; tz?: string }) {
   const now = useNow(60_000);
-  const { t, clock } = useI18n();
+  const { t, clock, region } = useI18n();
   if (!now) return <span className="inline-block h-5 w-16 animate-pulse rounded-full bg-ink/10" />;
-  const s = openState(hours, now);
+  const s = openState(hours, now, tz ?? region.timeZone);
   if (s.status === "unknown")
     return (
       <span className="inline-flex items-center gap-1 rounded-full bg-ink/8 px-2 py-0.5 text-xs font-bold text-ink-soft">
@@ -306,7 +308,11 @@ export function Sheet({ open, onClose, children, title, wide }: { open: boolean;
       document.body.style.overflow = "";
     };
   }, [open, onClose]);
-  return (
+  const mounted = useMounted();
+  if (!mounted) return null;
+  // Portal to <body>: an ancestor with backdrop-filter/transform (the sticky header) would otherwise become the
+  // containing block of this `fixed` overlay and clip it to the header.
+  return createPortal(
     <AnimatePresence>
       {open && (
         <div className="fixed inset-0 z-[90] flex items-end justify-center sm:items-center" role="dialog" aria-modal="true" aria-label={title}>
@@ -328,7 +334,8 @@ export function Sheet({ open, onClose, children, title, wide }: { open: boolean;
           </motion.div>
         </div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   );
 }
 

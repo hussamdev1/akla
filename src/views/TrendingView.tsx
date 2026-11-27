@@ -4,15 +4,13 @@ import { useMemo } from "react";
 import { motion } from "motion/react";
 import { Info } from "lucide-react";
 import { categoryById } from "@/data/categories";
-import { MEALS } from "@/data/meals";
-import { RESTAURANTS, restaurantById } from "@/data/restaurants";
+import { restaurantById } from "@/data/restaurants";
 import { useI18n } from "@/lib/i18n";
-import { useDistances, useMounted, useOffers } from "@/lib/hooks";
+import { useDistances, useLive, useMeals, useMounted, useOffers, useRestaurants } from "@/lib/hooks";
 import { useStore } from "@/lib/store";
 import { MealCard, RestaurantCard } from "@/components/cards";
 import { Container, FoodImage, PageHero, RatingBadge, Reveal, SectionHeader } from "@/components/ui";
 import { LiveSoon } from "@/components/LiveSoon";
-import { HAS_LISTINGS } from "@/data/live";
 
 function Note({ children, tone = "#FFF7CC" }: { children: React.ReactNode; tone?: string }) {
   return (
@@ -23,6 +21,9 @@ function Note({ children, tone = "#FFF7CC" }: { children: React.ReactNode; tone?
 }
 
 export function TrendingView() {
+  const RESTAURANTS = useRestaurants();
+  const MEALS = useMeals();
+  const { hasListings: HAS_LISTINGS } = useLive();
   const { t, l } = useI18n();
   const mounted = useMounted();
   const dist = useDistances();

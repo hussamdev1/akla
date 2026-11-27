@@ -1,22 +1,49 @@
+import { activeRegion } from "./region";
 import type { DayHours, MealTime, WeeklyHours } from "./types";
 
-/** Kuwait is UTC+3 all year (no DST). */
-const KW_OFFSET = 3 * 3600e3;
+/**
+ * Local time in the selected city's time zone (defaults to the active region, see src/lib/region.ts).
+ * Uses Intl so DST zones work; results are memoised per (instant, zone) because lists call this per place.
+ */
+const fmts = new Map<string, Intl.DateTimeFormat>();
+const fmt = (tz: string) => {
+  let f = fmts.get(tz);
+  if (!f) {
+    f = new Intl.DateTimeFormat("en-US", { timeZone: tz, hourCycle: "h23", weekday: "short", year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric", second: "numeric" });
+    fmts.set(tz, f);
+  }
+  return f;
+};
+const WD: Record<string, 0 | 1 | 2 | 3 | 4 | 5 | 6> = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+type Parts = { day: 0 | 1 | 2 | 3 | 4 | 5 | 6; minutes: number; y: number; m: number; d: number; s: number };
+let memo: { t: number; tz: string; p: Parts } | null = null;
 
-export function kuwaitParts(now: Date) {
-  const k = new Date(now.getTime() + KW_OFFSET);
-  return { day: k.getUTCDay() as 0 | 1 | 2 | 3 | 4 | 5 | 6, minutes: k.getUTCHours() * 60 + k.getUTCMinutes(), y: k.getUTCFullYear(), m: k.getUTCMonth(), d: k.getUTCDate() };
+export function localParts(now: Date, tz = activeRegion().timeZone): Parts {
+  const t = now.getTime();
+  if (memo && memo.t === t && memo.tz === tz) return memo.p;
+  const o: Record<string, string> = {};
+  for (const x of fmt(tz).formatToParts(now)) o[x.type] = x.value;
+  const p: Parts = { day: WD[o.weekday] ?? 0, minutes: (+o.hour % 24) * 60 + +o.minute, y: +o.year, m: +o.month - 1, d: +o.day, s: +o.second };
+  memo = { t, tz, p };
+  return p;
 }
 
-/** Epoch ms of 00:00 Kuwait time for the day containing `now`. */
-export function kuwaitDayStart(now: Date) {
-  const p = kuwaitParts(now);
-  return Date.UTC(p.y, p.m, p.d) - KW_OFFSET;
+/** Offset of `tz` from UTC at instant `t`, in ms. */
+export function tzOffset(t: number, tz = activeRegion().timeZone) {
+  const p = localParts(new Date(t), tz);
+  return Date.UTC(p.y, p.m, p.d, Math.floor(p.minutes / 60), p.minutes % 60, p.s) - Math.floor(t / 1000) * 1000;
 }
 
-/** YYYY-MM-DD in Kuwait — used for daily challenges & streaks. */
-export function kuwaitDateKey(now: Date) {
-  const p = kuwaitParts(now);
+/** Epoch ms of local midnight for the day containing `now`. */
+export function localDayStart(now: Date, tz = activeRegion().timeZone) {
+  const p = localParts(now, tz);
+  const guess = Date.UTC(p.y, p.m, p.d);
+  return guess - tzOffset(guess - tzOffset(guess, tz), tz);
+}
+
+/** YYYY-MM-DD in local time — used for daily challenges & streaks. */
+export function localDateKey(now: Date, tz = activeRegion().timeZone) {
+  const p = localParts(now, tz);
   return `${p.y}-${String(p.m + 1).padStart(2, "0")}-${String(p.d).padStart(2, "0")}`;
 }
 
@@ -32,10 +59,10 @@ export type OpenState =
   | { status: "open"; closesAt: string; closingSoon: boolean }
   | { status: "closed"; opensAt?: string };
 
-export function openState(hours: WeeklyHours | undefined, now: Date): OpenState {
+export function openState(hours: WeeklyHours | undefined, now: Date, tz?: string): OpenState {
   if (!hours) return { status: "unknown" };
   if (hours.allDay) return { status: "open", closesAt: "24/7", closingSoon: false };
-  const { day, minutes } = kuwaitParts(now);
+  const { day, minutes } = localParts(now, tz);
   const today = hoursFor(hours, day);
   const yesterday = hoursFor(hours, (day + 6) % 7);
 
@@ -56,8 +83,8 @@ export function openState(hours: WeeklyHours | undefined, now: Date): OpenState 
   return { status: "closed", opensAt: tomorrow === "closed" ? undefined : tomorrow.open };
 }
 
-export function mealTimeAt(now: Date): MealTime {
-  const h = kuwaitParts(now).minutes / 60;
+export function mealTimeAt(now: Date, tz?: string): MealTime {
+  const h = localParts(now, tz).minutes / 60;
   if (h >= 5 && h < 10) return "breakfast";
   if (h >= 10 && h < 12) return "morning";
   if (h >= 12 && h < 15.5) return "lunch";

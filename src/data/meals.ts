@@ -107,10 +107,12 @@ const rows: Row[] = [
 const DEMO_MEALS: Meal[] = rows.map((r) => ({
   id: r[0], restaurantId: r[1], name: { en: r[2], ar: r[3] }, description: { en: r[4], ar: r[5] },
   category: r[6], price: r[7], image: r[8] ? mdb(r[8]) : undefined, emoji: r[9], spicy: r[10],
-  vegetarian: r[11], size: r[12], moods: r[13], times: r[14], editorsPick: r[15],
+  vegetarian: r[11], size: r[12], moods: r[13], times: r[14], editorsPick: r[15], currency: "KWD",
 }));
 
-export const MEALS: Meal[] = [...(SHEET.meals as unknown as Meal[]), ...(SHOW_DEMO ? DEMO_MEALS : [])];
+// Sheet meals built before multi-country support have no currency: they are Kuwaiti dinars.
+const SHEET_MEALS = (SHEET.meals as unknown as Meal[]).map((m) => ({ ...m, currency: m.currency ?? "KWD" }));
+export const MEALS: Meal[] = [...SHEET_MEALS, ...(SHOW_DEMO ? DEMO_MEALS : [])];
 
 export const mealById = (id: string) => MEALS.find((m) => m.id === id);
 export const mealsByRestaurant = (rid: string) => MEALS.filter((m) => m.restaurantId === rid);

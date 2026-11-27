@@ -1,13 +1,14 @@
 "use client";
 import Link from "next/link";
+import { useLive } from "@/lib/hooks";
 import { motion } from "motion/react";
 import { useI18n } from "@/lib/i18n";
 import { ACHIEVEMENTS, achievementProgress, useStore } from "@/lib/store";
 import { Container, PageHero, Reveal, SectionHeader, Tilt } from "@/components/ui";
 import { AchievementBadge } from "@/views/ProfileView";
-import { HAS_MEALS } from "@/data/live";
 
 export function GamesHubView() {
+  const { hasMeals: HAS_MEALS } = useLive();
   const { t } = useI18n();
   const state = useStore();
   const prog = achievementProgress(state);

@@ -3,12 +3,10 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Users } from "lucide-react";
 import { CATEGORIES, categoryById } from "@/data/categories";
-import { MEALS } from "@/data/meals";
-import { HAS_MEALS } from "@/data/live";
 import { LiveSoon } from "@/components/LiveSoon";
 import { restaurantById } from "@/data/restaurants";
 import { useI18n } from "@/lib/i18n";
-import { useDistances, useNow, useOffers } from "@/lib/hooks";
+import { useDistances, useLive, useMeals, useNow, useOffers } from "@/lib/hooks";
 import { useStore } from "@/lib/store";
 import { mealTimeAt } from "@/lib/time";
 import type { CategoryId, Meal, MealSize, MealTime, Mood } from "@/lib/types";
@@ -25,7 +23,9 @@ const SERVES: Record<MealSize, number> = { snack: 0.5, regular: 1, large: 1.5, f
 type BudgetMode = "cheapest" | "value" | "discounts" | "family" | "group";
 
 export function DiscoverView() {
-  const { t, l, price } = useI18n();
+  const MEALS = useMeals();
+  const { hasMeals: HAS_MEALS } = useLive();
+  const { t, l, price, amt } = useI18n();
   const now = useNow(60_000);
   const dist = useDistances();
   const { active } = useOffers();
@@ -63,7 +63,7 @@ export function DiscoverView() {
       if (mood && mood !== "surprise" && !m.moods.includes(mood)) return false;
       return true;
     }).sort((a, b) => Number(!!b.editorsPick) - Number(!!a.editorsPick) || dist[a.restaurantId] - dist[b.restaurantId]);
-  }, [cat, time, mood, dist]);
+  }, [cat, time, mood, dist, MEALS]);
 
   const budgetMeals = useMemo(() => {
     if (budget === null) return [];
@@ -82,9 +82,9 @@ export function DiscoverView() {
     if (perHead) list = list.sort((a, b) => finalPrice(a) / SERVES[a.size] - finalPrice(b) / SERVES[b.size]);
     return list.slice(0, 12);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [budget, bmode, offerFor]);
+  }, [budget, bmode, offerFor, MEALS]);
 
-  const presets = [1, 2, 3, 5, 10];
+  const presets = [1, 2, 3, 5, 10].map(amt);
 
   if (!HAS_MEALS)
     return (
