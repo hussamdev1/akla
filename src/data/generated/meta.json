@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-11-27T22:43:47.422Z",
+ "generatedAt": "2026-11-27T23:05:23.397Z",
  "showDemo": "never",
  "osm": {
   "count": 20215,
@@ -39,9 +39,9 @@
  },
  "sheet": {
   "source": "local-csv",
-  "fetchedAt": "2026-11-27T22:43:47.421Z",
-  "restaurants": 0,
-  "meals": 0,
+  "fetchedAt": "2026-11-27T23:05:23.396Z",
+  "restaurants": 25,
+  "meals": 388,
   "offers": 0,
   "problems": 0
  }
