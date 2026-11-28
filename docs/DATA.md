@@ -32,8 +32,8 @@ live automatically. To publish right away, go to **Actions → Deploy Akla to Gi
 8. Run the workflow: **Actions → Deploy Akla to GitHub Pages → Run workflow**.
 
 Only rows with `status` = **published** go live. Use `draft` while you work on a row and `hidden` to take one down.
-The templates already hold 25 real Kuwait restaurants and 388 menu items, all `draft`, so nothing appears until you
-review a row and switch it to `published`. Every meal row links to the restaurant's own official menu in `source_url`.
+The templates already hold 73 real Kuwait restaurants (60 published, 13 `draft` because they still need a location),
+845 menu items and 5 dated offers; see [`data/sheet/SOURCES.md`](../data/sheet/SOURCES.md). Every meal row links to the restaurant's own official menu in `source_url`.
 
 ## 2. Filling the tabs
 
